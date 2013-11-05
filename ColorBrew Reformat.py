@@ -24,7 +24,11 @@ df_fill.head()
 
 # <codecell>
 
-df.head()
+df_fill = df_fill.drop(['Type', 'ColorNum'], axis = 1)
+
+# <codecell>
+
+df_fill.head()
 
 # <codecell>
 
@@ -48,7 +52,15 @@ df_fill.to_excel('ColorBrewer_all_schemes_RGBonly3_updated.XLS', sheet_name = 'S
 
 # <codecell>
 
-df_fill.to_csv('ColorBrewer_all_schemes_RGBonly3_updated.csv')
+df_fill.to_csv('ColorBrewer_all_schemes_RGBonly3_updated.csv', header = False)
+
+# <codecell>
+
+test_in = pd.read_csv('ColorBrewer_all_schemes_RGBonly3_updated.csv')
+
+# <codecell>
+
+test_in.head(30)
 
 # <codecell>
 
