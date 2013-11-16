@@ -1,4 +1,6 @@
 env/
 pgconn.py
 *.pyc
+*.zip
+g20*.csv
 

@@ -59,13 +59,13 @@ CREATE TABLE Measures (
     Description varchar(100)
 );
 
-CREATE TABLE Numerators (
+CREATE TABLE Numerator (
     NumeratorID serial4 PRIMARY KEY,
     MeasureID int4,
     FieldID char(9)
 );
 
-CREATE TABLE Denominators (
+CREATE TABLE Denominator (
     DenominatorID serial4 PRIMARY KEY,
     MeasureID int4,
     FieldID char(9)
@@ -79,8 +79,8 @@ DROP TABLE DataLayers CASCADE;
 DROP TABLE ValueBreaks;
 DROP TABLE ColorSchemes;
 DROP TABLE Measures;
-DROP TABLE Numerators;
-DROP TABLE Denominators;
+DROP TABLE Numerator;
+DROP TABLE Denominator;
 DROP TYPE usertype;
 DROP TYPE geolevel;
 DROP TYPE disptype;

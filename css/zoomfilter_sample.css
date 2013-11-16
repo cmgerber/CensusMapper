@@ -1,0 +1,19 @@
+#censusgeo {
+  polygon-fill: #FF6600;
+  line-width: 1;
+  line-color: #FFF;
+  polygon-opacity: 0;
+  line-opacity: 0;
+  [zoom <= 4][geotype = 'state'] {
+    polygon-opacity: 0.7;
+    line-opacity: 1;
+  }
+  [zoom > 4][zoom <= 7][geotype = 'county'] {
+    polygon-opacity: 0.7;
+    line-opacity: 1;
+  }
+  [zoom > 7][geotype = 'tract'] {
+    polygon-opacity: 0.7;
+    line-opacity: 1;
+  }
+}

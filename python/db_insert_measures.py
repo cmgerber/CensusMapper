@@ -25,12 +25,13 @@ for r in f.readlines():
     denom = datadict['Denominator'].split('+')
     
     for n in num:
-    	ins = Numerator(measureid,n)
-    	db.session.add(ins)
+        ins = Numerator(measureid,n)
+        db.session.add(ins)
     
     for d in denom:
-    	ins = Denominator(measureid,n)
-    	db.session.add(ins)
+        if d:
+            ins = Denominator(measureid,d)
+            db.session.add(ins)
     
     db.session.commit()
 

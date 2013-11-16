@@ -116,7 +116,7 @@ class Measure(db.Model):
         self.description = description
 
 class Numerator(db.Model):
-    __tablename__ = 'numerators'
+    __tablename__ = 'numerator'
     
     numeratorid = db.Column(db.Integer, primary_key = True)
     measureid = db.Column(db.Integer, db.ForeignKey('measures.measureid'))
@@ -127,7 +127,7 @@ class Numerator(db.Model):
         self.fieldid = fieldid
 
 class Denominator(db.Model):
-    __tablename__ = 'denominators'
+    __tablename__ = 'denominator'
     
     denominatorid = db.Column(db.Integer, primary_key = True)
     measureid = db.Column(db.Integer, db.ForeignKey('measures.measureid'))
