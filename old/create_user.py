@@ -6,11 +6,11 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:/Users/colingerber/Documents/Inf
 db = SQLAlchemy(app)
 
 class User(db.Model):
-    UserID = db.Column(db.Integer, primary_key=True)
-    UserName = db.Column(db.String(80), unique=True)
-    EmailAddress = db.Column(db.String(120), unique=True)
-    Password = db.Column(db.Text)
-    AccessLevel = db.Column(db.string(80))
+    userid = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(80), unique=True)
+    emailaddress = db.Column(db.String(120), unique=True)
+    password = db.Column(db.Text)
+    accesslevel = db.Column(db.string(80))
 
     def __init__(self, username, email, Password):
         self.UserName = username

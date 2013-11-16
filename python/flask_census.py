@@ -1,5 +1,4 @@
-from create_user import db
-from create_user import User
+from db_models import *
 
 #creates the initial db
 db.create_all()
