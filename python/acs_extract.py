@@ -7,11 +7,11 @@ from state_lookup import state_lookup
 from zipfile import ZipFile
 
 # procedure to download file if it doesn't exist
-def download(filename, url_path):
+def download(filename, url_path, local_path):
     """Downloads file into assets folder if it doesn't exist"""
-    if not os.path.isfile('../assets/' + filename):
+    if not os.path.isfile(filename):
         print 'Could not find %s.  Downloading...' % filename
-        retrieve = urllib.urlretrieve(url_path + filename, '../assets/' + filename)
+        retrieve = urllib.urlretrieve(url_path + filename, local_path + filename)
 
 # procedure to get element IDs from database
 def get_elements():
@@ -50,7 +50,7 @@ def extract_geo(csvfilename, sumlev):
     
     output = {}
     
-    geofile = open('../assets/' + csvfilename, 'r')
+    geofile = open(csvfilename, 'r')
     geodata = csv.reader(geofile, quoting=csv.QUOTE_MINIMAL)
     
     for row in geodata:
@@ -65,7 +65,7 @@ def extract_geo(csvfilename, sumlev):
     return output
 
 # procedure to generate table data
-def generate_table(element_list, geo, tab_lookup, filename):
+def generate_table(element_list, geo, tab_lookup, filename, local_path):
     """Returns a list of lists representing "long skinny" version of table data
     
     Arguments:
@@ -73,6 +73,7 @@ def generate_table(element_list, geo, tab_lookup, filename):
         geo - geographic lookup dictionary of logrecno to FIPS code
         tab - table lookup dictionary for where to find table data
         filename - file name of zip archive, without the .zip extension (string)
+        local_path - path to data file repository (string)
     """
     
     output = []
@@ -85,7 +86,7 @@ def generate_table(element_list, geo, tab_lookup, filename):
     year = filename[:4]
     
     # open data file
-    acs_zip = ZipFile('../assets/' + filename + '.zip')
+    acs_zip = ZipFile(local_path + filename + '.zip')
     datafile = acs_zip.open('e' + filename + '.txt')
     data = csv.reader(datafile, quoting=csv.QUOTE_MINIMAL)
     
@@ -120,6 +121,7 @@ def process_geo(geography, level):
               'county': '050'
               }
     data_location = url_base + data_folder + geography + '/' + subfolder[level]
+    local_repo = '../assets/census/' + subfolder[level]
     
     # get list of desired elements from database
     elements = get_elements()
@@ -133,9 +135,9 @@ def process_geo(geography, level):
     
     # create table lookup dictionary
     lookup_file = 'Sequence_Number_and_Table_Number_Lookup.txt'
-    download(lookup_file, url_base)
+    download(lookup_file, url_base, '../assets/census/')
     
-    tab_lookup = table_lookup('../assets/' + lookup_file) # dictionary of table ID to info
+    tab_lookup = table_lookup('../assets/census/' + lookup_file) # dictionary of table ID to info
     
     # get unique sequence files to grab
     seq = {}
@@ -146,25 +148,25 @@ def process_geo(geography, level):
     
     # generate geo lookups
     geofile = 'g20115' + state_lookup[geography] + '.csv'
-    download(geofile, data_location)
-    geo = extract_geo(geofile, sumlev[level]) # dictionary of logrecno to FIPS codes
-    
+    download(geofile, data_location, local_repo)
+    geo = extract_geo(local_repo + geofile, sumlev[level]) # dictionary of logrecno to FIPS codes
+
     # extract the data table by table
     for s in sorted(seq):
         filename = '20115' + state_lookup[geography] + s + '000'
-        download(filename + '.zip', data_location)
+        download(filename + '.zip', data_location, local_repo)
         for t in seq[s]:
-            final += generate_table(sorted(tables[t]), geo, tab_lookup, filename)
+            final += generate_table(sorted(tables[t]), geo, tab_lookup, filename, local_repo)
     
     return final
 
 if __name__ == '__main__':
     
     # clear existing file, if any
-    outfile = 'acsdata.tab'
-    if os.path.isfile('../assets/' + outfile): os.remove('../assets/' + outfile)
+    outfile = 'acsdata.csv'
+    if os.path.isfile('../assets/census/' + outfile): os.remove('../assets/census/' + outfile)
     
-    f = open('../assets/' + outfile,'a')
+    f = open('../assets/census/' + outfile,'a')
     
     for state in sorted(state_lookup.keys()):
         print state

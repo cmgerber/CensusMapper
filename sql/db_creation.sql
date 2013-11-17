@@ -22,7 +22,7 @@ CREATE TABLE Maps (
 CREATE TABLE DataLayers (
     DataLayersID serial8 PRIMARY KEY,
     MapID int8 REFERENCES Maps (MapID) ON DELETE CASCADE,
-    MeasureID int4,
+    MeasureID int4 REFERENCES Measures (MeasureID),
     Year int4,
     DisplayOrder int2,
     DisplayGeography geolevel,
@@ -61,13 +61,13 @@ CREATE TABLE Measures (
 
 CREATE TABLE Numerator (
     NumeratorID serial4 PRIMARY KEY,
-    MeasureID int4,
+    MeasureID int4 REFERENCES Measures (MeasureID),
     FieldID char(9)
 );
 
 CREATE TABLE Denominator (
     DenominatorID serial4 PRIMARY KEY,
-    MeasureID int4,
+    MeasureID int4 REFERENCES Measures (MeasureID),
     FieldID char(9)
 );
 

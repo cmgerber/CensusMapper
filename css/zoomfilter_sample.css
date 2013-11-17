@@ -1,15 +1,24 @@
 #censusgeo {
-  polygon-fill: #FF6600;
-  line-width: 1;
-  line-color: #FFF;
+  polygon-fill: #DDDDDD;
+  line-width: .1;
+  line-color: #444444;
   polygon-opacity: 0;
   line-opacity: 0;
+  [measure <= 1.0] {
+    polygon-fill: #2CA25F;
+  }
+  [measure <= 0.1] {
+    polygon-fill: #99D8C9;
+  }
+  [measure <= 0.05] {
+    polygon-fill: #E5F5F9;
+  }
   [zoom <= 4][geotype = 'state'] {
-    polygon-opacity: 0.7;
+    polygon-opacity: 0.9;
     line-opacity: 1;
   }
   [zoom > 4][zoom <= 7][geotype = 'county'] {
-    polygon-opacity: 0.7;
+    polygon-opacity: 0.8;
     line-opacity: 1;
   }
   [zoom > 7][geotype = 'tract'] {
