@@ -1,17 +1,22 @@
+#!../env/bin/python
+
 from db_models import *
+import flask
+from flask import request
+from hashlib import md5
 
-#creates the initial db
-db.create_all()
 
-#creates user objects
-admin = User('admin', 'admin@example.com')
-guest = User('guest', 'guest@example.com')
-
-#commits the new users to the db
-db.session.add(admin)
-db.session.add(guest)
-db.session.commit()
-
-#to access the user db
+#to access list of all the users in db
 users = User.query.all()
-admin = User.query.filter_by(username='admin').first()
+
+@app.route('/login.html')
+def login():
+    #to access a user that logged in
+    login_user_name = str(request.form['login_name'])
+    login_user_password = md5(str(request.form['login_password']))hexdigest()
+    login_user = User.query.filter_by(username='login_user_name').first()
+
+    #check password
+    login_user_password = #hash the password
+    if login_user_password != login_user.password:
+        raise Exception('Your username or password was incorrect, please try again.')
