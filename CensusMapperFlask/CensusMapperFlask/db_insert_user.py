@@ -1,16 +1,14 @@
 #!../env/bin/python
 
 from CensusMapperFlask import app
-from db_models import connect_db, User
+from db_models import db, User
 import flask
-from flask import request
+from flask import request, flash
 from hashlib import md5
 
 
-@app.route('/create', methods = ['POST'])
+@app.route('/create_account', methods = ['POST'])
 def create_account():
-    #opens db
-    db = connect_db()
     #new user name input
     new_user_name = str(request.form['new_name'])
     new_email = str(request.form['new_email'])
@@ -21,7 +19,6 @@ def create_account():
     #commits the new user to the db
     db.session.add(new_user)
     db.session.commit()
-    db.close()
 
     flash('New account was successfully created. Please login.')
     return flask.render_template('home.html')
