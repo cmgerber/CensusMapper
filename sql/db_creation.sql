@@ -1,5 +1,5 @@
 CREATE TYPE usertype as ENUM ('super', 'regular');
-CREATE TYPE geolevel as ENUM ('state', 'county', 'tract');
+CREATE TYPE geolevel as ENUM ('default', 'state', 'county', 'tract');
 CREATE TYPE disptype as ENUM ('solid choropleth', 'hash choropleth', 'dot density', 'bubble');
 
 CREATE TABLE Users (

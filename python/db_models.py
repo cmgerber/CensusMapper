@@ -43,14 +43,14 @@ class DataLayer(db.Model):
     __tablename__ = 'datalayers'
     
     datalayersid = db.Column(db.Integer, primary_key = True)
-    mapid = db.Column(db.Integer, db.ForeignKey('Map.mapid'))
+    mapid = db.Column(db.Integer, db.ForeignKey('maps.mapid'))
     measureid = db.Column(db.Integer, db.ForeignKey('measures.measureid'))
     year = db.Column(db.Integer)
     displayorder = db.Column(db.Integer)
     displaygeography = db.Column(db.String(20))
     displaytype = db.Column(db.String(20))
     visible = db.Column(db.Boolean)
-    colorschemeName = db.Column(db.String(8))
+    colorschemename = db.Column(db.String(8))
     numcategories = db.Column(db.Integer)
     transparency = db.Column(db.Float)
     
@@ -71,15 +71,15 @@ class ValueBreak(db.Model):
     
     valuebreaksid = db.Column(db.Integer, primary_key = True)
     datalayersid = db.Column(db.Integer, db.ForeignKey('datalayers.datalayersid'))
-    catgorynumber = db.Column(db.Integer)
+    categorynumber = db.Column(db.Integer)
     maxvalue = db.Column(db.Float)
     minvalue = db.Column(db.Float)
     
-    def __init__(self, datalayersid, catgorynumber, maxvalue, minvalue):
+    def __init__(self, datalayersid, categorynumber, minvalue, maxvalue):
         self.datalayersid = datalayersid
-        self.catgorynumber = catgorynumber
-        self.maxvalue = maxvalue
+        self.categorynumber = categorynumber
         self.minvalue = minvalue
+        self.maxvalue = maxvalue
 
 class ColorScheme(db.Model):
     __tablename__ = 'colorschemes'
