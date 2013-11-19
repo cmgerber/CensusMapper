@@ -7,7 +7,7 @@ from flask import request, flash
 from hashlib import md5
 
 
-@app.route('/create_account', methods = ['POST'])
+@app.route('/create', methods = ['POST'])
 def create_account():
     #new user name input
     new_user_name = str(request.form['new_name'])
