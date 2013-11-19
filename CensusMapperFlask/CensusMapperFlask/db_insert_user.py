@@ -20,5 +20,5 @@ def create_account():
     db.session.add(new_user)
     db.session.commit()
 
-    flash('New account was successfully created. Please login.')
+    #flash('New account was successfully created. Please login.')
     return flask.render_template('home.html')

@@ -1,6 +1,6 @@
 import flask
-app = flask.Flask(__name__)
+
+app = flask.Flask('CensusMapperFlask')
 
 import CensusMapperFlask.views
 import CensusMapperFlask.db_insert_user
-import CensusMapperFlask.db_models
