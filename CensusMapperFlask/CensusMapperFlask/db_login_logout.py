@@ -12,13 +12,15 @@ def login_to_account():
     #to access a user that logged in
     login_user_name = str(request.form['login_name'])
     login_user_password = md5(str(request.form['login_password'])).hexdigest()
-    login_user = User.query.filter_by(username=login_user_name).first()
+    login_user = User.query.filter_by(username=login_user_name, password=login_user_password).first()
 
     #check password
-    if login_user_password != login_user.password:
-        raise Exception('Your username or password was incorrect, please try again.')
+    if login_user:
+        return flask.render_template('logged_in.html', username = login_user_name)
 
-    return flask.render_template('logged_in.html', username = login_user_name)
+    
+    return flask.render_template('login_failed.html')
+
 
 #how the tutorial shows doing logout
 # @app.route('/logout')
