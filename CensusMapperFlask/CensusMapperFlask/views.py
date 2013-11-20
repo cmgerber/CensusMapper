@@ -11,7 +11,7 @@ def home():
 def create_user():
     return flask.render_template('create_account.html')
 
-@app.route('/login')
+@app.route('/login_user')
 def login():
     return flask.render_template('login.html')
 

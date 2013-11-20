@@ -1,13 +1,13 @@
 #!../env/bin/python
 
 from CensusMapperFlask import app
-from db_models import *
+from db_models import db, User
 import flask
 from flask import request
 from hashlib import md5
 
 
-@app.route('/login_user' method = 'POST')
+@app.route('/login_user', methods = ['POST'])
 def login():
     #to access a user that logged in
     login_user_name = str(request.form['login_name'])
@@ -18,7 +18,7 @@ def login():
     if login_user_password != login_user.password:
         raise Exception('Your username or password was incorrect, please try again.')
 
-    return flask.render_template('home.html')
+    return flask.render_template('logged_in.html', username = login_user_name)
 
 #how the tutorial shows doing logout
 # @app.route('/logout')
