@@ -7,12 +7,12 @@ from flask import request
 from hashlib import md5
 
 
-@app.route('/login_user', methods = ['POST'])
-def login():
+@app.route('/login', methods = ['POST'])
+def login_to_account():
     #to access a user that logged in
     login_user_name = str(request.form['login_name'])
-    login_user_password = md5(str(request.form['login_password']))hexdigest()
-    login_user = User.query.filter_by(username='login_user_name').first()
+    login_user_password = md5(str(request.form['login_password'])).hexdigest()
+    login_user = User.query.filter_by(username=login_user_name).first()
 
     #check password
     if login_user_password != login_user.password:
