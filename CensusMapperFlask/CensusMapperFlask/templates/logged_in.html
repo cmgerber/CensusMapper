@@ -6,7 +6,8 @@
     <title>Home Page</title>
   </head>
   <body>
-    <a href="{{ url_for('create_user') }}">create account</a>
+    <p>Thanks for creating an account, {{ username }}!</p>
+    <a href="{{ url_for('home') }}">Go back home.</a>
 
   </body>
     
