@@ -1,4 +1,9 @@
 /* Create Account Form */
+a:link {color: blue;}
+a:visited {color: gray;}
+a:hover, a:active { color: orange; } 
+
+
 form label {
     font-size: 1.2em;
     font-weight: bold;

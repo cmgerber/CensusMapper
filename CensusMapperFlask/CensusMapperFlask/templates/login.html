@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <link rel="stylesheet" href="{{ url_for('static', filename='forms.css') }}">
+
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
     <title>Login Page</title>
@@ -12,18 +14,15 @@
         <div class="links">
                     <form method="POST" action="login" name="thisForm">
                     <div>
-                            <label for="login_name">Enter your user name:</label>
-                            <br><br>
+                            <label for="login_name">User name</label>
                         <input type="text" id="login_name" name="login_name" style="width:20%">
                         <br>
                     </div>
                     <br><br>
                     <div>
-                            <label for="login_password">Enter your password:</label>
-                            <br><br>
-                        <input type="text" id="login_password" name="login_password" style="width:20%">
+                            <label for="login_password">Password</label>
+                        <input type="password" id="login_password" name="login_password" style="width:20%">
                     </div>
-                    <br><br> 
                     <input type="submit" value="Submit">
                 </form>
         </div>
