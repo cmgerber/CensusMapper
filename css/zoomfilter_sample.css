@@ -1,3 +1,4 @@
+
 #censusgeo {
   polygon-fill: #DDDDDD;
   line-width: .1;
@@ -7,12 +8,11 @@
   [measure <= 1.0] {
     polygon-fill: #2CA25F;
   }
-  [measure <= 0.1] {
-    polygon-fill: #99D8C9;
-  }
-  [measure <= 0.05] {
-    polygon-fill: #E5F5F9;
-  }
+ [ measure <= 100000000.00 ] { polygon-fill: rgb(0,44,109)}
+ [ measure <= 35000.00 ] { polygon-fill: rgb(44,95,162)}
+ [ measure <= 30000.00 ] { polygon-fill: rgb(102,164,194)}
+ [ measure <= 25000.00 ] { polygon-fill: rgb(178,226,226)}
+ [ measure <= 20000.00 ] { polygon-fill: rgb(237,251,248)}
   [zoom <= 4][geotype = 'state'] {
     polygon-opacity: 0.9;
     line-opacity: 1;
@@ -26,3 +26,5 @@
     line-opacity: 1;
   }
 }
+
+

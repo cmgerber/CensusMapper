@@ -9,7 +9,7 @@ from zipfile import ZipFile
 # procedure to download file if it doesn't exist
 def download(filename, url_path, local_path):
     """Downloads file into assets folder if it doesn't exist"""
-    if not os.path.isfile(filename):
+    if not os.path.isfile(local_path + filename):
         print 'Could not find %s.  Downloading...' % filename
         retrieve = urllib.urlretrieve(url_path + filename, local_path + filename)
 
