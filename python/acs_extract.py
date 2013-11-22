@@ -3,7 +3,7 @@
 
 from db_models import db, Numerator, Denominator
 import csv,os,urllib
-from state_lookup import state_lookup
+from acs_statelookup import state_lookup
 from zipfile import ZipFile
 
 # procedure to download file if it doesn't exist
