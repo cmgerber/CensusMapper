@@ -1,15 +1,14 @@
-/* Create Account Form */
+/* Forms */
 a:link {color: blue;}
 a:visited {color: gray;}
 a:hover, a:active { color: orange; } 
 
-/*body {
-    padding-left: 25px;
-}*/
+body {
+    font-family: Helvetica, Arial, sans-serif;
+}
 
 header { 
     height: 40px; 
-    font-family: Helvetica, Arial, sans-serif; 
 }
 
 #navbar { height: 24px; 
@@ -53,11 +52,37 @@ div.form input {
 }
 
 div.CreateAccount {
-    font-family: Helvetica, Arial, sans-serif;
-    font-weight: bold;
     padding-left: 25px;
 }
 
-form input#new_password {
+div.CreateAccount input {
+    font-family: Helvetica, Arial, sans-serif;
+    font-weight: bold;
+    width: 150px;
+    background-color: #fafafa;
+    border-radius: 1px;
+    border: 1px solid #000000;
+    padding: 3px;
+    font-size: .9em;
+    
+}
+
+div.form input#new_password,
+div.form input#login_password {
     margin-bottom: 10px;
+}
+
+div.SignIn {
+    padding-left: 25px
+}
+
+div.SignIn input {
+    font-family: Helvetica, Arial, sans-serif;
+    font-weight: bold;
+    width: 100px;
+    background-color: #fafafa;
+    border-radius: 1px;
+    border: 1px solid #000000;
+    padding: 3px;
+    font-size: .9em;
 }

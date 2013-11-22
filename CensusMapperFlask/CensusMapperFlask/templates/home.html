@@ -1,21 +1,32 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <link rel="stylesheet" href="{{ url_for('static', filename='home.css') }}">
+
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
     <title>Home Page</title>
   </head>
   <body>
-
     <header>
         <div id="navbar">
             CensusMapper
         </div>
-    </header>
-    
-    <a href="{{ url_for('create_user') }}">create account</a>
 
-    <a href="{{ url_for('login') }}">login</a>
+    <div id="titlebar">
+      
+        <a href="{{ url_for('create_user') }}">Create account</a>
+
+        <a href="{{ url_for('login') }}">Login</a>
+
+    </div>
+    <hr/>
+    </header>
+
+    <h1 id="title" align="center">Welcome to CensusMapper!</h1>
+    <img src="{{url_for('static', filename='map_of_the_day_test.jpg') }}" id="map_of_the_day">
+    
+    
 
   </body>
     

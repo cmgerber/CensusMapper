@@ -19,7 +19,7 @@
     <hr/>
     </header>
 
-    <h1 align = 'center'>Create Account</h1>
+    <h1 align = 'center'>Sign Up</h1>
     
 
         <div >
@@ -39,7 +39,9 @@
                     <label for="new_password">Password</label>
                 <input type="password" id="new_password" name="new_password" style="width:20%">
             </div >
-            <input class="CreateAccount" type="submit" value="Create Account">
+            <div class="CreateAccount">
+                <input type="submit" value="Create Account">
+            </div>
             </form>
 
         {% for message in get_flashed_messages() %}
