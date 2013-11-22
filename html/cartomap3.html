@@ -4,12 +4,22 @@
     <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
     <style type="text/css">
       html { height: 100% }
-      body { height: 100%; margin: 0; padding: 0 }
-      #map { height: 90% }
+      header { height: 56px; font-family: Helvetica, Arial, sans-serif; }
+        #navbar { height: 24px; margin: 0; background-color: #000000; color: #FFFFFF; padding-left: 25px; padding-top: 3px }
+        #titlebar { height: 32px; position: relative; padding: 0; text-align: center; color: #777777; font-style: italic; font-weight: bold; }
+        #titletext { position: absolute; bottom: 1; }
+      body { margin: 0; padding: 0; }
+      #map { margin: 0; padding: 0; }
     </style>
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
-    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBrapPljIQ5AB6-ecF_yROkg-XgbdR4xfg&sensor=false&libraries=drawing"></script>
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBrapPljIQ5AB6-ecF_yROkg-XgbdR4xfg&sensor=false"></script>
     <script type="text/javascript" src="http://libs.cartocdn.com/cartodb.js/v3/cartodb.uncompressed.js"></script>
+    <script type="text/javascript">
+    window.onresize = function () {
+        var height = window.innerHeight;
+        document.getElementById("map").style.height = height - 56 + 'px';
+    };
+    </script>
     <script type="text/javascript">
       
       var 
@@ -18,9 +28,9 @@
       zoom  = 6,
       lat   = 38, 
       lng   = -123;
-    
+      
       function main() {
-    
+        
         // Create a div to hold the control.
         var controlDiv = document.createElement('div');
         
@@ -66,7 +76,7 @@
             position: google.maps.ControlPosition.RIGHT_BOTTOM
           }
           })
-    
+        
         // Define the map styles
         var mapStyle = [{stylers: [{ saturation: -65 }, { gamma: 1.52 }] }, {
           featureType: "administrative", stylers: [{ saturation: -95 }, { gamma: 2.26 }] }, {
@@ -80,34 +90,44 @@
           featureType: "road", elementType: "labels", stylers: [{ visibility: 'off' }] }, {
           featureType: "poi", stylers: [{ saturation: -55 }]
         }];
-    
+        
         map.setOptions({styles: mapStyle});
-    
+        
         // Tile style
-        var cartocss = "#censusgeo {  polygon-fill: rgb(178,226,226);  line-width: .1;  line-color: #444444;  polygon-opacity: 0;  line-opacity: 0;[ measure <= 1.00 ] { polygon-fill: rgb(179,0,0)}[ measure <= 0.40 ] { polygon-fill: rgb(227,51,74)}[ measure <= 0.25 ] { polygon-fill: rgb(252,89,141)}[ measure <= 0.15 ] { polygon-fill: rgb(253,138,204)}[ measure <= 0.05 ] { polygon-fill: rgb(254,217,240)}  [zoom <= 4][geotype = 'state'] {    polygon-opacity: 0.8;    line-opacity: 1;  }  [zoom > 4][zoom <= 8][geotype = 'county'] {    polygon-opacity: 0.8;    line-opacity: 1;  }  [zoom > 8][geotype = 'tract'] {    polygon-opacity: 0.8;    line-opacity: 1;  }}";
-
+        var cartocss = "#censusgeo { polygon-fill: rgb(178,226,226); line-width: .1; line-color: #444444; polygon-opacity: 0; line-opacity: 0;[ measure <= 1.00 ] { polygon-fill: rgb(179,0,0)}[ measure <= 0.40 ] { polygon-fill: rgb(227,51,74)}[ measure <= 0.25 ] { polygon-fill: rgb(252,89,141)}[ measure <= 0.15 ] { polygon-fill: rgb(253,138,204)}[ measure <= 0.05 ] { polygon-fill: rgb(254,217,240)} [zoom <= 4][geotype = 'state'] { polygon-opacity: 0.8; line-opacity: 1; } [zoom > 4][zoom <= 8][geotype = 'county'] { polygon-opacity: 0.8; line-opacity: 1; } [zoom > 8][geotype = 'tract'] { polygon-opacity: 0.8; line-opacity: 1; }}";
+        
         var sqlquery = "SELECT a.cartodb_id,a.geotype,a.the_geom_webmercator, sum(case when b.fieldid in ('B03002012') then cast(b.value as float) else 0 end)/(sum(case when b.fieldid in ('B01001001') then cast(b.value as float) else 0 end) + 1) measure FROM censusgeo a JOIN censusdata b ON a.fipscode = b.fipscode GROUP BY a.cartodb_id, a.geotype, a.the_geom_webmercator";
-
-cartodb.createLayer(map, {
-  user_name: 'censusmapper',
-  type: 'cartodb',
-  sublayers: [{
-    sql: sqlquery,
-    cartocss: cartocss
-  }]
-})
-.addTo(map) // add the layer to our map which already contains 1 sublayer
-
-
-
+        
+        cartodb.createLayer(map, {
+          user_name: 'censusmapper',
+          type: 'cartodb',
+          sublayers: [{
+            sql: sqlquery,
+            cartocss: cartocss
+          }]
+        })
+        .addTo(map) // add the layer to our map which already contains 1 sublayer
+      
       };
       
       google.maps.event.addDomListener(window, 'load', main);
-    
+      
     </script>
     </head>
+  <header>
+    <div id="navbar">
+      CensusMapper
+    </div>
+    <div id="titlebar">
+      <span id="titletext">This is the map's title</span>
+    </div>
+  </header>
   <body>
-    <div id="map"/>
+    <div id="map">
+      <script type="text/javascript">
+        var height = window.innerHeight;
+        document.getElementById("map").style.height = height - 56 + 'px';
+      </script>
   </body>
 </html>
 
