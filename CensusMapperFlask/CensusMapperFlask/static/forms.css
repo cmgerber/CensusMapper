@@ -3,31 +3,59 @@ a:link {color: blue;}
 a:visited {color: gray;}
 a:hover, a:active { color: orange; } 
 
-header { height: 40px; font-family: Helvetica, Arial, sans-serif; }
+/*body {
+    padding-left: 25px;
+}*/
 
-#navbar { height: 24px; margin: 0; background-color: #000000; color: #FFFFFF; padding-left: 25px; padding-top: 3px }
+header { 
+    height: 40px; 
+    font-family: Helvetica, Arial, sans-serif; 
+}
 
-#titlebar { height: 16px; position: relative; padding-left: 25px; text-align: left; color: #777777; font-style: italic; font-weight: bold; }
-#homeLink { position: absolute; top: 3px; }
+#navbar { height: 24px; 
+    margin: 0; 
+    background-color: #000000; 
+    color: #FFFFFF; 
+    padding-left: 25px; 
+    padding-top: 3px; 
+}
 
-form label {
+#titlebar { height: 16px; 
+    position: relative; 
+    padding-left: 25px; 
+    text-align: left; 
+    color: #777777; 
+    font-weight: bold; 
+}
+
+#homeLink { 
+    position: absolute; 
+    top: 3px; 
+}
+
+div.form {
+    padding-left: 25px;
+}
+
+div.form label {
     font-size: 1.2em;
     font-weight: bold;
     display: block;
-    padding: 0px 0;
 }
 
-form input#new_name
-form input#new_email
-form input#new_password {
+div.form input {
     width: 400px;
     background-color: #fafafa;
-    -webkit-border-radius: 3px;
-    -moz-border-radius: 3px;
-    border-radius: 3px;
+    border-radius: 1px;
     border: 1px solid #cccccc;
-    padding: 5px;
+    padding: 2px;
     font-size: 1.1em;
+}
+
+div.CreateAccount {
+    font-family: Helvetica, Arial, sans-serif;
+    font-weight: bold;
+    padding-left: 25px;
 }
 
 form input#new_password {

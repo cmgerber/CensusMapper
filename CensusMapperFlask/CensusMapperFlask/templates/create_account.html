@@ -22,24 +22,24 @@
     <h1 align = 'center'>Create Account</h1>
     
 
-        <div>
+        <div >
             <form method="POST" action="create_user" name="create_account_form">
-            <div>
+            <div class='form'>
                     <label for="new_name">User name</label>
                 <input type="text" id="new_name" name="new_name" style="width:20%">
                 <br>
             </div>
             <br><br>
-            <div>
+            <div class='form'>
                     <label for="new_email">Email</label>
                 <input type="text" id="new_email" name="new_email" style="width:20%">
             </div>
             <br><br>
-            <div>
+            <div class='form'>
                     <label for="new_password">Password</label>
                 <input type="password" id="new_password" name="new_password" style="width:20%">
-            </div>
-            <input type="submit" value="Create Account">
+            </div >
+            <input class="CreateAccount" type="submit" value="Create Account">
             </form>
 
         {% for message in get_flashed_messages() %}
