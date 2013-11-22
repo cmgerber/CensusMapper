@@ -1,13 +1,15 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <link rel="stylesheet" href="{{ url_for('static', filename='forms.css') }}">
+
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
     <title>Home Page</title>
   </head>
   <body>
     <p>Thanks for creating an account, {{ username }}!</p>
-    <a href="{{ url_for('home') }}">Go back home.</a>
+    <a id='homeLink' href="{{ url_for('home') }}">Go back home.</a>
 
   </body>
     

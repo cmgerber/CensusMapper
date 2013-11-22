@@ -1,0 +1,16 @@
+
+
+html { height: 100% }
+header { height: 56px; font-family: Helvetica, Arial, sans-serif; }
+#navbar { height: 24px; margin: 0; background-color: #000000; color: #FFFFFF; padding-left: 25px; padding-top: 3px }
+#homeLink:link,
+#homeLink:visited {
+    color: #FFFFFF;
+}
+#titlebar { height: 32px; position: relative; padding: 0; color: #777777; text-align: center; font-style: italic; font-weight: bold; }
+#titletext { 
+    position: absolute; 
+    top: 3;
+     }
+body { margin: 0; padding: 0; }
+#map { margin: 0; padding: 0; }

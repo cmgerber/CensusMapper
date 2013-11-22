@@ -15,3 +15,6 @@ def create_user():
 def login():
     return flask.render_template('login.html')
 
+@app.route('/map')
+def map():
+    return flask.render_template('main_map.html')

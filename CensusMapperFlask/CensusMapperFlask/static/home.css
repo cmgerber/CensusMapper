@@ -32,3 +32,15 @@ header {
     margin-left: auto;
     margin-right: auto;
 }
+
+#GetStarted {
+    text-align: middle;
+    font-family: Helvetica, Arial, sans-serif;
+    font-weight: bold;
+    width: 100px;
+    background-color: #fafafa;
+    border-radius: 1px;
+    border: 1px solid #000000;
+    padding: 3px;
+    font-size: 1.1em;
+}
