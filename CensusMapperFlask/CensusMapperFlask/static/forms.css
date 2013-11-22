@@ -3,6 +3,11 @@ a:link {color: blue;}
 a:visited {color: gray;}
 a:hover, a:active { color: orange; } 
 
+header { height: 40px; font-family: Helvetica, Arial, sans-serif; }
+
+#navbar { height: 24px; margin: 0; background-color: #000000; color: #FFFFFF; padding-left: 25px; padding-top: 3px }
+
+#titlebar { height: 16px; position: relative; padding-left: 25px; text-align: left; color: #777777; font-style: italic; font-weight: bold; }
 
 form label {
     font-size: 1.2em;

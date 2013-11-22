@@ -8,8 +8,19 @@
     <title>Login Page</title>
   </head>
   <body>
+
+    <header>
+        <div id="navbar">
+            CensusMapper
+        </div>
+    </header>
+
+    <div id="titlebar">
+      <a href="{{ url_for('home') }}">Home</a>
+    </div>
+    <hr/>
+
     <h1 align = 'center'>Login</h1>
-    <a href="{{ url_for('home') }}">Home</a>
 
         <div class="links">
                     <form method="POST" action="login" name="thisForm">

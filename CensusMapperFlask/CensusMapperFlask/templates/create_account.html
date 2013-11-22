@@ -8,8 +8,19 @@
     <title>Create Account Page</title>
   </head>
   <body>
+    <header>
+        <div id="navbar">
+            CensusMapper
+        </div>
+    </header>
+
+    <div id="titlebar">
+      <a href="{{ url_for('home') }}">Home</a>
+    </div>
+    <hr/>
+
     <h1 align = 'center'>Create Account</h1>
-    <a href="{{ url_for('home') }}">Home</a>
+    
 
         <div>
             <form method="POST" action="create_user" name="create_account_form">
