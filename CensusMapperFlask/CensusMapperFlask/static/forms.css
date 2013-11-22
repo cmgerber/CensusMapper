@@ -27,9 +27,11 @@ header {
     font-weight: bold; 
 }
 
-#homeLink { 
-    position: absolute; 
-    top: 3px; 
+
+#homeLink:link,
+#homeLink:visited {
+    text-decoration: none;
+    color: #FFFFFF;
 }
 
 div.form {
