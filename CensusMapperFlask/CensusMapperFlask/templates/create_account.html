@@ -10,7 +10,9 @@
   <body>
     <header>
         <div id="navbar">
-            <a id='homeLink' href="{{ url_for('home') }}">CensusMapper</a>
+          <span id="logo_link">
+            <a id='homeLink' href="{{ url_for('home') }}"><img src="{{ url_for('static', filename='logo_small.png') }}" border="0" alt="CensusMapper"></a>
+          </span>
         </div>
     </header>
 

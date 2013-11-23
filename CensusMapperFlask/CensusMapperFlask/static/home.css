@@ -1,6 +1,4 @@
 /* Home */
-a:link {color: blue;}
-a:visited {color: gray;}
 a:hover, a:active { color: orange; } 
 
 body {
@@ -19,14 +17,18 @@ header {
     padding-top: 3px; 
 }
 
-a#login {
-    position: absolute;
-    right: 25px;
+.linktext {
+    color: #FFFFFF;
+    text-decoration: none;
+    font-weight: lighter;
+    font-size: 90%;
 }
 
-a#CreateAccount {
-    position: absolute;
-    right: 75px;
+#login_links {
+    float: right;
+    padding-right: 25px;
+    padding-top: 3px;
+    vertical-align: middle;
 
 }
 
@@ -47,6 +49,7 @@ a#CreateAccount {
 #GetStarted {
     font-family: Helvetica, Arial, sans-serif;
     font-weight: bold;
+    color: #000000;
     display: block;
     margin-left: auto;
     margin-right: auto;
