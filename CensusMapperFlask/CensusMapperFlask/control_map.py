@@ -2,8 +2,7 @@
 
 from CensusMapperFlask import app
 from db_models import *
-import flask
-from flask import request
+from flask import request, Flask, jsonify, render_template
 
 @app.route('/map', methods = ['POST'])
 def update_measure():
@@ -13,5 +12,5 @@ def update_measure():
     
     js_command = 'add_tiles(map, sqlquery, cartocss);'
     
-    return flask.render_template('main_map.html', sqlquery = sqlquery, cartocss = cartocss, js_command = js_command)
+    return render_template('main_map.html', sqlquery = sqlquery, cartocss = cartocss, js_command = js_command)
 
