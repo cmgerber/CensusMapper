@@ -1,49 +1,19 @@
-/* Home */
-a:hover, a:active { color: orange; } 
+html { height: 100% }
 
 body {
     font-family: Helvetica, Arial, sans-serif;
+    margin: 0;
+    padding: 0;
 }
 
-header { 
-    height: 40px; 
-}
-
-#navbar { height: 24px; 
-    margin: 0; 
-    background-color: #000000; 
-    color: #FFFFFF; 
-    padding-left: 25px; 
-    padding-top: 3px; 
-}
-
-.linktext {
-    color: #FFFFFF;
-    text-decoration: none;
-    font-weight: lighter;
-    font-size: 90%;
-}
-
-#login_links {
-    float: right;
-    padding-right: 25px;
-    padding-top: 3px;
-    vertical-align: middle;
-
-}
-
-#titlebar { height: 16px; 
-    position: relative; 
-    padding-right: 25px; 
-    text-align: right; 
-    color: #777777; 
-    font-weight: bold; 
+#maincontent {
 }
 
 #map_of_the_day {
     display: block;
     margin-left: auto;
     margin-right: auto;
+    padding-bottom: 5px;
 }
 
 #GetStarted {
@@ -51,17 +21,22 @@ header {
     font-weight: bold;
     color: #000000;
     display: block;
-    margin-left: auto;
-    margin-right: auto;
     width: 100px;
     background-color: #fafafa;
     border-radius: 1px;
     border: 1px solid #000000;
     padding: 3px;
     font-size: 1.1em;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 #GetStarted:link,
 #GetStarted:visited {
     text-decoration: none;
+}
+
+#GetStarted:hover,
+#GetStarted:active {
+    color: rgb(241,119,103);
 }

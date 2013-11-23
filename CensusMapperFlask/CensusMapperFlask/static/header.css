@@ -1,0 +1,29 @@
+header { 
+    height: 56px; 
+    font-family: Helvetica, Arial, sans-serif; 
+}
+
+#navbar { height: 24px; 
+    margin: 0; 
+    background-color: #000000; 
+    color: #FFFFFF; 
+    padding-left: 25px; 
+    padding-top: 3px; 
+}
+
+#logo_link { padding-left: 25px; }
+
+.linktext {
+    color: #FFFFFF;
+    text-decoration: none;
+    font-weight: lighter;
+    font-size: 90%;
+}
+
+#login_links {
+    float: right;
+    padding-right: 25px;
+    padding-top: 3px;
+    vertical-align: middle;
+}
+
