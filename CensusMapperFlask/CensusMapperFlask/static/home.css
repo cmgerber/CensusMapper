@@ -19,6 +19,17 @@ header {
     padding-top: 3px; 
 }
 
+a#login {
+    position: absolute;
+    right: 25px;
+}
+
+a#CreateAccount {
+    position: absolute;
+    right: 75px;
+
+}
+
 #titlebar { height: 16px; 
     position: relative; 
     padding-right: 25px; 

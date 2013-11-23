@@ -19,15 +19,6 @@ header {
     padding-top: 3px; 
 }
 
-#titlebar { height: 16px; 
-    position: relative; 
-    padding-left: 25px; 
-    text-align: left; 
-    color: #777777; 
-    font-weight: bold; 
-}
-
-
 #homeLink:link,
 #homeLink:visited {
     text-decoration: none;
