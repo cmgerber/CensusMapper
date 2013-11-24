@@ -6,20 +6,17 @@ body { margin: 0; padding: 0; }
 
 #titlebar { 
     height: 32px; 
-    position: relative; 
     padding: 0; 
+    width: 100%; 
+    text-align: center;
+}
+
+#titletext { 
     color: #777777; 
     font-style: italic; 
     font-weight: lighter;
     font-size: 150%; 
-    margin-left: auto;
-    margin-right: auto;
 }
-
-#adddata { 
-    position: absolute; 
-    top: 5;
-     }
 
 #map { 
     margin: 0; 

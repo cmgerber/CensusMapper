@@ -15,7 +15,7 @@
   </head>
   <body>
     {% include 'header.html' %}
-    
+
     <div id="map" />
     
     <script type="text/javascript">
@@ -23,15 +23,18 @@
       google.maps.event.addDomListener(window, 'load', map);
       
       $(document).ready(function() {
+        
         $('#adddata').bind('click', function() {
           $.getJSON($SCRIPT_ROOT + '/_add_layer', {
           }, function(data) {
             var sqlquery = data.sqlquery;
             var cartocss = data.cartocss;
             add_tiles(map, sqlquery, cartocss);
+            add_legend();
           });
           return false;
         });
+        
       });
       
       adjust_height();
