@@ -1,21 +1,25 @@
 /* Home */
 a:hover, a:active { color: orange; } 
 
+html { height: 100% }
+
 body {
     font-family: Helvetica, Arial, sans-serif;
 }
 
 header { 
-    height: 40px; 
+    height: 24px; 
 }
 
-#navbar { height: 24px; 
+#navbar { height: 24px;
+    width: 100%; 
     margin: 0; 
     background-color: #000000; 
     color: #FFFFFF; 
     padding-left: 25px; 
     padding-top: 3px; 
 }
+
 
 .linktext {
     color: #FFFFFF;
@@ -30,14 +34,6 @@ header {
     padding-top: 3px;
     vertical-align: middle;
 
-}
-
-#titlebar { height: 16px; 
-    position: relative; 
-    padding-right: 25px; 
-    text-align: right; 
-    color: #777777; 
-    font-weight: bold; 
 }
 
 #map_of_the_day {
