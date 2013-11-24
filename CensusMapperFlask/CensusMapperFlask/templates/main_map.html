@@ -3,6 +3,7 @@
   <head>
     
     <link rel="stylesheet" href="{{ url_for('static', filename='map.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='header.css') }}">
     
     <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
     
@@ -13,22 +14,8 @@
     <script type="text/javascript">$SCRIPT_ROOT = {{ request.script_root|tojson|safe }};</script>
   </head>
   <body>
-    <header>
-      <div id="navbar">
-          <span id="logo_link">
-            <a id='homeLink' href="{{ url_for('home') }}"><img src="{{ url_for('static', filename='logo_small.png') }}" border="0" alt="CensusMapper"></a>
-          </span>
-          <span id="login_links">
-            <a class="linktext" href="{{ url_for('create_user') }}">Create account</a>
-            |
-            <a class="linktext" href="{{ url_for('login') }}">Login</a>
-          </span>
-      </div>
-      <div id="titlebar">
-        <a href="#" style="text-align:left" id="adddata">Add data</a>
-      </div>
-    </header>
-    
+    {% include 'header.html' %}
+
     <div id="map" />
     
     <script type="text/javascript">
@@ -36,15 +23,18 @@
       google.maps.event.addDomListener(window, 'load', map);
       
       $(document).ready(function() {
+        
         $('#adddata').bind('click', function() {
           $.getJSON($SCRIPT_ROOT + '/_add_layer', {
           }, function(data) {
             var sqlquery = data.sqlquery;
             var cartocss = data.cartocss;
             add_tiles(map, sqlquery, cartocss);
+            add_legend();
           });
           return false;
         });
+        
       });
       
       adjust_height();

@@ -1,0 +1,39 @@
+header { 
+    height: 56px; 
+    font-family: Helvetica, Arial, sans-serif; 
+    font-weight: lighter;
+}
+
+p {
+    margin: 0;
+    padding: 0;
+}
+
+#navbar { height: 24px; 
+    margin: 0; 
+    background-color: #000000; 
+    color: #FFFFFF; 
+    padding-left: 25px; 
+    padding-top: 3px; 
+}
+
+#logo_link { padding-left: 25px; }
+
+.linktext {
+    color: #FFFFFF;
+    text-decoration: none;
+    font-size: 90%;
+}
+
+.userlinktext {
+    color: #FFFFFF;
+    text-decoration: none;
+    font-weight: bold;
+}
+#login_links {
+    float: right;
+    padding-right: 25px;
+    padding-top: 3px;
+    vertical-align: middle;
+}
+

@@ -2,49 +2,23 @@ p { margin: 0; padding: 0; }
 
 html { height: 100% }
 
-header { 
-    height: 56px; 
-    font-family: Helvetica, Arial, sans-serif; 
-}
-
-#navbar { 
-    height: 24px; 
-    margin: 0; 
-    padding: 0; 
-    width: 100%; 
-    background-color: #000000; 
-    color: #FFFFFF; 
-}
-
-#logo_link { padding-left: 25px; }
-
-#login_links {
-    float: right;
-    padding-right: 25px;
-    padding-top: 3px;
-    vertical-align: middle;
-}
-.linktext {
-    color: #FFFFFF;
-    text-decoration: none;
-    font-weight: lighter;
-    font-size: 90%;
-}
-#titlebar { 
-    height: 32px; 
-    position: relative; 
-    padding: 0; 
-    color: #777777; 
-    text-align: center; 
-    font-style: italic; 
-    font-weight: bold; 
-}
-
-#adddata { 
-    position: absolute; 
-    top: 5;
-     }
-
 body { margin: 0; padding: 0; }
 
-#map { margin: 0; padding: 0; }
+#titlebar { 
+    height: 32px; 
+    padding: 0; 
+    width: 100%; 
+    text-align: center;
+}
+
+#titletext { 
+    color: #777777; 
+    font-style: italic; 
+    font-weight: lighter;
+    font-size: 150%; 
+}
+
+#map { 
+    margin: 0; 
+    padding: 0;
+}

@@ -57,37 +57,40 @@ function add_tiles(map, sqlquery, cartocss) {
   
 };
 
-function add_legend() {
+function add_legend(innerHTML) {
   
-  // Create a div to hold the control.
-  var controlDiv = document.createElement('div');
-  
-  // Set CSS styles for the DIV containing the control
-  // Setting padding to 5 px will offset the control
-  // from the edge of the map.
-  controlDiv.style.padding = '10px';
-  
-  // Set CSS for the control border.
-  var controlUI = document.createElement('div');
-  controlUI.style.backgroundColor = 'white';
-  controlUI.style.borderStyle = 'solid';
-  controlUI.style.borderWidth = '1px';
-  controlUI.style.borderColor = '#dddddd';
-  controlUI.style.cursor = 'pointer';
-  controlUI.style.textAlign = 'center';
-  controlUI.title = 'Click to set the map to Home';
-  controlDiv.appendChild(controlUI);
-  
-  // Set CSS for the control interior.
-  var controlText = document.createElement('div');
-  controlText.style.fontFamily = 'Helvetica,Arial,sans-serif';
-  controlText.style.fontSize = '12px';
-  controlText.style.paddingLeft = '4px';
-  controlText.style.paddingRight = '4px';
-  controlText.innerHTML = '<strong>Home</strong>';
-  controlUI.appendChild(controlText);
-  
-  map.controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(controlDiv);
+  if (typeof innerHTML !== 'undefined') {
+    // Create a div to hold the control.
+    var controlDiv = document.createElement('div');
+    
+    // Set CSS styles for the DIV containing the control
+    // Setting padding to 5 px will offset the control
+    // from the edge of the map.
+    controlDiv.style.padding = '10px';
+    
+    // Set CSS for the control border.
+    var controlUI = document.createElement('div');
+    controlUI.style.backgroundColor = 'white';
+    controlUI.style.borderStyle = 'solid';
+    controlUI.style.borderWidth = '1px';
+    controlUI.style.borderColor = '#DDDDDD';
+    controlUI.style.cursor = 'pointer';
+    controlUI.style.textAlign = 'left';
+    controlDiv.appendChild(controlUI);
+    
+    // Set CSS for the control interior.
+    var controlText = document.createElement('div');
+    controlText.style.fontFamily = 'Helvetica,Arial,sans-serif';
+    controlText.style.fontSize = '14px';
+    controlText.style.paddingTop = '5px';
+    controlText.style.paddingBottom = '5px';
+    controlText.style.paddingLeft = '5px';
+    controlText.style.paddingRight = '5px';
+    controlText.innerHTML = innerHTML;
+    controlUI.appendChild(controlText);
+    
+    map.controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(controlDiv);
+  }
   
 };
 
