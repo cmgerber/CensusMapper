@@ -18,7 +18,7 @@ def login():
 
 @app.route('/map')
 def map():
-    return flask.render_template('main_map.html')
+    return flask.render_template('main_map.html', mapname='Untitled Map')
 
 
 # "hidden" functions that respond jQuery functions
