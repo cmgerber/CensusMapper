@@ -31,9 +31,10 @@ p {
 }
 
 .logoutlinktext {
-    color: #FFFFFF;
+    padding-left: 6px;
+    color: #4775FF;
     text-decoration: none;
-    font-weight: bold; 
+    font-size: 75%; 
 }
 
 #login_links {

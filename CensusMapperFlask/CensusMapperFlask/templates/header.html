@@ -5,8 +5,8 @@
           </span>
           <span id="login_links">
             {%- if session.username -%}
-              <p class="linktext">Logged in as <a class="userlinktext" href="'{{ url_for('home') }}'">{{ session.username }}</a>
-              |
+              <!-- <p class="linktext">Logged in as  --><a class="userlinktext" href="'{{ url_for('home') }}'">{{ session.username }}</a>
+
               <a class="logoutlinktext" href="/logout">Logout</a></p>
             {%- else -%}
               <a class="linktext create-window" href="#create">Create account</a>
