@@ -27,12 +27,16 @@ function main(zoomval, lat, lng) {
   add_search_box(map);
   
   // Define the map style to appear very minimalistic and washed out
-  var mapStyle = [{stylers: [{ saturation: -65 }, { gamma: 1.52 }] }, 
-    {featureType: "administrative", stylers: [{ saturation: -95 }, { gamma: 2.26 }] }, 
+  var mapStyle = [{stylers: [{ saturation: -65 }, { gamma: 1 }] }, 
+    {featureType: "administrative", stylers: [{ saturation: -75 }, { gamma: 2.26 }] }, 
     {featureType: "water", elementType: "labels", stylers: [{ visibility: "off" }] }, 
-    {featureType: "administrative.locality", stylers: [{ visibility: 'off' }] }, 
+    {featureType: "administrative.locality", elementType: "labels.text", stylers: [{ visibility: 'off' }] },
+    {featureType: "administrative.locality", elementType: "labels.icon", stylers: [{ visibility: 'off' }] },
+    {featureType: "administrative.neighborhood", stylers: [{ visibility: 'off' }] }, 
+    {featureType: "administrative.land_parcel", stylers: [{ visibility: 'off' }] }, 
     {featureType: "road", stylers: [{ visibility: "simplified" }, { saturation: -99 }, { gamma: 2.22 }] }, 
     {featureType: "poi", elementType: "labels", stylers: [{ visibility: "off" }] }, 
+    {featureType: "landscape", elementType: "labels", stylers: [{ visibility: "off" }] }, 
     {featureType: "road.arterial", stylers: [{ visibility: 'off' }] }, 
     {featureType: "road.local", elementType: "labels", stylers: [{ visibility: 'off' }] }, 
     {featureType: "transit", stylers: [{ visibility: 'off' }] }, 
