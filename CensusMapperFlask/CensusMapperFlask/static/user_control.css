@@ -1,3 +1,16 @@
+h3 {
+    text-align: center;
+}
+
+#create_desc {
+    font-size: 80%;
+    text-align: center;
+}
+
+.form_title {
+    font-weight: bold;
+}
+
 #mask {
     display: none;
     background: #000000;

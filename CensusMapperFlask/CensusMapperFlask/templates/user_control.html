@@ -1,14 +1,16 @@
+    
     <div id="login" class="login-popup">
       <a href="#" class="close"><img src="{{ url_for('static', filename='close_button.png') }}" class="btn_close" title="Close Window" alt="Close" /></a>
+      <h3>Login</h3>
         <form method="post" class="signin" action="login">
           <input type="hidden" id="sourcepage"  name="sourcepage" value={{ request.path }} />
           <fieldset class="textbox">
             <label class="username">
-              <span>Username</span>
+              <span class="form_title">Username</span>
               <input id="login_name" name="login_name" value="" type="text" placeholder="Username">
             </label>
             <label class="password">
-              <span>Password</span>
+              <span class="form_title">Password</span>
               <input id="login_password" name="login_password" value="" type="password" placeholder="Password">
             </label>
           </fieldset>
@@ -18,23 +20,25 @@
 
     <div id="create" class="create-popup">
       <a href="#" class="close"><img src="{{ url_for('static', filename='close_button.png') }}" class="btn_close" title="Close Window" alt="Close" /></a>
+      <h3>Create Account</h3>
+      <p id="create_desc">Please enter the following information to <br>make a new CensusMapper account.<br>All fields are required.</p>
         <form method="post" class="signin" action="create_user">
           <input type="hidden" id="sourcepage"  name="sourcepage" value={{ request.path }} />
           <fieldset class="textbox">
             <label class="username">
-              <span>Username</span>
+              <span class="form_title">Username</span>
               <input id="new_name" name="new_name" value="" type="text" placeholder="username">
             </label>
             <label class="email">
-              <span>Email address</span>
+              <span class="form_title">Email address</span>
               <input id="new_email" name="new_email" value="" type="text" placeholder="email address">
             </label>
             <label class="password">
-              <span>Password</span>
+              <span class="form_title">Password</span>
               <input id="new_password1" name="new_password1" value="" type="password" placeholder="password">
             </label>
             <label class="password">
-              <span>Verify password</span>
+              <span class="form_title">Verify password</span>
               <input id="new_password2" name="new_password2" value="" type="password" placeholder="password">
             </label>
           </fieldset>
