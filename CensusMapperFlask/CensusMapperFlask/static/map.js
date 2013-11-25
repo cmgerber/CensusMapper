@@ -23,6 +23,9 @@ function main(zoomval, lat, lng) {
     }
   });
   
+  // add search bar to upper right
+  add_search_box(map);
+  
   // Define the map style to appear very minimalistic and washed out
   var mapStyle = [{stylers: [{ saturation: -65 }, { gamma: 1.52 }] }, 
     {featureType: "administrative", stylers: [{ saturation: -95 }, { gamma: 2.26 }] }, 
@@ -56,6 +59,28 @@ function add_tiles(map, sqlquery, cartocss) {
   .addTo(map)
   
 };
+
+function add_search_box(map) {
+  
+  var input = document.getElementById('pac-input');
+  map.controls[google.maps.ControlPosition.TOP_RIGHT].push(input);
+  
+  var searchBox = new google.maps.places.SearchBox(input);
+  
+  google.maps.event.addListener(searchBox, 'places_changed', function() {
+    var places = searchBox.getPlaces();
+    var place = places[0];
+    if (place.geometry.viewport) {
+      map.fitBounds(place.geometry.viewport);
+      if (map.getZoom() > 8) {
+        map.setZoom(8);
+      }
+    } else {
+      map.setCenter(place.geometry.location);
+      map.setZoom(12);
+    }
+  })
+}
 
 function add_legend(innerHTML) {
   
