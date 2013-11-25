@@ -3,13 +3,18 @@
   <head>
     <link rel="stylesheet" href="{{ url_for('static', filename='home.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='header.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='user_control.css') }}">
 
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
-    <title>Home Page</title>
+    <script type="text/javascript" src="{{ url_for('static', filename='jquery-1.7.2.min.js') }}"></script>
+    <script>window.jQuery || document.write('<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js">\x3C/script>')</script>
+
+    <title>CensusMapper</title>
   </head>
   <body>
     {% include 'header.html' %}
+    {% include 'user_control.html' %}
     
     <div id="maincontent">
       <h1 id="title" align="center">Welcome to CensusMapper!</h1>
