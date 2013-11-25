@@ -29,6 +29,13 @@ p {
     text-decoration: none;
     font-weight: bold;
 }
+
+.logoutlinktext {
+    color: #FFFFFF;
+    text-decoration: none;
+    font-weight: bold; 
+}
+
 #login_links {
     float: right;
     padding-right: 25px;

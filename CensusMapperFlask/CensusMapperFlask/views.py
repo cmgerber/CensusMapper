@@ -36,7 +36,7 @@ def create_account():
         db.session.add(new_user)
         db.session.commit()
     
-    #flash('New account was successfully created. Please login.')
+    #flask.flash('New account was successfully created. Please login.')
     return flask.redirect(flask.url_for('home'))
 
 # login user request
@@ -53,6 +53,14 @@ def login_to_account():
         flask.flash('You were successfully logged in')
         return flask.redirect(request.form['sourcepage'])
     
+    # flask.flash('Your username or password did not mach. Please try again.')
+    return flask.redirect(flask.url_for('home'))
+
+# logout user request
+@app.route('/logout')
+def logout_of_account():
+    #to log out of current session
+    flask.session.pop('username', None)
     return flask.redirect(flask.url_for('home'))
 
 
