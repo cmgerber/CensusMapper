@@ -5,7 +5,7 @@
           </span>
           <span id="login_links">
             {%- if session.username -%}
-              <!-- <p class="linktext">Logged in as  --><a class="userlinktext" href="'{{ url_for('home') }}'">{{ session.username }}</a>
+              <a class="userlinktext" href="'{{ url_for('home') }}'">{{ session.username }}</a>
 
               <a class="logoutlinktext" href="/logout">Logout</a></p>
             {%- else -%}
@@ -18,7 +18,13 @@
         <div id="titlebar">
           {%- if mapname -%}
             <span><a id="titletext">{{ mapname }}</a></span>
-            <span id="action_buttons"></span>
+            <span id="action_buttons">
+              <a class="linkaction save-window" href="/save">Save</a>
+              |
+              <a class="linkaction export-window" href="/export">Export</a>
+              |
+              <a class="linkaction share-window" href="/share">Share</a>
+            </span>
           {%- endif -%}
         </div>
     </header>

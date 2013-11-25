@@ -2,6 +2,7 @@
     <div id="login" class="login-popup">
       <a href="#" class="close"><img src="{{ url_for('static', filename='close_button.png') }}" class="btn_close" title="Close Window" alt="Close" /></a>
       <h3>Login</h3>
+      <p id="login_desc">Welcome back to CensusMapper!</p>
         <form method="post" class="signin" action="login">
           <input type="hidden" id="sourcepage"  name="sourcepage" value={{ request.path }} />
           <fieldset class="textbox">

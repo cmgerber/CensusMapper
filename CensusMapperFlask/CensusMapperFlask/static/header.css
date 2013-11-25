@@ -44,3 +44,19 @@ p {
     vertical-align: middle;
 }
 
+#action_buttons {
+    float: right;
+    padding-right: 25px;
+    padding-top: 5px;
+    vertical-align: middle;
+}
+
+.linkaction {
+    color: #000000;
+    text-decoration: none;
+}
+
+.linkaction:hover,
+.linkaction:active {
+    color: rgb(241,119,103);
+}

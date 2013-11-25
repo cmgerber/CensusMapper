@@ -2,10 +2,14 @@ h3 {
     text-align: center;
 }
 
-#create_desc {
+#create_desc, #login_desc {
     font-size: 80%;
     text-align: center;
 }
+
+/*#login_desc {
+    font-size: 80%;
+}*/
 
 .form_title {
     font-weight: bold;
