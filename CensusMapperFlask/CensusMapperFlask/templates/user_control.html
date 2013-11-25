@@ -1,6 +1,7 @@
     <div id="login" class="login-popup">
       <a href="#" class="close"><img src="{{ url_for('static', filename='close_button.png') }}" class="btn_close" title="Close Window" alt="Close" /></a>
         <form method="post" class="signin" action="login">
+          <input type="hidden" id="sourcepage"  name="sourcepage" value={{ request.path }} />
           <fieldset class="textbox">
             <label class="username">
               <span>Username</span>
@@ -11,13 +12,14 @@
               <input id="login_password" name="login_password" value="" type="password" placeholder="Password">
             </label>
           </fieldset>
-          <input type="submit" class="submit button" value="Create Account">
+          <input type="submit" class="submit button" value="Sign In">
         </form>
       </div>
 
     <div id="create" class="create-popup">
       <a href="#" class="close"><img src="{{ url_for('static', filename='close_button.png') }}" class="btn_close" title="Close Window" alt="Close" /></a>
         <form method="post" class="signin" action="create_user">
+          <input type="hidden" id="sourcepage"  name="sourcepage" value={{ request.path }} />
           <fieldset class="textbox">
             <label class="username">
               <span>Username</span>
@@ -36,7 +38,7 @@
               <input id="new_password2" name="new_password2" value="" type="password" placeholder="password">
             </label>
           </fieldset>
-          <input type="submit" class="submit button" value="Sign In">
+          <input type="submit" class="submit button" value="Create Account">
         </form>
       </div>
 

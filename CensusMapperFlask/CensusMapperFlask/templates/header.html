@@ -4,8 +4,8 @@
             <a id='homeLink' href="{{ url_for('home') }}"><img src="{{ url_for('static', filename='logo_small.png') }}" border="0" alt="CensusMapper"></a>
           </span>
           <span id="login_links">
-            {%- if username -%}
-              <p class="linktext">Logged in as <a class="userlinktext" href="{{ url_for('home') }}">{{ username }}</a></p>
+            {%- if session.username -%}
+              <p class="linktext">Logged in as <a class="userlinktext" href="{{ url_for('home') }}">{{ session.username }}</a></p>
             {%- else -%}
               <a class="linktext create-window" href="#create">Create account</a>
               |

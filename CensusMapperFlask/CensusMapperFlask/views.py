@@ -1,27 +1,62 @@
 #!../env/bin/python
 
 from CensusMapperFlask import app
+from db_models import db, User
 import flask
-from flask import jsonify
+from flask import request
+from hashlib import md5
+from pgconn import secret_key
 
+# homepage
 @app.route('/')
 def home():
     return flask.render_template('home.html')
 
-@app.route('/create_user')
-def create_user():
-    return flask.render_template('create_account.html')
 
-@app.route('/login')
-def login():
-    return flask.render_template('login.html')
-
+# main mapping page
 @app.route('/map')
 def map():
     return flask.render_template('main_map.html', mapname='Untitled Map')
 
 
-# "hidden" functions that respond jQuery functions
+# create user request
+@app.route('/create_user', methods = ['POST'])
+def create_account():
+    #new user name input
+    new_user_name = str(request.form['new_name'])
+    new_email = str(request.form['new_email'])
+    new_password1 = md5(str(request.form['new_password1'])).hexdigest()
+    new_password2 = md5(str(request.form['new_password2'])).hexdigest()
+    new_access = 'regular'
+    new_user = User(new_user_name, new_email, new_password1, new_access)
+    
+    if new_password1 == new_password2:
+        flask.session['username'] = new_user_name
+        #commits the new user to the db
+        db.session.add(new_user)
+        db.session.commit()
+    
+    #flash('New account was successfully created. Please login.')
+    return flask.redirect(flask.url_for('home'))
+
+# login user request
+@app.route('/login', methods = ['POST'])
+def login_to_account():
+    #to access a user that logged in
+    login_user_name = str(request.form['login_name'])
+    login_user_password = md5(str(request.form['login_password'])).hexdigest()
+    login_user = User.query.filter_by(username=login_user_name, password=login_user_password).first()
+    
+    #check password
+    if login_user:
+        flask.session['username'] = login_user_name
+        flask.flash('You were successfully logged in')
+        return flask.redirect(request.form['sourcepage'])
+    
+    return flask.redirect(flask.url_for('home'))
+
+
+# add layer request
 @app.route('/_add_layer')
 def add_layer():
     
@@ -32,4 +67,6 @@ def add_layer():
 
     print 'here'
     
-    return jsonify(sqlquery=sqlquery, cartocss=cartocss, js_command=js_command)
+    return flask.jsonify(sqlquery=sqlquery, cartocss=cartocss, js_command=js_command)
+
+app.secret_key = secret_key
