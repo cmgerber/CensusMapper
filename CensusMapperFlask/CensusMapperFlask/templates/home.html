@@ -4,6 +4,7 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='home.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='header.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='user_control.css') }}">
+    <style type="text/css">header {height: 24px;}</style>
 
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
@@ -15,11 +16,13 @@
   <body>
     {% include 'header.html' %}
     {% include 'user_control.html' %}
-    
     <div id="maincontent">
-      <h1 id="title" align="center">Welcome to CensusMapper!</h1>
-      <img src="{{url_for('static', filename='map_of_the_day_test.jpg') }}" id="map_of_the_day">
-      <a id="GetStarted" href="{{ url_for('map') }}">Get Started</a>
+      <h3 id="motd_title">Map of the Day</h3>
+      <img id="map_of_the_day" src="{{url_for('static', filename='map_of_the_day_test.jpg') }}">
+      <p>&nbsp;</p>
+      <a id="tutorial" href="{{ url_for('map') }}">Get Started With a Tour</a>
+      <a id="direct_to_map" href="{{ url_for('map') }}">or go directly to the map</a>
+      <p>&nbsp;</p>
     </div>
     
 

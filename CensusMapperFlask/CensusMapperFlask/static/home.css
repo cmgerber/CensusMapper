@@ -2,8 +2,15 @@ html { height: 100% }
 
 body {
     font-family: Helvetica, Arial, sans-serif;
+    background-color: #F8F8F8;
     margin: 0;
     padding: 0;
+}
+
+#titlebar { 
+    height: 0; 
+    padding: 0; 
+    margin: 0; 
 }
 
 #maincontent {
@@ -15,29 +22,42 @@ body {
     margin-left: auto;
     margin-right: auto;
     padding-bottom: 5px;
+    border: 2px solid #cccccc;
 }
 
-#GetStarted {
+#tutorial {
     font-family: Helvetica, Arial, sans-serif;
-    font-weight: bold;
-    color: #000000;
+    background: #444444;
+    background: -moz-linear-gradient(0% 100% 90deg, #6b6b6b, #444444);
+    background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#6b6b6b), to(#444444));
+    background: -o-linear-gradient(top, #6b6b6b, #444444);
+    font-weight: medium;
+    font-size: 110%;
+    color: #ffffff;
     display: block;
-    width: 100px;
-    background-color: #fafafa;
-    border-radius: 1px;
-    border: 1px solid #000000;
+    width: 210px;
+    border-radius: 3px;
+    border: 0;
     padding: 3px;
-    font-size: 1.1em;
     margin-left: auto;
     margin-right: auto;
 }
 
-#GetStarted:link,
-#GetStarted:visited {
+#direct_to_map {
+    font-weight: lighter;
+    font-size: 75%;
+}
+
+#tutorial:link,
+#tutorial:visited,
+#direct_to_map:link,
+#direct_to_map:visited {
     text-decoration: none;
 }
 
-#GetStarted:hover,
-#GetStarted:active {
+#tutorial:hover,
+#tutorial:active,
+#direct_to_map:hover,
+#direct_to_map:active {
     color: rgb(241,119,103);
 }

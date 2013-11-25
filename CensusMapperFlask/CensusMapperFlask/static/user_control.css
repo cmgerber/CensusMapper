@@ -13,9 +13,9 @@
 
 .login-popup, .create-popup {
     display: none;
-    background: #333333;
+    background: #EEEEEE;
     padding: 10px;
-    border: 2px solid #dddddd;
+    border: 2px solid #333333;
     float: left;
     font-family: Helvetica, Arial, sans-serif;
     font-size: 1.2em;
@@ -23,9 +23,9 @@
     top: 50%;
     left: 50%;
     z-index: 99999;
-    border-radius: 3px 3px 3px 3px;
-    -moz-border-radius: 3px;
-    -webkit-border-radius: 3px;
+    border-radius: 5px;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
 }
 
 img.btn_close {
@@ -39,7 +39,7 @@ fieldset {
 
 form.signin .textbox label {
     display: block;
-    padding-bottom: 7px;
+    padding-bottom: 5px;
 }
 
 form.signin .textbox span {
@@ -47,52 +47,44 @@ form.signin .textbox span {
 }
 
 form.signin p, form.signin span {
-    color: #999;
-    font-size: 11px;
-    line-height: 18px;
+    color: #222222;
+    font-size: 70%;
+    padding-top: 2px;
+    padding-bottom: 2px;
+    margin-right: auto;
 }
 
 form.signin .textbox input {
-    background: #666666;
-    border-bottom: 1px solid #333;
-    border-left: 1px solid #000;
-    border-right: 1px solid #333;
-    border-top: 1px solid #000;
-    color: #fff;
-    border-radius: 3px 3px 3px 3px;
+    background: #dddddd;
+    border: 1px solid #333333;
+    color: #000000;
+    border-radius: 3px;
     -moz-border-radius: 3px;
     -webkit-border-radius: 3px;
-    font: 13px Arial, Helvetica, sans-serif;
-    padding: 6px 6px 4px;
+    font: Arial, Helvetica, sans-serif;
+    font-size: 60%;
+    padding: 6px;
     width: 200px;
 }
 
-form.signin input:-moz-placeholder {
-    color: #bbb;
-    text-shadow: 0 0 2px #000;
-}
-
-form.signin input::-webkit-input-placeholder {
-    color: #bbb;
-    text-shadow: 0 0 2px #000;
-}
 
 .button {
-    background: -moz-linear-gradient(center top, #f3f3f3, #dddddd);
-    background: -webkit-gradient(linear, left top, left bottom, from(#f3f3f3), to(#dddddd));
-    background: -o-linear-gradient(top, #f3f3f3, #dddddd);
-    border-color: #000;
-    border-width: 1px;
+    font-family: Helvetica, Arial, sans-serif;
+    background: #444444;
+    background: -moz-linear-gradient(0% 100% 90deg, #666666, #444444);
+    background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#666666), to(#444444));
+    background: -o-linear-gradient(top, #666666, #444444);
+    border-width: 0;
     border-radius: 4px 4px 4px 4px;
     -moz-border-radius: 4px;
     -webkit-border-radius: 4px;
-    color: #333;
+    color: #ffffff;
     cursor: pointer;
     display: block;
-    padding: 6px 6px 4px;
-    margin-top: 10px;
+    padding: 6px 8px 6px 8px;
+    margin-top: 4px;
     margin-left: auto;
     margin-right: auto;
-    font: 12px;
-    width: 214px;
+    font-size: 90%;
+    font-weight: lighter;
 }
