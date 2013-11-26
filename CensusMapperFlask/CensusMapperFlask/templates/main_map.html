@@ -42,7 +42,7 @@
         
         $('#foldertab').click(function(){
           if($(this).hasClass('show')){
-            $( "#foldertab, #mainmenu" ).animate({
+            $( "#foldertab, #mainmenu, .secondpanel" ).animate({
               left: "+=180"
               }, 300, function() {
                 // Animation complete.
@@ -50,7 +50,7 @@
             $(this).removeClass('show').addClass('pos1');    
           }
           else if ($(this).hasClass('pos1')){      
-            $( "#foldertab, #mainmenu" ).animate({
+            $( "#foldertab, #mainmenu, .secondpanel" ).animate({
               left: "-=180"
               }, 300, function() {
                 // Animation complete.
@@ -58,32 +58,50 @@
             $(this).removeClass('pos1').addClass('show');    
           }
           else if ($(this).hasClass('pos2')){      
-            $( "#censusmenu" ).css("left", "-400px")
-            $( "#otherdatamenu" ).css("left", "-400px")
-            $( "#managelayermenu" ).css("left", "-400px")
-            $( "#foldertab" ).animate({
+            $( "#foldertab, .secondpanel" ).animate({
               left: "-=400"
               }, 300, function() {
-                // Animation complete.
+                $( "#censusmenu" ).css("left", "-220px");
+                $( "#otherdatamenu" ).css("left", "-220px");
+                $( "#managelayersmenu" ).css("left", "-220px");
               });
             $(this).removeClass('pos2').addClass('pos1');    
           }
         });
-
-        $('#findcensusdata').click(function(){
-          $( "#otherdatamenu" ).css("display", "none")
-          $( "#managelayermenu" ).css("display", "none")
-          $( "#foldertab" ).animate({
+        
+        var reset_tabs = function(othertabs) {
+          $( othertabs ).animate({
+              left: "-=400"
+              }, 300, function() {
+                $( othertabs ).css("left", "-220px");
+              });
+          if ($("#foldertab").hasClass('pos1')){
+            $( "#foldertab" ).animate({
               left: "+=400"
-              }, 200, function() {
-                // Animation complete.
+              }, 300, function() {
+                $("#foldertab").removeClass('pos1').addClass('pos2');
               });
-          $("#foldertab").removeClass('pos1').addClass('pos2');
+          }
+        };
+        
+        $('#findcensusdata').click(function(){
+          var othertabs = "#otherdatamenu, #managelayersmenu"
           $( "#censusmenu" ).animate({
-              left: "+=580"
-              }, 200, function() {
+              left: "+=400"
+              }, 300, function() {
                 // Animation complete.
               });
+          reset_tabs(othertabs);
+        });
+        
+        $('#addotherdata').click(function(){
+          var othertabs = "#censusmenu, #managelayersmenu"
+          $( "#otherdatamenu" ).animate({
+              left: "+=400"
+              }, 300, function() {
+                // Animation complete.
+              });
+          reset_tabs(othertabs);
         });
         
       });
@@ -98,7 +116,9 @@
       <a href="#" class="mainmenuitem" id="addotherdata">Add Other Data</a>
       <a href="#" class="mainmenuitem" id="managelayers">Manage Layers</a>
     </div>
-    <div id="censusmenu"></div>
+    <div id="censusmenu" class="secondpanel"><h4>This is a menu to find Census data</h4></div>
+    <div id="otherdatamenu" class="secondpanel"><h4>This is a menu to add other data</h4></div>
+    <div id="managelayersmenu" class="secondpanel"><h4>This is a menu to manage your layers</h4></div>
   
   </body>
   
