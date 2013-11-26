@@ -47,17 +47,45 @@
               }, 300, function() {
                 // Animation complete.
               });
-            $(this).removeClass('show').addClass('hide');    
+            $(this).removeClass('show').addClass('pos1');    
           }
-          else {      
+          else if ($(this).hasClass('pos1')){      
             $( "#foldertab, #mainmenu" ).animate({
               left: "-=180"
               }, 300, function() {
                 // Animation complete.
               });
-            $(this).removeClass('hide').addClass('show');    
+            $(this).removeClass('pos1').addClass('show');    
+          }
+          else if ($(this).hasClass('pos2')){      
+            $( "#censusmenu" ).css("left", "-400px")
+            $( "#otherdatamenu" ).css("left", "-400px")
+            $( "#managelayermenu" ).css("left", "-400px")
+            $( "#foldertab" ).animate({
+              left: "-=400"
+              }, 300, function() {
+                // Animation complete.
+              });
+            $(this).removeClass('pos2').addClass('pos1');    
           }
         });
+
+        $('#findcensusdata').click(function(){
+          $( "#otherdatamenu" ).css("display", "none")
+          $( "#managelayermenu" ).css("display", "none")
+          $( "#foldertab" ).animate({
+              left: "+=400"
+              }, 200, function() {
+                // Animation complete.
+              });
+          $("#foldertab").removeClass('pos1').addClass('pos2');
+          $( "#censusmenu" ).animate({
+              left: "+=580"
+              }, 200, function() {
+                // Animation complete.
+              });
+        });
+        
       });
       
       adjust_height();

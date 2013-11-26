@@ -75,3 +75,13 @@ ul {
     padding-left: 6px;
     color: #444444;
 }
+
+#censusmenu {
+    position: absolute;
+    background-color: rgb(248,245,225);
+    border: 1px solid #e0e0e0;
+    width: 400px;
+    height: 100%;
+    z-index: 998;
+    left: -400px;
+}
