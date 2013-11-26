@@ -53,9 +53,16 @@ CREATE TABLE ColorSchemes (
     SchemeType varchar(11)
 );
 
+CREATE TABLE Categories (
+    CategoryID serial4 PRIMARY KEY,
+    Category varchar(20),
+    DefaultColorScheme varchar(8),
+    DefaultBreaks varchar(100)
+);
+
 CREATE TABLE Measures (
     MeasureID serial4 PRIMARY KEY,
-    Category varchar(20),
+    CategoryID int4 REFERENCES Categories (CategoryID),
     Description varchar(100)
 );
 

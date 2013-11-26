@@ -104,15 +104,28 @@ class ColorScheme(db.Model):
         self.bluevalue = bluevalue
         self.schemetype = schemetype
 
+class Category(db.Model):
+    __tablename__ = 'categories'
+    
+    categoryid = db.Column(db.Integer, primary_key = True)
+    category = db.Column(db.String(20))
+    defaultcolorscheme = db.Column(db.String(8))
+    defaultbreaks = db.Column(db.String(100))
+    
+    def __init__(self, category, defaultcolorscheme, defaultbreaks):
+        self.category = category
+        self.defaultcolorscheme = defaultcolorscheme
+        self.defaultbreaks = defaultbreaks
+
 class Measure(db.Model):
     __tablename__ = 'measures'
     
     measureid = db.Column(db.Integer, primary_key = True)
-    category = db.Column(db.String(20))
+    categoryid = db.Column(db.Integer, db.ForeignKey('categories.categoryid'))
     description = db.Column(db.String(100))
     
-    def __init__(self, category, description):
-        self.category = category
+    def __init__(self, categoryid, description):
+        self.categoryid = categoryid
         self.description = description
 
 class Numerator(db.Model):
