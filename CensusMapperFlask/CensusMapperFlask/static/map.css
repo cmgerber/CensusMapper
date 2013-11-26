@@ -8,6 +8,10 @@ p { margin: 0;
     padding: 0; 
 }
 
+ul { 
+    list-style-type: none; 
+}
+
 #titlebar { 
     height: 32px; 
     padding: 0; 
@@ -42,4 +46,32 @@ p { margin: 0;
     -webkit-border-radius: 8px;
     border: 1px solid #cccccc;
     outline: none;
+}
+
+#foldertab {
+    z-index: 1000;
+    position: absolute;
+    top: 40%;
+    left: 1px;
+}
+
+#mainmenu {
+    position: absolute;
+    background-color: rgb(248,245,225);
+    border: 1px solid #e0e0e0;
+    width: 180px;
+    height: 100%;
+    z-index: 999;
+    left: -180px;
+}
+
+.mainmenuitem {
+    display: block;
+    font-family: Helvetica, Arial, sans-serif;
+    font-weight: lighter;
+    font-size: 120%;
+    line-height: 36px;
+    text-decoration: none;
+    padding-left: 6px;
+    color: #444444;
 }

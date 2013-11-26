@@ -13,7 +13,6 @@
     <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?libraries=places&key=AIzaSyBrapPljIQ5AB6-ecF_yROkg-XgbdR4xfg&sensor=false"></script>
     <script type="text/javascript" src="http://libs.cartocdn.com/cartodb.js/v3/cartodb.uncompressed.js"></script>
     <script type="text/javascript" src="{{ url_for('static', filename='map.js') }}"></script>
-    <script type="text/javascript">$SCRIPT_ROOT = {{ request.script_root|tojson|safe }};</script>
     
     <title>CensusMapper - {{ mapname }}</title>
   </head>
@@ -31,7 +30,7 @@
       $(document).ready(function() {
         
         $('#titletext').bind('click', function() {
-          $.getJSON($SCRIPT_ROOT + '/_add_layer', {
+          $.getJSON('/_add_layer', {
           }, function(data) {
             var sqlquery = data.sqlquery;
             var cartocss = data.cartocss;
@@ -41,11 +40,37 @@
           return false;
         });
         
+        $('#foldertab').click(function(){
+          if($(this).hasClass('show')){
+            $( "#foldertab, #mainmenu" ).animate({
+              left: "+=180"
+              }, 300, function() {
+                // Animation complete.
+              });
+            $(this).removeClass('show').addClass('hide');    
+          }
+          else {      
+            $( "#foldertab, #mainmenu" ).animate({
+              left: "-=180"
+              }, 300, function() {
+                // Animation complete.
+              });
+            $(this).removeClass('hide').addClass('show');    
+          }
+        });
       });
       
       adjust_height();
       window.onresize = adjust_height;
     </script>
+
+    <div id="foldertab" class="show"><img src="{{ url_for('static', filename='folder_tab.png') }}" border="0" alt="folder tab"></div>
+    <div id="mainmenu">
+      <a href="#" class="mainmenuitem" id="findcensusdata">Find Census Data</a>
+      <a href="#" class="mainmenuitem" id="addotherdata">Add Other Data</a>
+      <a href="#" class="mainmenuitem" id="managelayers">Manage Layers</a>
+    </div>
+    <div id="censusmenu"></div>
   
   </body>
   
