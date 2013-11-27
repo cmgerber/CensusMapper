@@ -104,47 +104,47 @@ function add_search_box(map) {
   })
 }
 
-function add_legend(innerHTML) {
+function add_legend(titletext, colorarray, valuearray) {
   
-  if (typeof innerHTML !== 'undefined') {
-    // delete old legend if necessary
-    var oldlegend = document.getElementById('legendbox');
-    if (oldlegend) {
-      oldlegend.parentNode.removeChild(oldlegend);
-    }
-
-    // Create a div to hold the control.
-    var controlDiv = document.createElement('div');
-    controlDiv.setAttribute('id', 'legendbox');
-    
-    // Set CSS styles for the DIV containing the control
-    // Setting padding to 5 px will offset the control
-    // from the edge of the map.
-    controlDiv.style.padding = '10px';
-    
-    // Set CSS for the control border.
-    var controlUI = document.createElement('div');
-    controlUI.style.backgroundColor = 'white';
-    controlUI.style.borderStyle = 'solid';
-    controlUI.style.borderWidth = '1px';
-    controlUI.style.borderColor = '#DDDDDD';
-    controlUI.style.cursor = 'pointer';
-    controlUI.style.textAlign = 'left';
-    controlDiv.appendChild(controlUI);
-    
-    // Set CSS for the control interior.
-    var controlText = document.createElement('div');
-    controlText.style.fontFamily = 'Helvetica,Arial,sans-serif';
-    controlText.style.fontSize = '14px';
-    controlText.style.paddingTop = '5px';
-    controlText.style.paddingBottom = '5px';
-    controlText.style.paddingLeft = '5px';
-    controlText.style.paddingRight = '5px';
-    controlText.innerHTML = innerHTML;
-    controlUI.appendChild(controlText);
-    
-    map.controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(controlDiv);
+  // delete old legend if necessary
+  var oldlegend = document.getElementById('legendbox');
+  if (oldlegend) {
+    oldlegend.parentNode.removeChild(oldlegend);
   }
+  
+  // Create a div to hold the control.
+  var controlDiv = document.createElement('div');
+  controlDiv.setAttribute('id', 'legendbox');
+  
+  // add legend div
+  var legendDiv = document.createElement('div');
+  legendDiv.setAttribute('id', 'my-legend');
+  controlDiv.appendChild(legendDiv);
+  
+  // add title
+  var titleDiv = document.createElement('div');
+  titleDiv.setAttribute('id', 'legend-title');
+  titleDiv.innerHTML = titletext;
+  legendDiv.appendChild(titleDiv);
+  
+  // add scale
+  var scaleDiv = document.createElement('div');
+  scaleDiv.setAttribute('id', 'legend-scale');
+  legendDiv.appendChild(scaleDiv);
+  
+  // add labels container
+  var labelDiv = document.createElement('ul');
+  labelDiv.setAttribute('id', 'legend-labels');
+  scaleDiv.appendChild(labelDiv);
+  
+  // add individual labels
+  for (var i = 0; i < valuearray.length; i++) {
+    var labelItem = document.createElement('li');
+    labelItem.innerHTML = "<span style='background:rgb("+colorarray[i+1][0]+","+colorarray[i+1][1]+","+colorarray[i+1][2]+")'></span>"+valuearray[i]
+    labelDiv.appendChild(labelItem)
+  }
+  
+  map.controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(controlDiv);
   
 };
 

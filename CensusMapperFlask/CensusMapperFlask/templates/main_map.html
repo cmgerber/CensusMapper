@@ -29,17 +29,6 @@
       
       $(document).ready(function() {
         
-        // adding a specific layer to map when the element with id titletext is clicked
-        $('#titletext').bind('click', function() {
-          $.getJSON('/_add_layer', {}, function(data) {
-            var sqlquery = data.sqlquery;
-            var cartocss = data.cartocss;
-            add_tiles(map, sqlquery, cartocss);
-            add_legend('<strong>hello</strong>');
-          });
-          return false;
-        });
-        
         // show individual census measures when a particular category is clicked
         $('.censuscategory').bind('click', function() {
           $.getJSON('/_get_measures', {
@@ -63,12 +52,30 @@
         
         // render map tiles if measure is picked
         $('.censusmeasure').live('click', function() {
+          
+          $("#mask2").fadeIn(300);
+          $("#mask2").append("<div id=\"waiting\"><img src=\"{{ url_for('static', filename='waiting.gif') }}\" title=\"waiting\" alt=\"waiting\" /></div>")
+          $("#waiting").css({ 
+              'position' : 'fixed',
+              'top' : '50%',
+              'left' : '50%',
+              'margin' : '-75px 0 0 -105px'
+          });
+          
           $.getJSON('/_add_measure_layer', {
             measureid: $(this).attr("id")
           }, function(data) {
             var sqlquery = data.sqlquery;
             var cartocss = data.cartocss;
+            var titletext = data.titletext;
+            var colorarray = data.colors;
+            var valuearray = data.bins;
             add_tiles(map, sqlquery, cartocss);
+            console.log(colorarray);
+            console.log(valuearray);
+            add_legend(titletext, colorarray, valuearray);
+            $("#mask2").empty();
+            $("#mask2").fadeOut(10);
           });
           return false;
         });

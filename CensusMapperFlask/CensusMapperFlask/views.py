@@ -86,6 +86,7 @@ def get_measures():
 def add_measure_layer():
     # get measure id
     measureid = request.args['measureid'].split('-')[1]
+    measure = Measure.query.filter_by(measureid=measureid).first()
     
     # get numerator and denominator
     num = [n.fieldid for n in Numerator.query.filter_by(measureid=measureid)]
@@ -98,7 +99,7 @@ def add_measure_layer():
     colors = {k: (r,g,b) for k, r, g, b in colorlist}
 
     # get natural breaks
-    breaks = Measure.query.filter_by(measureid=measureid).first().defaultbreaks
+    breaks = measure.defaultbreaks
     if not breaks:
         cl = connect_to_cartodb()
         sql_start = "select CDB_JenksBins(array_agg(measure::numeric), 5) cdb_jenksbins, max(measure) maxval " + \
@@ -114,6 +115,18 @@ def add_measure_layer():
     else:
         bins = [float(b) for b in breaks.split('|')]
     
+    # write bin labels
+    bin_labels = []
+    avg_bin = sum(bins) / len(bins)
+    
+    for i in range(len(bins)):
+        if avg_bin < 0.1:
+            bin_labels.append('%.1f%% to %.1f%%' % (100.0 * 0 if i == 0 else 100.0 * bins[i-1], 100.0 * bins[i]))
+        elif avg_bin < 1:
+            bin_labels.append('%.0f%% to %.0f%%' % (100.0 * 0 if i == 0 else 100.0 * bins[i-1], 100.0 * bins[i]))
+        else:
+            bin_labels.append('{0:,}'.format(0 if i == 0 else bins[i-1]) + ' to ' + '{0:,}'.format(bins[i]))
+    
     # generate css colors
     csscolors = ''
     for i in range(4,-1,-1):
@@ -128,25 +141,11 @@ def add_measure_layer():
                "sum(case when b.fieldid in (%s) then cast(b.value as float) else 0 end)" % nums
     if denom:
         sqlquery += " / (sum(case when b.fieldid in (%s) then cast(b.value as float) else 0 end) + 1)" % dens
-
+    
     sqlquery += " measure FROM censusgeo a JOIN censusdata b ON a.fipscode = b.fipscode " + \
                 "GROUP BY a.cartodb_id, a.geotype, a.the_geom_webmercator"
     
-    print sqlquery
-    
-    return flask.jsonify(sqlquery=sqlquery, cartocss=cartocss, bins=bins, colors=colors)
+    return flask.jsonify(sqlquery=sqlquery, cartocss=cartocss, bins=bin_labels, colors=colors, titletext=measure.description)
 
-# add layer request
-@app.route('/_add_layer')
-def add_layer():
-    
-    cartocss = "#censusgeo { line-width: .1; line-color: #444444; polygon-opacity: 0; line-opacity: 0;[ measure <= 1.00 ] { polygon-fill: rgb(179,0,0)}[ measure <= 0.40 ] { polygon-fill: rgb(227,51,74)}[ measure <= 0.25 ] { polygon-fill: rgb(252,89,141)}[ measure <= 0.15 ] { polygon-fill: rgb(253,138,204)}[ measure <= 0.05 ] { polygon-fill: rgb(254,217,240)} [zoom <= 4][geotype = 'state'] { polygon-opacity: 0.8; line-opacity: 1; } [zoom > 4][zoom <= 8][geotype = 'county'] { polygon-opacity: 0.72; line-opacity: 1; } [zoom > 4][zoom <= 8][geotype = 'state'] { polygon-opacity: 0; line-opacity: 1; line-width: 1; line-color: #222222; } [zoom > 8][geotype = 'tract'] { polygon-opacity: 0.64; line-opacity: 1; }}"
-    sqlquery = "SELECT a.cartodb_id,a.geotype,a.the_geom_webmercator, sum(case when b.fieldid in ('B03002012') then cast(b.value as float) else 0 end)/(sum(case when b.fieldid in ('B01001001') then cast(b.value as float) else 0 end) + 1) measure FROM censusgeo a JOIN censusdata b ON a.fipscode = b.fipscode GROUP BY a.cartodb_id, a.geotype, a.the_geom_webmercator"
-    
-    js_command = ''
-
-    print 'here'
-    
-    return flask.jsonify(sqlquery=sqlquery, cartocss=cartocss, js_command=js_command)
 
 app.secret_key = secret_key

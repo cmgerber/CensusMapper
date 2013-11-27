@@ -96,3 +96,44 @@ ul {
 #managelayersmenu {
     z-index: 6000;
 }
+
+#legendbox {
+    padding: 5px;
+    width: 150px;
+    margin-left: 15px;
+    background-color: #EEEEEE;
+    opacity: 0.85;
+}
+
+#legend-title {
+    text-align: left;
+    margin-bottom: 5px;
+    font-weight: bold;
+    font-family: Helvetica, Arial, sans-serif;
+    font-size: 110%;
+}
+#legend-labels ul {
+    margin: 0;
+    margin-bottom: 5px;
+    padding: 0;
+    float: left;
+    list-style: none;
+}
+#legend-scale ul li {
+    font-size: 90%;
+    font-family: Helvetica, Arial, sans-serif;
+    font-weight: medium;
+    list-style: none;
+    margin-left: 0;
+    line-height: 18px;
+    margin-bottom: 2px;
+}
+#legend-labels li span {
+    display: block;
+    float: left;
+    height: 16px;
+    width: 30px;
+    margin-right: 5px;
+    margin-left: 0;
+    border: 1px solid #999;
+}
