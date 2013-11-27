@@ -29,14 +29,14 @@ for r in f.readlines():
     # insert category info if necessary
     category = Category.query.filter_by(category=cat).first()
     if not category:
-        category = Category(cat, colorscheme[cat], None)
+        category = Category(cat, colorscheme[cat])
         db.session.add(category)
         db.session.commit()
     
     categoryid = category.categoryid
     
     # insert measure description info
-    measure = Measure(categoryid, datadict['Description'])
+    measure = Measure(categoryid, datadict['Description'], None)
     db.session.add(measure)
     db.session.commit()
     measureid = measure.measureid

@@ -110,12 +110,10 @@ class Category(db.Model):
     categoryid = db.Column(db.Integer, primary_key = True)
     category = db.Column(db.String(20))
     defaultcolorscheme = db.Column(db.String(8))
-    defaultbreaks = db.Column(db.String(100))
     
-    def __init__(self, category, defaultcolorscheme, defaultbreaks):
+    def __init__(self, category, defaultcolorscheme):
         self.category = category
         self.defaultcolorscheme = defaultcolorscheme
-        self.defaultbreaks = defaultbreaks
 
 class Measure(db.Model):
     __tablename__ = 'measures'
@@ -123,10 +121,12 @@ class Measure(db.Model):
     measureid = db.Column(db.Integer, primary_key = True)
     categoryid = db.Column(db.Integer, db.ForeignKey('categories.categoryid'))
     description = db.Column(db.String(100))
+    defaultbreaks = db.Column(db.String(100))
     
-    def __init__(self, categoryid, description):
+    def __init__(self, categoryid, description, defaultbreaks):
         self.categoryid = categoryid
         self.description = description
+        self.defaultbreaks = defaultbreaks
 
 class Numerator(db.Model):
     __tablename__ = 'numerator'

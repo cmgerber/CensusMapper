@@ -56,14 +56,14 @@ CREATE TABLE ColorSchemes (
 CREATE TABLE Categories (
     CategoryID serial4 PRIMARY KEY,
     Category varchar(20),
-    DefaultColorScheme varchar(8),
-    DefaultBreaks varchar(100)
+    DefaultColorScheme varchar(8)
 );
 
 CREATE TABLE Measures (
     MeasureID serial4 PRIMARY KEY,
     CategoryID int4 REFERENCES Categories (CategoryID),
-    Description varchar(100)
+    Description varchar(100),
+    DefaultBreaks varchar(100)
 );
 
 CREATE TABLE Numerator (
