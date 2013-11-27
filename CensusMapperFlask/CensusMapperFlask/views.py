@@ -125,7 +125,7 @@ def add_measure_layer():
         elif avg_bin < 1:
             bin_labels.append('%.0f%% to %.0f%%' % (100.0 * 0 if i == 0 else 100.0 * bins[i-1], 100.0 * bins[i]))
         else:
-            bin_labels.append('{0:,}'.format(0 if i == 0 else bins[i-1]) + ' to ' + '{0:,}'.format(bins[i]))
+            bin_labels.append('{0:,}'.format(0 if i == 0 else int(bins[i-1])) + ' to ' + '{0:,}'.format(int(bins[i])))
     
     # generate css colors
     csscolors = ''
