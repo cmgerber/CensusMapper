@@ -1,11 +1,18 @@
 #!../env/bin/python
 
+from cartodb import CartoDBAPIKey, CartoDBException
 from CensusMapperFlask import app
-from db_models import db, User, Category, Measure, Numerator, Denominator
+from db_models import db, User, Category, Measure, Numerator, Denominator, ColorScheme
 import flask
 from flask import request
 from hashlib import md5
-from pgconn import secret_key
+from pgconn import API_KEY, secret_key
+
+
+# establish connection to CartoDB server
+def connect_to_cartodb():
+    return CartoDBAPIKey(API_KEY, 'censusmapper')
+
 
 # homepage
 @app.route('/')
@@ -71,8 +78,63 @@ def logout_of_account():
 def get_measures():
     # extract category id from element id
     categoryid = request.args['categoryid'].split('-')[1]
+    measures = sorted([[m.measureid,m.description] for m in Measure.query.filter_by(categoryid=categoryid)], key=lambda x:x[0])
+    return flask.jsonify(measures=measures)
+
+# add layer for specific measure
+@app.route('/_add_measure_layer')
+def add_measure_layer():
+    # get measure id
+    measureid = request.args['measureid'].split('-')[1]
     
-    return
+    # get numerator and denominator
+    num = [n.fieldid for n in Numerator.query.filter_by(measureid=measureid)]
+    nums = "'" + ("','").join(num) + "'"
+    denom = [d.fieldid for d in Denominator.query.filter_by(measureid=measureid)]
+    dens = "'" + ("','").join(denom) + "'"
+    
+    # get color scheme colors
+    colorlist = list(db.engine.execute("select s.categorynumber, s.redvalue, s.greenvalue, s.bluevalue from measures m join categories c on m.categoryid=c.categoryid join colorschemes s on c.defaultcolorscheme=s.colorschemename and numcategories=5 where m.measureid = %s" % measureid))
+    colors = {k: (r,g,b) for k, r, g, b in colorlist}
+
+    # get natural breaks
+    breaks = Measure.query.filter_by(measureid=measureid).first().defaultbreaks
+    if not breaks:
+        cl = connect_to_cartodb()
+        sql_start = "select CDB_JenksBins(array_agg(measure::numeric), 5) cdb_jenksbins, max(measure) maxval " + \
+                    "from (SELECT a.cartodb_id,a.geotype,a.the_geom_webmercator, " + \
+                    "sum(case when b.fieldid in (%s) then cast(b.value as float) else 0 end)" % nums
+        if denom:
+            sql_start += " / (sum(case when b.fieldid in (%s) then cast(b.value as float) else 0 end) + 1)" % dens
+        sql_end = " measure FROM censusgeo a JOIN censusdata b ON a.fipscode = b.fipscode where length(a.fipscode) = 5 " + \
+                  "GROUP BY a.cartodb_id, a.geotype, a.the_geom_webmercator) layer"
+        s = cl.sql(sql_start + sql_end)
+        bins = s['rows'][0]['cdb_jenksbins']
+        db.engine.execute("update measures set defaultbreaks = '%s' where measureid = %s" % (('|').join([str(b) for b in bins]), measureid))
+    else:
+        bins = [float(b) for b in breaks.split('|')]
+    
+    # generate css colors
+    csscolors = ''
+    for i in range(4,-1,-1):
+        csscolors += '[measure < %g] {polygon-fill: rgb(%d,%d,%d)} ' % (bins[i],colors[i+1][0],colors[i+1][1],colors[i+1][2])
+
+    cartocss = "#censusgeo { line-width: .1; line-color: #444444; polygon-opacity: 0; line-opacity: 0; " + \
+               csscolors + "[zoom <= 4][geotype = 'state'] { polygon-opacity: 0.8; line-opacity: 1; } " + \
+               "[zoom > 4][zoom <= 8][geotype = 'county'] { polygon-opacity: 0.72; line-opacity: 1; } " + \
+               "[zoom > 4][zoom <= 8][geotype = 'state'] { polygon-opacity: 0; line-opacity: 1; line-width: 1; line-color: #222222; } " + \
+               "[zoom > 8][geotype = 'tract'] { polygon-opacity: 0.64; line-opacity: 1; }}"
+    sqlquery = "SELECT a.cartodb_id,a.geotype,a.the_geom_webmercator, " + \
+               "sum(case when b.fieldid in (%s) then cast(b.value as float) else 0 end)" % nums
+    if denom:
+        sqlquery += " / (sum(case when b.fieldid in (%s) then cast(b.value as float) else 0 end) + 1)" % dens
+
+    sqlquery += " measure FROM censusgeo a JOIN censusdata b ON a.fipscode = b.fipscode " + \
+                "GROUP BY a.cartodb_id, a.geotype, a.the_geom_webmercator"
+    
+    print sqlquery
+    
+    return flask.jsonify(sqlquery=sqlquery, cartocss=cartocss, bins=bins, colors=colors)
 
 # add layer request
 @app.route('/_add_layer')

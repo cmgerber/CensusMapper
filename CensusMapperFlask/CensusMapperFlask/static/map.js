@@ -1,3 +1,5 @@
+var layers=[];
+
 function main(zoomval, lat, lng) {
 
   zoomval = typeof zoomval === 'undefined' ? 4 : zoomval;
@@ -46,21 +48,37 @@ function main(zoomval, lat, lng) {
   
   map.setOptions({styles: mapStyle});
   
+  cartodb.createLayer(map, {
+    user_name: 'censusmapper',
+    type: 'cartodb',
+    sublayers: [{
+      sql: 'select * from censusgeo',
+      cartocss: '#censusgeo {polygon-opacity: 0; line-opacity:0}'
+    }]
+  })
+  .addTo(map)
+  .on('done', function(layer) {
+    layers.push(layer);
+  });
+  
+  
   return map;
   
 };
 
 function add_tiles(map, sqlquery, cartocss) {
   
-  cartodb.createLayer(map, {
-    user_name: 'censusmapper',
-    type: 'cartodb',
-    sublayers: [{
+  var layer = layers[0];
+  
+  var sublayer = layer.getSubLayer(0);
+  sublayer.remove();
+  
+  console.log(sqlquery);
+  
+  layer.createSubLayer({
       sql: sqlquery,
       cartocss: cartocss
-    }]
-  })
-  .addTo(map)
+    });
   
 };
 
@@ -89,8 +107,15 @@ function add_search_box(map) {
 function add_legend(innerHTML) {
   
   if (typeof innerHTML !== 'undefined') {
+    // delete old legend if necessary
+    var oldlegend = document.getElementById('legendbox');
+    if (oldlegend) {
+      oldlegend.parentNode.removeChild(oldlegend);
+    }
+
     // Create a div to hold the control.
     var controlDiv = document.createElement('div');
+    controlDiv.setAttribute('id', 'legendbox');
     
     // Set CSS styles for the DIV containing the control
     // Setting padding to 5 px will offset the control

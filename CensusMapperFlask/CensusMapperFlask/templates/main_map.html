@@ -45,7 +45,30 @@
           $.getJSON('/_get_measures', {
             categoryid: $(this).attr("id")
           }, function(data) {
-            
+            $( "#censuscategories" ).fadeOut(200);
+            $( "#censusmeasures" ).fadeIn(200);
+            $( "#censusmeasures" ).empty();
+            $.each(data.measures, function(index, value) {
+              $( "#censusmeasures" ).append("<li><a href='#' class='censusmeasure' id='measure-"+ value[0] + "'>" + value[1] + "</a></li>")
+            });
+            $( "#censusmeasures" ).append("<p>&nbsp;</p><a href='#' id='backtocats'><- go back to categories</a>")
+          });
+          return false;
+        });
+        
+        $("#backtocats").live('click', function(){
+          $( "#censusmeasures" ).fadeOut(200);
+          $( "#censuscategories" ).fadeIn(200);
+        });
+        
+        // render map tiles if measure is picked
+        $('.censusmeasure').live('click', function() {
+          $.getJSON('/_add_measure_layer', {
+            measureid: $(this).attr("id")
+          }, function(data) {
+            var sqlquery = data.sqlquery;
+            var cartocss = data.cartocss;
+            add_tiles(map, sqlquery, cartocss);
           });
           return false;
         });
@@ -136,12 +159,13 @@
     
     <div id="censusmenu" class="secondpanel hide">
       <h4>This is a menu to find Census data</h4>
-      <ul>
+      <ul id="censuscategories">
       {% for category in categories %}
         <li><a href="#" class="censuscategory show" id="category-{{ category.categoryid }}">{{ category.category }}</a></li>
       {% endfor %}
       </ul>
-
+      <ul id="censusmeasures">
+      </ul>
     </div>
     
     <div id="otherdatamenu" class="secondpanel hide"><h4>This is a menu to add other data</h4></div>
