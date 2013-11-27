@@ -1,7 +1,7 @@
 #!../env/bin/python
 
 from CensusMapperFlask import app
-from db_models import db, User
+from db_models import db, User, Category, Measure, Numerator, Denominator
 import flask
 from flask import request
 from hashlib import md5
@@ -16,7 +16,9 @@ def home():
 # main mapping page
 @app.route('/map')
 def map():
-    return flask.render_template('main_map.html', mapname='Untitled Map')
+    # get list of categories
+    categories = [u.__dict__ for u in Category.query.all()]
+    return flask.render_template('main_map.html', mapname='Untitled Map', categories=categories)
 
 
 # create user request
@@ -63,6 +65,14 @@ def logout_of_account():
     flask.session.pop('username', None)
     return flask.redirect(flask.url_for('home'))
 
+
+# get available categories and measures
+@app.route('/_get_measures')
+def get_measures():
+    # extract category id from element id
+    categoryid = request.args['categoryid'].split('-')[1]
+    
+    return
 
 # add layer request
 @app.route('/_add_layer')

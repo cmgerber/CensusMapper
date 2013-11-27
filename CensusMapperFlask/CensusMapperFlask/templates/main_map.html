@@ -29,9 +29,9 @@
       
       $(document).ready(function() {
         
+        // adding a specific layer to map when the element with id titletext is clicked
         $('#titletext').bind('click', function() {
-          $.getJSON('/_add_layer', {
-          }, function(data) {
+          $.getJSON('/_add_layer', {}, function(data) {
             var sqlquery = data.sqlquery;
             var cartocss = data.cartocss;
             add_tiles(map, sqlquery, cartocss);
@@ -40,6 +40,17 @@
           return false;
         });
         
+        // show individual census measures when a particular category is clicked
+        $('.censuscategory').bind('click', function() {
+          $.getJSON('/_get_measures', {
+            categoryid: $(this).attr("id")
+          }, function(data) {
+            
+          });
+          return false;
+        });
+        
+        // movement of the "manila folder" tab image for sliding panels
         $('#foldertab').click(function(){
           if($(this).hasClass('show')){
             $( "#foldertab, #mainmenu, .secondpanel" ).animate({
@@ -64,17 +75,21 @@
                 $( "#censusmenu" ).css("left", "-220px");
                 $( "#otherdatamenu" ).css("left", "-220px");
                 $( "#managelayersmenu" ).css("left", "-220px");
+                $( ".mainmenuitem" ).css("background-color", "rgb(248,245,225)");
+                $( "#censusmenu, #otherdatamenu, #managelayersmenu" ).removeClass('show').addClass('hide');
               });
-            $(this).removeClass('pos2').addClass('pos1');    
+            $(this).removeClass('pos2').addClass('pos1');
           }
         });
         
+        // two functions to manage the movement of the sliding panels themselves
+        //
+        // slide_out slides out panel with id currenttab when the element with id clickvar is clicked,
+        //   while also hiding the panels with id's in the comma-separated string othertabs
+        //
+        // reset_tabs is a helper function that hides the other tabs, and moves the folder tab
+        //   icon over if necessary
         var reset_tabs = function(othertabs) {
-          $( othertabs ).animate({
-              left: "-=400"
-              }, 300, function() {
-                $( othertabs ).css("left", "-220px");
-              });
           if ($("#foldertab").hasClass('pos1')){
             $( "#foldertab" ).animate({
               left: "+=400"
@@ -83,26 +98,28 @@
               });
           }
         };
+
+        var slide_out = function(clickvar, currenttab, othertabs) {
+          $(clickvar).click(function(){
+            if ( $(currenttab).hasClass('hide') ) {
+              $( currenttab ).animate({
+                  left: "+=400"
+                  }, 300, function() {
+                    $( othertabs ).css("left", "-220px");
+                    $( ".mainmenuitem" ).css("background-color", "rgb(248,245,225)");
+                    $( clickvar ).css("background-color", "rgb(183,181,166)");
+                    $( currenttab ).removeClass('hide').addClass('show');
+                    $( othertabs ).removeClass('show').addClass('hide');
+                  });
+              reset_tabs(othertabs);
+            }
+          });
+        };
         
-        $('#findcensusdata').click(function(){
-          var othertabs = "#otherdatamenu, #managelayersmenu"
-          $( "#censusmenu" ).animate({
-              left: "+=400"
-              }, 300, function() {
-                // Animation complete.
-              });
-          reset_tabs(othertabs);
-        });
-        
-        $('#addotherdata').click(function(){
-          var othertabs = "#censusmenu, #managelayersmenu"
-          $( "#otherdatamenu" ).animate({
-              left: "+=400"
-              }, 300, function() {
-                // Animation complete.
-              });
-          reset_tabs(othertabs);
-        });
+        // calling slide_out for our three main panels
+        slide_out('#findcensusdata', "#censusmenu", "#otherdatamenu, #managelayersmenu");
+        slide_out('#addotherdata', "#otherdatamenu", "#censusmenu, #managelayersmenu");
+        slide_out('#managelayers', "#managelayersmenu", "#censusmenu, #otherdatamenu");
         
       });
       
@@ -112,13 +129,23 @@
 
     <div id="foldertab" class="show"><img src="{{ url_for('static', filename='folder_tab.png') }}" border="0" alt="folder tab"></div>
     <div id="mainmenu">
-      <a href="#" class="mainmenuitem" id="findcensusdata">Find Census Data</a>
-      <a href="#" class="mainmenuitem" id="addotherdata">Add Other Data</a>
-      <a href="#" class="mainmenuitem" id="managelayers">Manage Layers</a>
+      <a href="#" class="mainmenuitem hide" id="findcensusdata">Find Census Data</a>
+      <a href="#" class="mainmenuitem hide" id="addotherdata">Add Other Data</a>
+      <a href="#" class="mainmenuitem hide" id="managelayers">Manage Layers</a>
     </div>
-    <div id="censusmenu" class="secondpanel"><h4>This is a menu to find Census data</h4></div>
-    <div id="otherdatamenu" class="secondpanel"><h4>This is a menu to add other data</h4></div>
-    <div id="managelayersmenu" class="secondpanel"><h4>This is a menu to manage your layers</h4></div>
+    
+    <div id="censusmenu" class="secondpanel hide">
+      <h4>This is a menu to find Census data</h4>
+      <ul>
+      {% for category in categories %}
+        <li><a href="#" class="censuscategory show" id="category-{{ category.categoryid }}">{{ category.category }}</a></li>
+      {% endfor %}
+      </ul>
+
+    </div>
+    
+    <div id="otherdatamenu" class="secondpanel hide"><h4>This is a menu to add other data</h4></div>
+    <div id="managelayersmenu" class="secondpanel hide"><h4>This is a menu to manage your layers</h4></div>
   
   </body>
   
