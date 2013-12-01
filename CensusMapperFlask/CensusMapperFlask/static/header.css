@@ -63,7 +63,7 @@ p {
 
 #action_buttons {
     position: absolute;
-    width: 200px;
+    padding-right: 10px;
     top: 4px;
     right: 0;
 }
