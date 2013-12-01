@@ -21,7 +21,7 @@ p {
 
 #login_links {
     float: right;
-    padding-right: 10px;
+    padding-right: 12px;
     padding-top: 3px;
     vertical-align: middle;
 }
@@ -65,7 +65,7 @@ p {
     position: absolute;
     width: 200px;
     top: 4px;
-    right: -7px;
+    right: 0;
 }
 
 .button {

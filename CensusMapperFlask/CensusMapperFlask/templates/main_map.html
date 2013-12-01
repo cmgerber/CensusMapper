@@ -35,8 +35,9 @@
           $.getJSON('/_get_measures', {
             categoryid: $(this).attr("id")
           }, function(data) {
-            $( "#censuscategories" ).fadeOut(200);
-            $( "#censusmeasures" ).fadeIn(200);
+            $( "#censuscategories" ).fadeOut(20, function() {
+              $( "#censusmeasures" ).fadeIn(20);
+            });
             $( "#censusmeasures" ).empty();
             $.each(data.measures, function(index, value) {
               $( "#censusmeasures" ).append("<li><a href='#' class='censusmeasure' id='measure-"+ value[0] + "'>" + value[1] + "</a></li>")
@@ -47,8 +48,9 @@
         });
         
         $("#backtocats").live('click', function(){
-          $( "#censusmeasures" ).fadeOut(200);
-          $( "#censuscategories" ).fadeIn(200);
+          $( "#censusmeasures" ).fadeOut(20, function() {
+            $( "#censuscategories" ).fadeIn(20);
+          });
         });
         
         // render map tiles if measure is picked
@@ -168,8 +170,10 @@
     <div id="censusmenu" class="secondpanel hide">
       <input id="census-search" class="search-box" type="text" placeholder="Search for Census data (this doesn't work)">
       <div id="censuscategories">
-      {% for category in categories %}
-        <div id="category-{{ category.categoryid }}" class="censuscategory show">{{ category.category }}</div>
+      {% for cat in categories %}
+        <div id="category-{{ cat.categoryid }}" class="button censuscategory show">
+          <span class="categorytext">{{ cat.category }}</span>
+        </div>
       {% endfor %}
       </div>
       <ul id="censusmeasures">

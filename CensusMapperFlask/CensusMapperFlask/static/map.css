@@ -85,16 +85,25 @@ ul {
 
 #censuscategories {
     margin-top: 15px;
+    margin-left: 35px;
 }
 
 .censuscategory {
-    display: inline-block;
-    width: 170px;
-    height: 90px;
-    border: 3px solid #CCCCCC;
+    position: relative;
+    width: 120px;
+    height: 40px;
     font-family: Helvetica, Arial, sans-serif;
-    font-size: 140%;
-    text-align: center;
+    font-weight: lighter;
+    font-size: 105%;
+    margin: 7px !important;
+    text-align: center !important;
+}
+
+.categorytext {
+    position: absolute;
+    top: 25%;
+    left: 0;
+    right: 0;
 }
 
 #otherdatamenu {

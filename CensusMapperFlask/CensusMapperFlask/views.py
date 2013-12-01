@@ -18,9 +18,6 @@ def home():
 # main mapping page
 @app.route('/map')
 def map():
-    # get list of Census categories
-    categories = [u.__dict__ for u in Category.query.all()]
-    
     if 'userid' in flask.session:
         if 'mapid' in flask.session:
             mapobj = Map.query.filter_by(userid=flask.session['userid'], mapid=flask.session['mapid']).first()
@@ -29,14 +26,14 @@ def map():
                 centerlat = mapobj.centerlatitude
                 centerlong = mapobj.centerlongitude
                 zoom = mapobj.zoomlevel
-                return flask.render_template('main_map.html', mapname=mapname, centerlat=centerlat, centerlong=centerlong, zoom=zoom, categories=categories)
+                return flask.render_template('main_map.html', mapname=mapname, centerlat=centerlat, centerlong=centerlong, zoom=zoom, categories=category_list())
     else:
         new_user_name = 'temp_' + str(uuid1())
         new_user = User(new_user_name, '', '', 'regular')
         db.session.add(new_user)
         db.session.commit()
         flask.session['userid'] = new_user.userid
-
+    
     mapname = 'Untitled Map'
     centerlat = 40
     centerlong = -98.5
@@ -45,7 +42,8 @@ def map():
     db.session.add(new_map)
     db.session.commit()
     flask.session['mapid'] = new_map.mapid
-    return flask.render_template('main_map.html', mapname=mapname, centerlat=centerlat, centerlong=centerlong, zoom=zoom, categories=categories)
+    
+    return flask.render_template('main_map.html', mapname=mapname, centerlat=centerlat, centerlong=centerlong, zoom=zoom, categories=category_list())
 
 
 # create user request
@@ -155,3 +153,5 @@ def remove_mapid():
     if 'mapid' in flask.session:
         flask.session.pop('mapid', None)
 
+def category_list():
+    return [u.__dict__ for u in Category.query.all()]
