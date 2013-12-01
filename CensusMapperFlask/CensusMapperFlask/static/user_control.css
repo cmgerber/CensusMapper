@@ -98,7 +98,7 @@ form.signin .textbox input {
 }
 
 
-.button {
+.submit_button {
     font-family: Helvetica, Arial, sans-serif;
     background: #444444;
     background: -moz-linear-gradient(0% 100% 90deg, #666666, #444444);

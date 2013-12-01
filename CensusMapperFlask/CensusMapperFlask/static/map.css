@@ -12,20 +12,6 @@ ul {
     list-style-type: none; 
 }
 
-#titlebar { 
-    height: 32px; 
-    padding: 0; 
-    width: 100%; 
-    text-align: center;
-}
-
-#titletext { 
-    color: #777777; 
-    font-style: italic; 
-    font-weight: lighter;
-    font-size: 150%; 
-}
-
 #map { 
     margin: 0; 
     padding: 0;

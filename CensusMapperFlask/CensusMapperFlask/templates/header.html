@@ -17,13 +17,11 @@
         </div>
         <div id="titlebar">
           {%- if mapname -%}
-            <span><a id="titletext">{{ mapname }}</a></span>
+            <span id="titletext">{{ mapname }}</span>
             <span id="action_buttons">
-              <a class="linkaction save-window" href="/save">Save</a>
-              |
-              <a class="linkaction export-window" href="/export">Export</a>
-              |
-              <a class="linkaction share-window" href="/share">Share</a>
+              <span class="button small linkaction save-window">Save</span>
+              <span class="button small linkaction export-window" href="/export">Export</span>
+              <span class="button small linkaction share-window" href="/share">Share</span>
             </span>
           {%- endif -%}
         </div>
