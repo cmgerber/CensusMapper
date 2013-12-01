@@ -1,17 +1,12 @@
 #!../env/bin/python
 
-from cartodb import CartoDBAPIKey, CartoDBException
 from CensusMapperFlask import app
-from db_models import db, User, Category, Measure, Numerator, Denominator, ColorScheme
+from db_models import db, User, Map, DataLayer, ValueBreak, ColorScheme, Category, Measure, Numerator, Denominator, DefaultBreak
 import flask
 from flask import request
 from hashlib import md5
 from pgconn import API_KEY, secret_key
-
-
-# establish connection to CartoDB server
-def connect_to_cartodb():
-    return CartoDBAPIKey(API_KEY, 'censusmapper')
+from uuid import uuid1
 
 
 # homepage
@@ -23,9 +18,34 @@ def home():
 # main mapping page
 @app.route('/map')
 def map():
-    # get list of categories
+    # get list of Census categories
     categories = [u.__dict__ for u in Category.query.all()]
-    return flask.render_template('main_map.html', mapname='Untitled Map', categories=categories)
+    
+    if 'userid' in flask.session:
+        if 'mapid' in flask.session:
+            mapobj = Map.query.filter_by(userid=flask.session['userid'], mapid=flask.session['mapid']).first()
+            if mapobj:
+                mapname = mapobj.mapname
+                centerlat = mapobj.centerlatitude
+                centerlong = mapobj.centerlongitude
+                zoom = mapobj.zoomlevel
+                return flask.render_template('main_map.html', mapname=mapname, centerlat=centerlat, centerlong=centerlong, zoom=zoom, categories=categories)
+    else:
+        new_user_name = 'temp_' + str(uuid1())
+        new_user = User(new_user_name, '', '', 'regular')
+        db.session.add(new_user)
+        db.session.commit()
+        flask.session['userid'] = new_user.userid
+
+    mapname = 'Untitled Map'
+    centerlat = 40
+    centerlong = -98.5
+    zoom = 4
+    new_map = Map(mapname, flask.session['userid'], centerlat, centerlong, zoom)
+    db.session.add(new_map)
+    db.session.commit()
+    flask.session['mapid'] = new_map.mapid
+    return flask.render_template('main_map.html', mapname=mapname, centerlat=centerlat, centerlong=centerlong, zoom=zoom, categories=categories)
 
 
 # create user request
@@ -40,10 +60,12 @@ def create_account():
     new_user = User(new_user_name, new_email, new_password1, new_access)
     
     if new_password1 == new_password2:
-        flask.session['username'] = new_user_name
         #commits the new user to the db
         db.session.add(new_user)
         db.session.commit()
+        flask.session['userid'] = new_user.userid
+        flask.session['username'] = new_user.username
+        remove_mapid()
     
     #flask.flash('New account was successfully created. Please login.')
     return flask.redirect(flask.url_for('home'))
@@ -58,7 +80,9 @@ def login_to_account():
     
     #check password
     if login_user:
-        flask.session['username'] = login_user_name
+        flask.session['userid'] = login_user.userid
+        flask.session['username'] = login_user.username
+        remove_mapid()
         flask.flash('You were successfully logged in')
         return flask.redirect(request.form['sourcepage'])
     
@@ -69,7 +93,9 @@ def login_to_account():
 @app.route('/logout')
 def logout_of_account():
     #to log out of current session
+    flask.session.pop('userid', None)
     flask.session.pop('username', None)
+    remove_mapid()
     return flask.redirect(flask.url_for('home'))
 
 
@@ -88,7 +114,7 @@ def add_measure_layer():
     measureid = request.args['measureid'].split('-')[1]
     measure = Measure.query.filter_by(measureid=measureid).first()
     
-    # get numerator and denominator
+    #get numerator(s) and denominator(s)
     num = [n.fieldid for n in Numerator.query.filter_by(measureid=measureid)]
     nums = "'" + ("','").join(num) + "'"
     denom = [d.fieldid for d in Denominator.query.filter_by(measureid=measureid)]
@@ -97,45 +123,20 @@ def add_measure_layer():
     # get color scheme colors
     colorlist = list(db.engine.execute("select s.categorynumber, s.redvalue, s.greenvalue, s.bluevalue from measures m join categories c on m.categoryid=c.categoryid join colorschemes s on c.defaultcolorscheme=s.colorschemename and numcategories=5 where m.measureid = %s" % measureid))
     colors = {k: (r,g,b) for k, r, g, b in colorlist}
-
-    # get natural breaks
-    breaks = measure.defaultbreaks
-    if not breaks:
-        cl = connect_to_cartodb()
-        sql_start = "select CDB_JenksBins(array_agg(measure::numeric), 5) cdb_jenksbins, max(measure) maxval " + \
-                    "from (SELECT a.cartodb_id,a.geotype,a.the_geom_webmercator, " + \
-                    "sum(case when b.fieldid in (%s) then cast(b.value as float) else 0 end)" % nums
-        if denom:
-            sql_start += " / (sum(case when b.fieldid in (%s) then cast(b.value as float) else 0 end) + 1)" % dens
-        sql_end = " measure FROM censusgeo a JOIN censusdata b ON a.fipscode = b.fipscode where length(a.fipscode) = 5 " + \
-                  "GROUP BY a.cartodb_id, a.geotype, a.the_geom_webmercator) layer"
-        s = cl.sql(sql_start + sql_end)
-        bins = s['rows'][0]['cdb_jenksbins']
-        db.engine.execute("update measures set defaultbreaks = '%s' where measureid = %s" % (('|').join([str(b) for b in bins]), measureid))
-    else:
-        bins = [float(b) for b in breaks.split('|')]
     
-    # write bin labels
-    bin_labels = []
-    avg_bin = sum(bins) / len(bins)
-    
-    for i in range(len(bins)):
-        if avg_bin < 0.1:
-            bin_labels.append('%.1f%% to %.1f%%' % (100.0 * 0 if i == 0 else 100.0 * bins[i-1], 100.0 * bins[i]))
-        elif avg_bin < 1:
-            bin_labels.append('%.0f%% to %.0f%%' % (100.0 * 0 if i == 0 else 100.0 * bins[i-1], 100.0 * bins[i]))
-        else:
-            bin_labels.append('{0:,}'.format(0 if i == 0 else int(bins[i-1])) + ' to ' + '{0:,}'.format(int(bins[i])))
+    # get five-category breaks
+    breaks = list(DefaultBreak.query.filter_by(measureid=measureid, numcategories=5).order_by(DefaultBreak.categorynumber))
+    bin_labels = [b.categorylabel for b in breaks]
     
     # generate css colors
     csscolors = ''
     for i in range(4,-1,-1):
-        csscolors += '[measure < %g] {polygon-fill: rgb(%d,%d,%d)} ' % (bins[i],colors[i+1][0],colors[i+1][1],colors[i+1][2])
+        csscolors += '[measure <= %g] {polygon-fill: rgb(%d,%d,%d)} ' % (breaks[i].maxvalue,colors[i+1][0],colors[i+1][1],colors[i+1][2])
 
     cartocss = "#censusgeo { line-width: .1; line-color: #444444; polygon-opacity: 0; line-opacity: 0; " + \
                csscolors + "[zoom <= 4][geotype = 'state'] { polygon-opacity: 0.8; line-opacity: 1; } " + \
                "[zoom > 4][zoom <= 8][geotype = 'county'] { polygon-opacity: 0.72; line-opacity: 1; } " + \
-               "[zoom > 4][zoom <= 8][geotype = 'state'] { polygon-opacity: 0; line-opacity: 1; line-width: 1; line-color: #222222; } " + \
+               "[zoom > 4][zoom <= 8][geotype = 'state'] { polygon-opacity: 0; line-opacity: 1; line-width: 1; line-color: #444444; } " + \
                "[zoom > 8][geotype = 'tract'] { polygon-opacity: 0.64; line-opacity: 1; }}"
     sqlquery = "SELECT a.cartodb_id,a.geotype,a.the_geom_webmercator, " + \
                "sum(case when b.fieldid in (%s) then cast(b.value as float) else 0 end)" % nums
@@ -149,3 +150,8 @@ def add_measure_layer():
 
 
 app.secret_key = secret_key
+
+def remove_mapid():
+    if 'mapid' in flask.session:
+        flask.session.pop('mapid', None)
+

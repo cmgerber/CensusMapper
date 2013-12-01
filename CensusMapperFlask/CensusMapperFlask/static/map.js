@@ -2,9 +2,9 @@ var layers=[];
 
 function main(zoomval, lat, lng) {
 
-  zoomval = typeof zoomval === 'undefined' ? 4 : zoomval;
-  lat = typeof lat === 'undefined' ? 40 : lat;
-  lng = typeof lng === 'undefined' ? -98.5 : lng;
+  //zoomval = typeof zoomval === 'undefined' ? 4 : zoomval;
+  //lat = typeof lat === 'undefined' ? 40 : lat;
+  //lng = typeof lng === 'undefined' ? -98.5 : lng;
   
   // Define the map options
   var cartodbMapOptions = {

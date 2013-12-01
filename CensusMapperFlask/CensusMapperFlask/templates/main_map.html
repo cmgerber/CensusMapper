@@ -16,6 +16,7 @@
     
     <title>CensusMapper - {{ mapname }}</title>
   </head>
+  
   <body>
     {% include 'header.html' %}
     {% include 'user_control.html' %}
@@ -24,7 +25,7 @@
     <div id="map" />
     
     <script type="text/javascript">
-      var map = main();
+      var map = main({{ zoom }}, {{ centerlat }}, {{ centerlong }});
       google.maps.event.addDomListener(window, 'load', map);
       
       $(document).ready(function() {
