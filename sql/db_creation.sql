@@ -62,8 +62,7 @@ CREATE TABLE Categories (
 CREATE TABLE Measures (
     MeasureID serial4 PRIMARY KEY,
     CategoryID int4 REFERENCES Categories (CategoryID),
-    Description varchar(100),
-    DefaultBreaks varchar(100)
+    Description varchar(100)
 );
 
 CREATE TABLE Numerator (
@@ -76,6 +75,15 @@ CREATE TABLE Denominator (
     DenominatorID serial4 PRIMARY KEY,
     MeasureID int4 REFERENCES Measures (MeasureID),
     FieldID char(9)
+);
+
+CREATE TABLE DefaultBreaks (
+    DefaultBreakID serial4 PRIMARY KEY,
+    MeasureID int4 REFERENCES Measures (MeasureID),
+    NumCategories int2,
+    CategoryNumber int2,
+    MaxValue float8,
+    CategoryLabel varchar(30)
 );
 
 /*

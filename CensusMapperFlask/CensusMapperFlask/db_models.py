@@ -121,12 +121,10 @@ class Measure(db.Model):
     measureid = db.Column(db.Integer, primary_key = True)
     categoryid = db.Column(db.Integer, db.ForeignKey('categories.categoryid'))
     description = db.Column(db.String(100))
-    defaultbreaks = db.Column(db.String(100))
     
-    def __init__(self, categoryid, description, defaultbreaks):
+    def __init__(self, categoryid, description):
         self.categoryid = categoryid
         self.description = description
-        self.defaultbreaks = defaultbreaks
 
 class Numerator(db.Model):
     __tablename__ = 'numerator'
@@ -149,4 +147,21 @@ class Denominator(db.Model):
     def __init__(self, measureid, fieldid):
         self.measureid = measureid
         self.fieldid = fieldid
+
+class DefaultBreak(db.Model):
+    __tablename__ = 'defaultbreaks'
+    
+    defaultbreakid = db.Column(db.Integer, primary_key = True)
+    measureid = db.Column(db.Integer, db.ForeignKey('measures.measureid'))
+    numcategories = db.Column(db.Integer)
+    categorynumber = db.Column(db.Integer)
+    maxvalue = db.Column(db.Float)
+    categorylabel = db.Column(db.String(30))
+    
+    def __init__(self, measureid, numcategories, categorynumber, maxvalue, categorylabel):
+        self.measureid = measureid
+        self.numcategories = numcategories
+        self.categorynumber = categorynumber
+        self.maxvalue = maxvalue
+        self.categorylabel = categorylabel
 
