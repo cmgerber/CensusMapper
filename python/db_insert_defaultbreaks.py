@@ -11,7 +11,7 @@ def connect_to_cartodb():
 cl = connect_to_cartodb()
 
 # loop through measures to generate values for 3- through 9-category breaks
-measures = Measure.query.all().order_by(measureid)
+measures = Measure.query.all()
 for m in measures:
     
     print m.description
