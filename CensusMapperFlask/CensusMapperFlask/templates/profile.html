@@ -13,7 +13,6 @@
 
   <body>
     {% include 'header.html' %}
-    {% include 'user_control.html' %}
 
     <div id='maincontent' class='clearfix'>
         <div id='column1'>
@@ -27,26 +26,17 @@
                 <h3 id='mapcolumntitle'>Saved Maps</h3>
                 <div id='mapimages'>
                     <script type="text/javascript">
-                        
                         $(document).ready(function(){
-                            var maplist = {{mapnamelist}};
+                            var maplist = {{ mapnamelist|safe }};
 
                         for (var i = 0; i < maplist.length; i++) {
                             var mapname = maplist[i][0];
                             var mapid = maplist[i][1];
-
-                            $('#mapimages').append('<span class="map_thumbnail"><img src="{{url_for(\'static\', filename=\'generic_map_thumbnail.jpg\') }}"><br><a class="mapname" href=\'/map?map='+mapid+'\'>'+mapname+'</a>');
+                            $('#mapimages').append("<span class='map_thumbnail'><img src=\"{{url_for('static', filename='generic_map_thumbnail.jpg') }}\"><br><a class='mapname' href='/map?map=" + mapid + "'>" + mapname + "</a>");
 
                         };
                         });
                     </script>
-                    <span>
-                        <img class="map_thumbnail" src="{{url_for('static', filename='generic_map_thumbnail.jpg') }}"><br>
-                        <a class='mapname' href='/map?map={{mapnamelist[0][1]}}'>{{mapnamelist[0][0]}}</a>
-                        <img class="map_thumbnail" src="{{url_for('static', filename='generic_map_thumbnail.jpg') }}"><br>
-                        <a class='mapname' href='/map?map={{mapnamelist[1][1]}}'>{{mapnamelist[1][0]}}</a>
-                    </span>
-                    
                 </div>
             </div>
             

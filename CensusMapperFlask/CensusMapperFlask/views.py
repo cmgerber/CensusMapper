@@ -24,7 +24,7 @@ def tutorial():
 @app.route('/profile')
 def profile():
     mapcount = Map.query.filter_by(userid=flask.session['userid']).count()
-    mapnamelist = list(Map.query.with_entities(Map.mapname, Map.mapid).filter_by(userid=flask.session['userid']))
+    mapnamelist = [[str(m.mapname),int(m.mapid)] for m in Map.query.filter_by(userid=flask.session['userid'])]
     return flask.render_template('profile.html', mapcount=mapcount, mapnamelist = mapnamelist)
 
 # profile get map links
@@ -44,12 +44,13 @@ def profile_get_map():
 @app.route('/map')
 def map():
     if 'userid' in flask.session:
+        try:
+            map_id = request.args.get('map')
+            print map_id
+            flask.session['mapid'] = map_id
+        except:
+            pass
         if 'mapid' in flask.session:
-            try:
-                map_id = request.args.get('map')
-                flask.session['mapid'] = map_id
-            except:
-                pass
             mapobj = Map.query.filter_by(userid=flask.session['userid'], mapid=flask.session['mapid']).first()
             if mapobj:
                 mapname = mapobj.mapname
