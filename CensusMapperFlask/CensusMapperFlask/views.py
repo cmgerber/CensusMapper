@@ -113,7 +113,16 @@ def logout_of_account():
 # save maps
 @app.route('/save_map', methods = ['POST'])
 def save_map():
-    return flask.redirect(request.form('sourcepage'))
+    #updates the db with new map name
+    if flask.session['username']:
+        map_name = str(request.form['maptitle'])
+        db_map_name = Map.query.filter_by(userid=flask.session['userid'], mapid=flask.session['mapid']).first()
+        db_map_name.mapname = map_name
+        db.session.commit()
+        return flask.redirect(request.form['sourcepage'])
+
+    #redirects to create account page if not logged in
+    return flask.redirect(flask.url_for('home'))
 
 
 # get available categories and measures
