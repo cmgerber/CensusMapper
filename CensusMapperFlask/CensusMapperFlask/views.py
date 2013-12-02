@@ -27,19 +27,6 @@ def profile():
     mapnamelist = [[str(m.mapname),int(m.mapid)] for m in Map.query.filter_by(userid=flask.session['userid'])]
     return flask.render_template('profile.html', mapcount=mapcount, mapnamelist = mapnamelist)
 
-# profile get map links
-@app.route('/profile_get_map')
-def profile_get_map():
-    map_id = request.args.get('map')
-    mapobj = Map.query.filter_by(userid=flask.session['userid'], mapid=map_id).first()
-    if mapobj:
-        mapname = mapobj.mapname
-        centerlat = mapobj.centerlatitude
-        centerlong = mapobj.centerlongitude
-        zoom = mapobj.zoomlevel
-        return flask.render_template('main_map.html', mapname=mapname, centerlat=centerlat, centerlong=centerlong, zoom=zoom, categories=category_list())
-
-
 # main mapping page
 @app.route('/map')
 def map():
@@ -141,7 +128,7 @@ def save_map():
     centerlat = mapobj.centerlatitude
     centerlong = mapobj.centerlongitude
     zoom = mapobj.zoomlevel
-    layers = [d.datalayersid for d in DataLayer.query.filter_by(mapid=flask.session['mapid']).order_by(DataLayer.displayorder)]
+    layers = [int(d.datalayersid) for d in DataLayer.query.filter_by(mapid=flask.session['mapid']).order_by(DataLayer.displayorder)]
     print layers
     return flask.render_template('main_map.html', mapname=mapname, centerlat=centerlat, centerlong=centerlong, zoom=zoom, categories=category_list(), layers=layers)
 

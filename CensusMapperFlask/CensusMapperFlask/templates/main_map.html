@@ -100,7 +100,9 @@
         
         // render layers if passed to map
         {%- if layers -%}
+          console.log("layers are present");
           {%- for layerid in layers -%}
+            console.log("rendering layer");
             render_census_layer({{ layerid }});
           {%- endfor -%}
         {%- endif -%}
