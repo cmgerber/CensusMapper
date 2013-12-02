@@ -20,6 +20,13 @@ def home():
 def tutorial():
     return flask.render_template('tutorial.html')
 
+#profile page
+@app.route('/profile')
+def profile():
+    mapcount = Map.query.filter_by(userid=flask.session['userid']).count()
+    mapnamelist = list(Map.query.with_entities(Map.mapname, Map.mapid).filter_by(userid=flask.session['userid']))
+    return flask.render_template('profile.html', mapcount=mapcount, mapnamelist = mapnamelist)
+
 
 # main mapping page
 @app.route('/map')

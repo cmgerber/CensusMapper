@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="stylesheet" href="{{ url_for('static', filename='profile.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='header.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='user_control.css') }}">
+    <style type="text/css">header {height: 24px;}</style>
+
+    <script type="text/javascript" src="{{ url_for('static', filename='jquery-1.7.2.min.js') }}"></script>
+
+    <title>Profile Page</title>
+  </head>
+
+  <body>
+    {% include 'header.html' %}
+    {% include 'user_control.html' %}
+
+    <div id='maincontent' class='clearfix'>
+        <div id='column1'>
+            <h3 id='profilename'>{{ session.username }}</h3>
+            <img id="profile_pic" src="{{url_for('static', filename='generic_user_image.jpg') }}"><br>
+            <span id='mapcount'>Maps Created: {{mapcount}}</span><br>
+        </div>
+        <div id='column2'>
+            <h3 id='about'>About:</h3>
+            <div id='mapcolumn'>
+                <h3 id='mapcolumntitle'>Saved Maps</h3>
+                <div id='mapimages'>
+                    <script type="text/javascript">
+                        var maplist = {{mapnamelist[0][0]}};
+                        for (var i = 0; i < maplist.length; i++) {
+                            if (i in maplist) {
+                                var mapname = maplist[i][0]
+                                var mapid = maplist[i][1]
+                                var newmapimg = document.createElement('img');
+                                newmapimg.src = "{{url_for('static', filename='generic_map_thumbnail.jpg') }}";
+
+                                var newmapname = document.createElement('p');
+                                newmapname.id = mapid;
+                                newmapname.createTextNode = mapname;
+
+                                $("mapcolumn").append($(newmapimg, newmapname));
+
+                            }
+                        }
+                    </script>
+                    <span>
+                        <img class="map_thumbnail" src="{{url_for('static', filename='generic_map_thumbnail.jpg') }}"><br>
+                        <span class='mapname'>{{mapnamelist[0][0]}}</span>
+                        <img class="map_thumbnail" src="{{url_for('static', filename='generic_map_thumbnail.jpg') }}"><br>
+                        <span class='mapname'>{{mapnamelist[1][0]}}</span>
+                    </span>
+                    
+                </div>
+            </div>
+            
+        </div>
+        
+
+    </div>
+    
+  </body>
+</html>

@@ -1,0 +1,73 @@
+body {
+    font-family: Helvetica, Arial, sans-serif;
+    background-color: #F8F8F8;
+    margin: 0;
+    padding: 0;
+}
+
+#maincontent {
+    margin: 0px auto;
+    width: 80%;
+    margin-left: 25px;
+}
+
+.clearfix { zoom: 1; }
+.clearfix:before, .clearfix:after { content: "\0020"; display: block; height: 0; overflow: hidden; }
+.clearfix:after { clear: both; }
+
+#column1 {
+    float: left;
+    margin: 0;
+    width: 25%;
+}
+
+#column2 {
+    float: left;
+    margin: 0;
+    width: 75%;
+}
+
+#mapcolumn {
+    margin-top: 230px;
+    border: 1px solid #d3d3d3;
+}
+
+#mapimages {
+    margin-left: 25px;
+}
+
+
+#profilename {
+    text-align: left;
+    margin-left: 25px;
+    font-size: 170%;
+}
+
+#profile_pic {
+    border-radius: 1px;
+    border: 2px solid #000000;
+    margin-left: 25px;
+    margin-bottom: 10px;
+
+}
+
+#mapcount {
+    text-align: left;
+    margin-left: 25px;
+    font-weight: bold;
+}
+
+#about {
+    text-align: left;
+    margin-top: 80px;
+}
+
+.map_thumbnail {
+    border-radius: 1px;
+    border: 2px solid #000000;
+    margin-bottom: 10px;
+
+}
+
+.mapname {
+}

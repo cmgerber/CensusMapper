@@ -7,7 +7,7 @@
           {%- endif -%}
           <span id="login_links">
             {%- if session.username -%}
-              <a class="userlinktext" href="'{{ url_for('home') }}'">{{ session.username }}</a>
+              <a class="userlinktext" href="/profile">{{ session.username }}</a>
 
               <a class="logoutlinktext" href="/logout">Logout</a></p>
             {%- else -%}
