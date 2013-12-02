@@ -37,7 +37,7 @@
                         for (var i = 0; i < maplist.length; i++) {
                             var mapname = maplist[i][0];
                             var mapid = maplist[i][1];
-                            $('#mapimages').append("<span class='map_thumbnail'><img class= 'mappic' src=\"{{url_for('static', filename='generic_map_thumbnail.jpg') }}\"><br><a class='mapname' href='/map?map=" + mapid + "'>" + mapname + "</a>");
+                            $('#mapimages').append("<span class='map_thumbnail'><a href='/map?map=" + mapid + "'><img class= 'mappic' src=\"{{url_for('static', filename='generic_map_thumbnail.jpg') }}\"><br><a class='mapname' href='/map?map=" + mapid + "'>" + mapname + "</a></span>");
 
                         };
                         });

@@ -29,7 +29,8 @@ body {
 }
 
 #mapcolumn {
-    margin-top: 230px;
+    display: block;
+    margin-top: 115px;
     border: 1px solid #d3d3d3;
 }
 
@@ -58,9 +59,6 @@ body {
     margin-top: 80px;
 }
 
-#mapimages {
-
-}
 .map_thumbnail {
     float: left;
     margin-left: 10px;
@@ -76,4 +74,6 @@ body {
     text-decoration: none;
     display: block;
     width: 150px;
+    font-size: 90%;
+    color: #000000;
 }
