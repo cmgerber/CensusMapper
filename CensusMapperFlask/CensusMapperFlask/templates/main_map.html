@@ -82,7 +82,6 @@
         
         // procedure to render a single census layer
         function render_census_layer(layerid) {
-          deselect_census();
           $.getJSON('/_render_layer', {
             layerid: layerid
           }, function(data) {

@@ -45,7 +45,7 @@ def map():
                 centerlong = mapobj.centerlongitude
                 zoom = mapobj.zoomlevel
                 layers = [int(d.datalayersid) for d in DataLayer.query.filter_by(mapid=flask.session['mapid']).order_by(DataLayer.displayorder)]
-                print layers
+                flask.session['displayorder'] = len(layers)
                 return flask.render_template('main_map.html', mapname=mapname, centerlat=centerlat, centerlong=centerlong, zoom=zoom, categories=category_list(), layers=layers)
     else:
         new_user_name = 'temp_' + str(uuid1())
@@ -131,6 +131,7 @@ def save_map():
     centerlong = mapobj.centerlongitude
     zoom = mapobj.zoomlevel
     layers = [int(d.datalayersid) for d in DataLayer.query.filter_by(mapid=flask.session['mapid']).order_by(DataLayer.displayorder)]
+    flask.session['displayorder'] = len(layers)
     return flask.render_template('main_map.html', mapname=mapname, centerlat=centerlat, centerlong=centerlong, zoom=zoom, categories=category_list(), layers=layers)
 
 
