@@ -2,7 +2,7 @@ h3 {
     text-align: center;
 }
 
-#create_desc, #login_desc {
+#create_desc, #login_desc, #save_desc, #export_desc, #share_desc {
     font-size: 80%;
     text-align: center;
 }
@@ -41,7 +41,7 @@ h3 {
     z-index: 99800;
 }
 
-.login-popup, .create-popup {
+.login-popup, .create-popup, .save-popup, .export-popup, .share-popup {
     display: none;
     background: #EEEEEE;
     padding: 10px;

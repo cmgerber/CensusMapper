@@ -51,11 +51,11 @@
         <a href='#' class='close'><img src="{{ url_for('static', filename='close_button.png') }}" class="btn_close" title="Close Window" alt="Close" /></a>
         <h3>Save Map</h3>
         <p id='save_desc'>Title and save your map.</p>
-          <form method='post' class='save' action='save_map'>
+          <form method='post' class='signin' action='save_map'>
             <input type="hidden" id="sourcepage"  name="sourcepage" value={{ request.path }} />
             <fieldset class='textbox'>
               <label class='title'>
-                <span>Map Title</span>
+                <span class="form_title">Map Title</span>
                 <input id='maptitle' name='maptitle' value='' type='text' placeholder='map title'>
               </label>
             </fieldset>
@@ -63,10 +63,42 @@
           </form>
       </div>
 
+      <div id='export' class='export-popup'>
+        <a href='#' class='close'><img src="{{ url_for('static', filename='close_button.png') }}" class="btn_close" title="Close Window" alt="Close" /></a>
+        <h3>Export Map</h3>
+        <p id='export_desc'>Export your map.</p>
+          <form method='post' class='signin' action='save_map'>
+            <input type="hidden" id="sourcepage"  name="sourcepage" value={{ request.path }} />
+            <fieldset class='textbox'>
+              <label class='title'>
+                <span class="form_title">Map Title</span>
+                <input id='maptitle' name='maptitle' value='' type='text' placeholder='map title'>
+              </label>
+            </fieldset>
+            <input type='submit' class='submit_button' value='Export'>
+          </form>
+      </div>
+
+      <div id='share' class='share-popup'>
+        <a href='#' class='close'><img src="{{ url_for('static', filename='close_button.png') }}" class="btn_close" title="Close Window" alt="Close" /></a>
+        <h3>Share Map</h3>
+        <p id='share_desc'>Share your map.</p>
+          <form method='post' class='signin' action='save_map'>
+            <input type="hidden" id="sourcepage"  name="sourcepage" value={{ request.path }} />
+            <fieldset class='textbox'>
+              <label class='title'>
+                <span class="form_title">Map Title</span>
+                <input id='maptitle' name='maptitle' value='' type='text' placeholder='map title'>
+              </label>
+            </fieldset>
+            <input type='submit' class='submit_button' value='Share'>
+          </form>
+      </div>
+
 
     <script type="text/javascript">
       $(document).ready(function() {
-        $('a.create-window, a.login-window, a.save-window').click(function() {
+        $('a.create-window, a.login-window, a.save-window, a.export-window, a.share-window').click(function() {
           
           //Getting the variable's value from a link 
           var loginBox = $(this).attr('href');
@@ -92,7 +124,7 @@
         
         // When clicking on the button close or the mask layer the popup closed
         $('a.close, #mask').live('click', function() { 
-          $('#mask, .login-popup, .create-popup, .save-popup').fadeOut(300 , function() {
+          $('#mask, .login-popup, .create-popup, .save-popup, .export-popup, .share-popup').fadeOut(300 , function() {
             $('#mask').remove();  
           }); 
           return false;
