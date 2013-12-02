@@ -27,12 +27,29 @@ def profile():
     mapnamelist = list(Map.query.with_entities(Map.mapname, Map.mapid).filter_by(userid=flask.session['userid']))
     return flask.render_template('profile.html', mapcount=mapcount, mapnamelist = mapnamelist)
 
+# profile get map links
+@app.route('/profile_get_map')
+def profile_get_map():
+    map_id = request.args.get('map')
+    mapobj = Map.query.filter_by(userid=flask.session['userid'], mapid=map_id).first()
+    if mapobj:
+        mapname = mapobj.mapname
+        centerlat = mapobj.centerlatitude
+        centerlong = mapobj.centerlongitude
+        zoom = mapobj.zoomlevel
+        return flask.render_template('main_map.html', mapname=mapname, centerlat=centerlat, centerlong=centerlong, zoom=zoom, categories=category_list())
+
 
 # main mapping page
 @app.route('/map')
 def map():
     if 'userid' in flask.session:
         if 'mapid' in flask.session:
+            try:
+                map_id = request.args.get('map')
+                flask.session['mapid'] = map_id
+            except:
+                pass
             mapobj = Map.query.filter_by(userid=flask.session['userid'], mapid=flask.session['mapid']).first()
             if mapobj:
                 mapname = mapobj.mapname
@@ -122,7 +139,7 @@ def save_map():
         return flask.redirect(request.form['sourcepage'])
 
     #redirects to create account page if not logged in
-    return flask.redirect(flask.url_for('home'))
+    return flask.redirect(flask.url_for('create_account'))
 
 
 # get available categories and measures

@@ -46,9 +46,9 @@
                     </script>
                     <span>
                         <img class="map_thumbnail" src="{{url_for('static', filename='generic_map_thumbnail.jpg') }}"><br>
-                        <span class='mapname'>{{mapnamelist[0][0]}}</span>
+                        <a class='mapname' href='/map?map={{mapnamelist[0][1]}}'>{{mapnamelist[0][0]}}</a>
                         <img class="map_thumbnail" src="{{url_for('static', filename='generic_map_thumbnail.jpg') }}"><br>
-                        <span class='mapname'>{{mapnamelist[1][0]}}</span>
+                        <a class='mapname' href='/map?map={{mapnamelist[1][1]}}'>{{mapnamelist[1][0]}}</a>
                     </span>
                     
                 </div>
