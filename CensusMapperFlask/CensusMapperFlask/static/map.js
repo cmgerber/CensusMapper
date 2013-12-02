@@ -1,4 +1,5 @@
 var layers=[];
+var markersArray=[];
 
 function main(zoomval, lat, lng) {
 
@@ -100,47 +101,56 @@ function add_search_box(map) {
   })
 };
 
-function add_data_search_box(map) {
+function add_gmaps_places(map,keyword) {
   
-  var markers = [];
-  var input = document.getElementById('add-data-input');
+  var service = new google.maps.places.PlacesService(map);
   
-  var addDataBox = new google.maps.places.SearchBox(input);
+  function performSearch() {
+    var request = {
+      bounds: map.getBounds(),
+      keyword: keyword
+    };
+    service.radarSearch(request, callback);
+  };
   
-  google.maps.event.addListener(addDataBox, 'places_changed', function() {
-    var places = addDataBox.getPlaces();
-    for (var i = 0, marker; marker = markers[i]; i++) {
-      marker.setMap(null);
+  function callback(results, status) {
+    if (status != google.maps.places.PlacesServiceStatus.OK) {
+      alert(status);
+      return;
     }
-    markers = [];
-    var bounds = new google.maps.LatLngBounds();
-    for (var i = 0, place; place = places[i]; i++) {
-      var image = {
-        url: place.icon,
-        size: new google.maps.Size(71, 71),
-        origin: new google.maps.Point(0, 0),
-        anchor: new google.maps.Point(17, 34),
-        scaledSize: new google.maps.Size(25, 25)
-      };
-      
-      // Create a marker for each place.
-      var marker = new google.maps.Marker({
-        map: map,
-        icon: image,
-        title: place.name,
-        position: place.geometry.location
-      });
-      
-      markers.push(marker);
+    for (var i = 0, result; result = results[i]; i++) {
+      createMarker(result);
     }
-  });
+  };
   
-  google.maps.event.addListener(map, 'bounds_changed', function() {
-    var bounds = map.getBounds();
-    searchBox.setBounds(bounds);
-  });
+  function createMarker(place) {
+    var marker = new google.maps.Marker({
+      map: map,
+      position: place.geometry.location,
+      icon: {
+        // Star
+        path: 'M 0,-24 6,-7 24,-7 10,4 15,21 0,11 -15,21 -10,4 -24,-7 -6,-7 z',
+        fillColor: '#ffff00',
+        fillOpacity: 1,
+        scale: 1/4,
+        strokeColor: '#bd8d2c',
+        strokeWeight: 1
+      }
+    });
+    markersArray.push(marker);
+  };
   
+  remove_gmaps_places();
+  performSearch();
+  //google.maps.event.addListener(map, 'bounds_changed', performSearch);
 };
+
+function remove_gmaps_places() {
+  for (var i = 0; i < markersArray.length; i++ ) {
+    markersArray[i].setMap(null);
+  }
+  markersArray = [];
+}
 
 function remove_legend() {
   // delete old legend if necessary

@@ -147,10 +147,29 @@ ul {
 
 #otherdatamenu {
     z-index: 7000;
+    font-family: Helvetica, Arial, sans-serif;
 }
 
-#add-data-input {
-    width: 300px;
+#gmapsplacesearch {
+    margin-top: 10px;
+    margin-left: 10px;
+    height: 400px;
+}
+
+#findgmapstitle {
+    font-size: 110%;
+    font-weight: bold;
+    padding-bottom: 10px;
+}
+
+.gmapsradio {
+    font-size: 90%;
+    font-weight: lighter;
+    line-height: 1.25em;
+}
+
+#gmapsplaceother {
+    width: 180px;
 }
 
 #managelayersmenu {

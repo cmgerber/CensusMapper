@@ -139,6 +139,20 @@
           return false;
         });
         
+        // add or remove Google Maps markers depending on selection
+        $('.gmapsradio').live('change', function() {
+          var selected = $("input[type='radio'][name='gmapsplace']:checked");
+          var keyword = selected.val();
+          if (keyword == "nothing" ) {
+            remove_gmaps_places();
+          } else if (keyword == "other") {
+            var custom_key = $("#gmapsplaceother").val();
+            add_gmaps_places(map,custom_key);
+          } else {
+            add_gmaps_places(map,keyword);
+          };
+        });
+        
         // switch visible layer based on main menu click
         $('.mainmenusubitem').live('click', function() {
           var layerid = $(this).attr("id").split("-")[1];
@@ -243,9 +257,23 @@
     </div>
     
     <div id="otherdatamenu" class="secondpanel hide">
-      <input id="add-data-input" class="search-box" type="text" placeholder="Search for places to add">
-      <script type="text/javascript">add_data_search_box(map);</script>
+      <div id="gmapsplacesearch">
+        <div id="findgmapstitle">Add places from a Google Maps search</div>
+        <form>
+          <fieldset>
+            <input type="radio" name="gmapsplace" value="grocery store" class="gmapsradio">Grocery stores<br>
+            <input type="radio" name="gmapsplace" value="banks" class="gmapsradio">Bank branches<br>
+            <input type="radio" name="gmapsplace" value="transit" class="gmapsradio">Transit stops<br>
+            <span>
+              <input type="radio" name="gmapsplace" value="other" class="gmapsradio">Something else:&nbsp;
+              <input type="text" id="gmapsplaceother" placeholder="Type here before selecting button">
+            </span><br>
+            <input type="radio" name="gmapsplace" value="nothing" class="gmapsradio">Nothing (clear markers)<br>
+          </fieldset>
+        </form>
+      </div>
     </div>
+  
     <div id="managelayersmenu" class="secondpanel hide"><h4>This is a menu to manage your layers</h4></div>
   
   </body>
