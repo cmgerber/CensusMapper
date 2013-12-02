@@ -69,6 +69,18 @@ ul {
     color: #444444;
 }
 
+.mainmenusubitem {
+    display: block;
+    font-family: Helvetica, Arial, sans-serif;
+    font-weight: lighter;
+    font-size: 90%;
+    text-decoration: none;
+    padding-left: 15px;
+    padding-top: 4px;
+    padding-bottom: 4px;
+    color: #444444;
+}
+
 .secondpanel {
     position: absolute;
     background-color: rgb(248,245,225);
@@ -104,6 +116,33 @@ ul {
     top: 25%;
     left: 0;
     right: 0;
+}
+
+#censusmeasures {
+    margin-top: 20px;
+    margin-left: 20px;
+    font-family: Helvetica, Arial, sans-serif;
+    font-size: 90%;
+    padding-bottom: 2px;
+}
+
+.censusmeasure {
+    display: inline-block;
+    margin-left: -20px;
+}
+
+.totalof, .percentof {
+    display: block;
+    margin-left: 16px;
+}
+
+.totalof {
+    padding-bottom: 3px;
+}
+
+.percentof {
+    padding-left: 16px;
+    padding-bottom: 8px;
 }
 
 #otherdatamenu {

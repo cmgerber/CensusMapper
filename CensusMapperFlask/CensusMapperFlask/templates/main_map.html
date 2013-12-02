@@ -39,9 +39,17 @@
               $( "#censusmeasures" ).fadeIn(20);
             });
             $( "#censusmeasures" ).empty();
+            $( "#censusmeasures" ).append("<fieldset>");
             $.each(data.measures, function(index, value) {
-              $( "#censusmeasures" ).append("<li><a href='#' class='censusmeasure' id='measure-"+ value[0] + "'>" + value[1] + "</a></li>")
+              var share = "";
+              if ( value[2] ) {
+                share = "percentof";
+              } else {
+                share = "totalof"
+              }
+              $( "#censusmeasures" ).append("<div class='" + share + "''><input type='checkbox' class='censusmeasure' id='measure-"+ value[0] + "'>" + value[1] + "</div>")
             });
+            $( "#censusmeasures" ).append("</fieldset>");
             $( "#censusmeasures" ).append("<p>&nbsp;</p><a href='#' id='backtocats'><- go back to categories</a>")
           });
           return false;
@@ -53,34 +61,88 @@
           });
         });
         
-        // render map tiles if measure is picked
-        $('.censusmeasure').live('click', function() {
-          
-          $("#mask2").fadeIn(300);
-          $("#mask2").append("<div id=\"waiting\"><img src=\"{{ url_for('static', filename='waiting.gif') }}\" title=\"waiting\" alt=\"waiting\" /></div>")
-          $("#waiting").css({ 
-              'position' : 'fixed',
-              'top' : '50%',
-              'left' : '50%',
-              'margin' : '-75px 0 0 -105px'
-          });
-          
-          $.getJSON('/_add_measure_layer', {
-            measureid: $(this).attr("id")
+        // procedure to deselect all census layers
+        function deselect_census() {
+          $(".mainmenusubitem").css("font-weight", "lighter");
+          var layer = layers[0];
+          var sublayercount = layer.getSubLayerCount();
+          for (var i = 0; i < sublayercount; i++) {
+            var sublayer = layer.getSubLayer(i);
+            sublayer.remove();
+          }
+        };
+        
+        // procedure to render a single census layer
+        function render_census_layer(layerid) {
+          deselect_census();
+          $.getJSON('/_render_layer', {
+            layerid: layerid
           }, function(data) {
+            deselect_census();
             var sqlquery = data.sqlquery;
             var cartocss = data.cartocss;
             var titletext = data.titletext;
             var colorarray = data.colors;
             var valuearray = data.bins;
-            add_tiles(map, sqlquery, cartocss);
-            console.log(colorarray);
-            console.log(valuearray);
+            add_tiles(sqlquery, cartocss);
             add_legend(titletext, colorarray, valuearray);
-            $("#mask2").empty();
-            $("#mask2").fadeOut(10);
+            var layertextid = "layer-" + layerid;
+            var layertextelement = document.getElementById(layertextid);
+            console.log(layertextelement);
+            if ( !layertextelement ) {
+              $("#mainmenu").append("<a href='#' class='mainmenusubitem' id='" + layertextid + "'>" + titletext + "</a>");
+            };
+            $("#" + layertextid).css("font-weight", "bold");
+            $.getJSON('/_set_census_viz', {
+              layerid: layerid
+            });
           });
+        };
+        
+        // render map tiles if measure is picked
+        $('.censusmeasure').live('change', function() {
+          if ($(this).is(':checked')) {
+            $("#mask2").fadeIn(300);
+            $("#mask2").append("<div id=\"waiting\"><img src=\"{{ url_for('static', filename='waiting.gif') }}\" title=\"waiting\" alt=\"waiting\" /></div>");
+            $("#waiting").css({ 
+                'position' : 'fixed',
+                'top' : '50%',
+                'left' : '50%',
+                'margin' : '-75px 0 0 -105px'
+            });
+            $.getJSON('/_add_measure_layer', {
+              measureid: $(this).attr("id")
+            }, function(data) {
+              var layerid = data.layerid;
+              render_census_layer(layerid);
+              $("#mask2").empty();
+              $("#mask2").fadeOut(10);
+            });
+          } else {
+            // remove layer and tiles if measure is deselected
+            $.getJSON('/_remove_layer', {
+              measureid: $(this).attr("id")
+            }, function(data) {
+              var layerid = data.layerid;
+              var layertextid = "layer-" + layerid;
+              var subitem = document.getElementById(layertextid);
+              subitem.parentNode.removeChild(subitem);
+              if (data.nextid) {
+                render_census_layer(data.nextid);
+              };
+              if (data.remove_all) {
+                deselect_census();
+                remove_legend();
+              }
+            });
+          }
           return false;
+        });
+        
+        // switch visible layer based on main menu click
+        $('.mainmenusubitem').live('click', function() {
+          var layerid = $(this).attr("id").split("-")[1];
+          render_census_layer(layerid);
         });
         
         // movement of the "manila folder" tab image for sliding panels
@@ -176,8 +238,8 @@
         </div>
       {% endfor %}
       </div>
-      <ul id="censusmeasures">
-      </ul>
+      <form id="censusmeasures">
+      </form>
     </div>
     
     <div id="otherdatamenu" class="secondpanel hide"><h4>This is a menu to add other data</h4></div>

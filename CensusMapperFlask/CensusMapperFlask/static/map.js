@@ -59,21 +59,17 @@ function main(zoomval, lat, lng) {
   .addTo(map)
   .on('done', function(layer) {
     layers.push(layer);
+    var sublayer = layer.getSubLayer(0);
+    sublayer.remove();
   });
-  
   
   return map;
   
 };
 
-function add_tiles(map, sqlquery, cartocss) {
+function add_tiles(sqlquery, cartocss) {
   
   var layer = layers[0];
-  
-  var sublayer = layer.getSubLayer(0);
-  sublayer.remove();
-  
-  console.log(sqlquery);
   
   layer.createSubLayer({
       sql: sqlquery,
@@ -102,15 +98,20 @@ function add_search_box(map) {
       map.setZoom(12);
     }
   })
-}
+};
 
-function add_legend(titletext, colorarray, valuearray) {
-  
+function remove_legend() {
   // delete old legend if necessary
   var oldlegend = document.getElementById('legendbox');
   if (oldlegend) {
     oldlegend.parentNode.removeChild(oldlegend);
-  }
+  };
+};
+
+function add_legend(titletext, colorarray, valuearray) {
+  
+  // delete old legend if necessary
+  remove_legend();
   
   // Create a div to hold the control.
   var controlDiv = document.createElement('div');
@@ -140,7 +141,7 @@ function add_legend(titletext, colorarray, valuearray) {
   // add individual labels
   for (var i = 0; i < valuearray.length; i++) {
     var labelItem = document.createElement('li');
-    labelItem.innerHTML = "<span style='background:rgb("+colorarray[i+1][0]+","+colorarray[i+1][1]+","+colorarray[i+1][2]+")'></span>"+valuearray[i]
+    labelItem.innerHTML = "<span style='background:rgb("+colorarray[i+1][1][0]+","+colorarray[i+1][1][1]+","+colorarray[i+1][1][2]+")'></span>"+valuearray[i]
     labelDiv.appendChild(labelItem)
   }
   
