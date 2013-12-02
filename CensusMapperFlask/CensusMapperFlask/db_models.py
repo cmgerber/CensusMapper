@@ -72,8 +72,8 @@ class ValueBreak(db.Model):
     valuebreaksid = db.Column(db.Integer, primary_key = True)
     datalayersid = db.Column(db.Integer, db.ForeignKey('datalayers.datalayersid'))
     categorynumber = db.Column(db.Integer)
-    maxvalue = db.Column(db.Float)
     minvalue = db.Column(db.Float)
+    maxvalue = db.Column(db.Float)
     
     def __init__(self, datalayersid, categorynumber, minvalue, maxvalue):
         self.datalayersid = datalayersid
