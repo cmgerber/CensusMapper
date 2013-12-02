@@ -88,7 +88,6 @@
             add_legend(titletext, colorarray, valuearray);
             var layertextid = "layer-" + layerid;
             var layertextelement = document.getElementById(layertextid);
-            console.log(layertextelement);
             if ( !layertextelement ) {
               $("#mainmenu").append("<a href='#' class='mainmenusubitem' id='" + layertextid + "'>" + titletext + "</a>");
             };
@@ -98,6 +97,13 @@
             });
           });
         };
+        
+        // render layers if passed to map
+        {%- if layers -%}
+          {%- for layerid in layers -%}
+            render_census_layer({{ layerid }});
+          {%- endfor -%}
+        {%- endif -%}
         
         // render map tiles if measure is picked
         $('.censusmeasure').live('change', function() {
