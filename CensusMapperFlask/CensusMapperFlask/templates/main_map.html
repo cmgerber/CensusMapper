@@ -65,10 +65,18 @@
         function deselect_census() {
           $(".mainmenusubitem").css("font-weight", "lighter");
           var layer = layers[0];
-          var sublayercount = layer.getSubLayerCount();
-          for (var i = 0; i < sublayercount; i++) {
-            var sublayer = layer.getSubLayer(i);
-            sublayer.remove();
+          var sublayercount = 0;
+          try {
+            sublayercount = layer.getSubLayerCount();
+          }
+          catch(err) {
+            console.log("no layers yet");
+          }
+          finally {
+            for (var i = 0; i < sublayercount; i++) {
+              var sublayer = layer.getSubLayer(i);
+              sublayer.remove();
+            };
           }
         };
         
@@ -99,13 +107,12 @@
         };
         
         // render layers if passed to map
-        {%- if layers -%}
-          console.log("layers are present");
-          {%- for layerid in layers -%}
-            console.log("rendering layer");
-            render_census_layer({{ layerid }});
-          {%- endfor -%}
-        {%- endif -%}
+        var import_layers = {{ layers }};
+        if ( import_layers ) {
+          for (var i = 0; i < import_layers.length; i++) {
+            render_census_layer(import_layers[i]);
+          }
+        };
         
         // render map tiles if measure is picked
         $('.censusmeasure').live('change', function() {

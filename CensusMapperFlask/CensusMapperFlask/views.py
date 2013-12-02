@@ -44,7 +44,9 @@ def map():
                 centerlat = mapobj.centerlatitude
                 centerlong = mapobj.centerlongitude
                 zoom = mapobj.zoomlevel
-                return flask.render_template('main_map.html', mapname=mapname, centerlat=centerlat, centerlong=centerlong, zoom=zoom, categories=category_list())
+                layers = [int(d.datalayersid) for d in DataLayer.query.filter_by(mapid=flask.session['mapid']).order_by(DataLayer.displayorder)]
+                print layers
+                return flask.render_template('main_map.html', mapname=mapname, centerlat=centerlat, centerlong=centerlong, zoom=zoom, categories=category_list(), layers=layers)
     else:
         new_user_name = 'temp_' + str(uuid1())
         new_user = User(new_user_name, '', '', 'regular')
@@ -62,7 +64,7 @@ def map():
     flask.session['mapid'] = new_map.mapid
     flask.session['displayorder'] = 0
     
-    return flask.render_template('main_map.html', mapname=mapname, centerlat=centerlat, centerlong=centerlong, zoom=zoom, categories=category_list())
+    return flask.render_template('main_map.html', mapname=mapname, centerlat=centerlat, centerlong=centerlong, zoom=zoom, categories=category_list(), layers=[])
 
 
 # create user request
@@ -129,7 +131,6 @@ def save_map():
     centerlong = mapobj.centerlongitude
     zoom = mapobj.zoomlevel
     layers = [int(d.datalayersid) for d in DataLayer.query.filter_by(mapid=flask.session['mapid']).order_by(DataLayer.displayorder)]
-    print layers
     return flask.render_template('main_map.html', mapname=mapname, centerlat=centerlat, centerlong=centerlong, zoom=zoom, categories=category_list(), layers=layers)
 
 
