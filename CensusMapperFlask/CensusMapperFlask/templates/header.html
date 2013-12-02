@@ -1,8 +1,10 @@
     <header>
         <div id="navbar">
+          {%- if not home -%}
           <span id="logo_link">
-            <a id='homeLink' href="{{ url_for('home') }}"><img src="{{ url_for('static', filename='logo_small.png') }}" border="0" alt="CensusMapper"></a>
+            <a id='home_link' href="{{ url_for('home') }}">CensusMapper</a>
           </span>
+          {%- endif -%}
           <span id="login_links">
             {%- if session.username -%}
               <a class="userlinktext" href="'{{ url_for('home') }}'">{{ session.username }}</a>

@@ -12,7 +12,13 @@ from uuid import uuid1
 # homepage
 @app.route('/')
 def home():
-    return flask.render_template('home.html')
+    return flask.render_template('home.html', home=True)
+
+
+# tutorial screens
+@app.route('/tutorial')
+def tutorial():
+    return flask.render_template('tutorial.html')
 
 
 # main mapping page

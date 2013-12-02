@@ -17,11 +17,16 @@
     {% include 'header.html' %}
     {% include 'user_control.html' %}
     <div id="maincontent">
-      <h3 id="motd_title">Map of the Day</h3>
-      <img id="map_of_the_day" src="{{url_for('static', filename='map_of_the_day_test.jpg') }}">
+      <div id="maintitle">CensusMapper</div>
+      <div id="motd">
+        <div id="motd-title">Map of the Day: Unemployment by County</div>
+        <img id="motd-map" src="{{url_for('static', filename='map_of_the_day_test.png') }}">
+      </div>
       <p>&nbsp;</p>
-      <a id="tutorial" class="button" href="{{ url_for('map') }}">Get Started With a Tour</a>
-      <a id="direct_to_map" class="linkref" href="{{ url_for('map') }}">or go directly to the map</a>
+      <div id="maplinks">
+        <a id="tutorial" class="button" href="{{ url_for('tutorial') }}">Get Started With a Tour</a>
+        <a id="direct_to_map" class="linkref" href="{{ url_for('map') }}">or go directly to the map</a>
+      </div>
       <p>&nbsp;</p>
     </div>
     

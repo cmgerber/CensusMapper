@@ -19,6 +19,15 @@ p {
 #logo_link { padding-left: 25px; 
 }
 
+#home_link {
+    font-family: Helvetica, Arial, sans-serif; 
+    font-weight: lighter;
+    font-size: 115%;
+    color: rgb(241,119,103);
+    text-decoration: none;
+    letter-spacing: 0.1em;
+}
+
 #login_links {
     float: right;
     padding-right: 12px;

@@ -13,16 +13,34 @@ body {
     margin: 0; 
 }
 
-#maincontent {
-    text-align: center;
+#maintitle {
+    font-size: 300%;
+    font-weight: lighter;
+    color: rgb(241,119,103);
+    margin-left: 30px;
+    margin-top: 15px;
 }
 
-#map_of_the_day {
+#motd {
+    text-align: center;
+    font-family: Helvetica, Arial, sans-serif;
+}
+
+#motd-title {
+    font-size: 120%;
+    font-weight: bold;
+    padding-bottom: 15px;
+}
+
+#motd-map {
     display: block;
     margin-left: auto;
     margin-right: auto;
-    padding-bottom: 5px;
-    border: 2px solid #cccccc;
+    border: 2px solid #dddddd;
+}
+
+#maplinks {
+    text-align: center;
 }
 
 #tutorial {
