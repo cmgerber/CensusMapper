@@ -149,6 +149,10 @@ ul {
     z-index: 7000;
 }
 
+#add-data-input {
+    width: 300px;
+}
+
 #managelayersmenu {
     z-index: 6000;
 }
@@ -168,6 +172,7 @@ ul {
     font-family: Helvetica, Arial, sans-serif;
     font-size: 110%;
 }
+
 #legend-labels {
     margin: 0;
     margin-bottom: 5px;
@@ -176,6 +181,7 @@ ul {
     list-style: none;
     padding-left: 5px;
 }
+
 #legend-scale ul li {
     font-size: 90%;
     font-family: Helvetica, Arial, sans-serif;
@@ -185,6 +191,7 @@ ul {
     line-height: 18px;
     margin-bottom: 2px;
 }
+
 #legend-labels li span {
     display: block;
     float: left;
