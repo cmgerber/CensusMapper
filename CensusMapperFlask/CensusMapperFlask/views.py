@@ -110,6 +110,11 @@ def logout_of_account():
     remove_mapid()
     return flask.redirect(flask.url_for('home'))
 
+# save maps
+@app.route('/save_map', methods = ['POST'])
+def save_map():
+    return flask.redirect(request.form('sourcepage'))
+
 
 # get available categories and measures
 @app.route('/_get_measures')

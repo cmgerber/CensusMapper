@@ -47,10 +47,26 @@
         </form>
       </div>
 
+      <div id='save' class='save-popup'>
+        <a href='#' class='close'><img src="{{ url_for('static', filename='close_button.png') }}" class="btn_close" title="Close Window" alt="Close" /></a>
+        <h3>Save Map</h3>
+        <p id='save_desc'>Title and save your map.</p>
+          <form method='post' class='save' action='save_map'>
+            <input type="hidden" id="sourcepage"  name="sourcepage" value={{ request.path }} />
+            <fieldset class='textbox'>
+              <label class='title'>
+                <span>Map Title</span>
+                <input id='maptitle' name='maptitle' value='' type='text' placeholder='map title'>
+              </label>
+            </fieldset>
+            <input type='submit' class='submit_button' value='Save'>
+          </form>
+      </div>
+
 
     <script type="text/javascript">
       $(document).ready(function() {
-        $('a.create-window, a.login-window').click(function() {
+        $('a.create-window, a.login-window, a.save-window').click(function() {
           
           //Getting the variable's value from a link 
           var loginBox = $(this).attr('href');
@@ -76,7 +92,7 @@
         
         // When clicking on the button close or the mask layer the popup closed
         $('a.close, #mask').live('click', function() { 
-          $('#mask, .login-popup, .create-popup').fadeOut(300 , function() {
+          $('#mask, .login-popup, .create-popup, .save-popup').fadeOut(300 , function() {
             $('#mask').remove();  
           }); 
           return false;
