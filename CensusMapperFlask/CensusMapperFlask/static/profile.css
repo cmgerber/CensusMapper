@@ -3,6 +3,7 @@ body {
     background-color: #F8F8F8;
     margin: 0;
     padding: 0;
+    margin-bottom: 20px;
 }
 
 #maincontent {
@@ -32,11 +33,6 @@ body {
     border: 1px solid #d3d3d3;
 }
 
-#mapimages {
-    margin-left: 25px;
-}
-
-
 #profilename {
     text-align: left;
     margin-left: 25px;
@@ -62,12 +58,22 @@ body {
     margin-top: 80px;
 }
 
+#mapimages {
+
+}
 .map_thumbnail {
+    float: left;
+    margin-left: 10px;
+    margin-bottom: 20px;
+}
+
+.mappic {
     border-radius: 1px;
     border: 2px solid #000000;
-    margin-bottom: 10px;
-
 }
 
 .mapname {
+    text-decoration: none;
+    display: block;
+    width: 150px;
 }

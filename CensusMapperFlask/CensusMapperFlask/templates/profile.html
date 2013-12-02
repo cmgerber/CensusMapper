@@ -22,9 +22,14 @@
         </div>
         <div id='column2'>
             <h3 id='about'>About:</h3>
+            <p>
+                I work at a small CBO based in San Fransisco.<br>
+                I create maps related to poverty and access to public transit.<br>
+                I also like to make maps tracking all of the trips I have taken and the stops I made just for fun.
+            </p>
             <div id='mapcolumn'>
                 <h3 id='mapcolumntitle'>Saved Maps</h3>
-                <div id='mapimages'>
+                <div id='mapimages' class='clearfix'>
                     <script type="text/javascript">
                         $(document).ready(function(){
                             var maplist = {{ mapnamelist|safe }};
@@ -32,7 +37,7 @@
                         for (var i = 0; i < maplist.length; i++) {
                             var mapname = maplist[i][0];
                             var mapid = maplist[i][1];
-                            $('#mapimages').append("<span class='map_thumbnail'><img src=\"{{url_for('static', filename='generic_map_thumbnail.jpg') }}\"><br><a class='mapname' href='/map?map=" + mapid + "'>" + mapname + "</a>");
+                            $('#mapimages').append("<span class='map_thumbnail'><img class= 'mappic' src=\"{{url_for('static', filename='generic_map_thumbnail.jpg') }}\"><br><a class='mapname' href='/map?map=" + mapid + "'>" + mapname + "</a>");
 
                         };
                         });
