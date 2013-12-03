@@ -51,6 +51,8 @@
         <a href='#' class='close'><img src="{{ url_for('static', filename='close_button.png') }}" class="btn_close" title="Close Window" alt="Close" /></a>
         <h3>Save Map</h3>
         {%- if session.username -%}
+        <script type="text/javascript">
+        </script>
         <p id='save_desc'>Enter a name for your map.</p>
           <form method='post' class='signin' action='save_map'>
             <input type="hidden" id="sourcepage"  name="sourcepage" value={{ request.path }} />

@@ -156,13 +156,13 @@ ul {
     height: 400px;
 }
 
-#findgmapstitle {
+#findgmapstitle, #layerdesctitle {
     font-size: 110%;
     font-weight: bold;
     padding-bottom: 10px;
 }
 
-.gmapsradio {
+.gmapsradio, #numcatselect {
     font-size: 90%;
     font-weight: lighter;
     line-height: 1.25em;
@@ -174,6 +174,7 @@ ul {
 
 #managelayersmenu {
     z-index: 6000;
+    font-family: Helvetica, Arial, sans-serif;
 }
 
 #legendbox {

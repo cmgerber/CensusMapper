@@ -152,6 +152,18 @@ def get_measures():
         measures.append([m.measureid, m.description, denom])
     return flask.jsonify(measures=measures)
 
+# update map's zoom level and lat/long
+@app.route('/_update_layer_info')
+def update_layer_info():
+    # extract data from passed object
+    zoom = request.args['zoomlevel']
+    latlong = request.args['latlong']
+    print latlong
+    update_sql = "update maps set zoomlevel = %d, centerlatitude = %g, centerlongitude = %g where mapid = %d" % (zoom, latlong[0], latlong[1], session['mapid'])
+    db.engine.execute(update_sql)
+    db.session.commit()
+    return flask.jsonify(True)
+
 # add layer for specific measure
 @app.route('/_add_measure_layer')
 def add_measure_layer():
@@ -199,6 +211,37 @@ def set_census_viz():
     # get layer id
     layerid = int(request.args['layerid'])
     flask.session['censusviz'] = layerid
+    return flask.jsonify(layerid=layerid)
+
+
+@app.route('/_update_layer')
+def update_layer():
+    # change in categories?
+    layerid = flask.session['censusviz']
+
+    if 'numcats' in request.args:
+        numcats = int(request.args['numcats'])
+        update_sql = "update datalayers set numcategories = %d where datalayersid = %d" % (numcats, layerid)
+        db.engine.execute(update_sql)
+        db.session.commit()
+        # update value breaks
+        remove_sql = "delete from valuebreaks where datalayersid = %d" % layerid
+        db.engine.execute(remove_sql)
+        db.session.commit()
+        measureid = DataLayer.query.filter_by(datalayersid=layerid).first().measureid
+        breaks = [b.maxvalue for b in DefaultBreak.query.filter_by(measureid=measureid, numcategories=numcats).order_by(DefaultBreak.categorynumber)]
+        for b in range(len(breaks)):
+            new_value_break = ValueBreak(layerid, b+1, 0 if b == 0 else breaks[b-1], breaks[b])
+            db.session.add(new_value_break)
+            db.session.commit()
+
+    # change in colors?
+    if 'colorpick' in request.args:
+        colorpick = request.args['colorpick']
+        update_sql = "update datalayers set colorschemename = %s where datalayersid = %d" % (colorpick, layerid)
+        db.engine.execute(update_sql)
+        db.session.commit()
+    
     return flask.jsonify(layerid=layerid)
 
 

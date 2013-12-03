@@ -30,7 +30,7 @@
       
       $(document).ready(function() {
         
-        // show individual census measures when a particular category is clicked
+        // show list of individual census measures when a particular category is clicked
         $('.censuscategory').live('click', function() {
           $.getJSON('/_get_measures', {
             categoryid: $(this).attr("id")
@@ -93,12 +93,19 @@
             var valuearray = data.bins;
             add_tiles(sqlquery, cartocss);
             add_legend(titletext, colorarray, valuearray);
+            
+            // add to main menu bar
             var layertextid = "layer-" + layerid;
             var layertextelement = document.getElementById(layertextid);
             if ( !layertextelement ) {
               $("#mainmenu").append("<a href='#' class='mainmenusubitem' id='" + layertextid + "'>" + titletext + "</a>");
             };
             $("#" + layertextid).css("font-weight", "bold");
+
+            // update manage layers menu title
+            $("#layerdesctitle").html(titletext);
+            
+            // set the current layerid as the one being shown
             $.getJSON('/_set_census_viz', {
               layerid: layerid
             });
@@ -153,6 +160,14 @@
           return false;
         });
         
+        // save map variables to database
+        function update_layer_info() {
+          $.getJSON('/_update_layer_info', {
+              zoomlevel: map.getZoom(),
+              latlong: map.getCenter()
+            });
+        };
+
         // add or remove Google Maps markers depending on selection
         $('.gmapsradio').live('change', function() {
           var selected = $("input[type='radio'][name='gmapsplace']:checked");
@@ -165,6 +180,44 @@
           } else {
             add_gmaps_places(map,keyword);
           };
+        });
+
+        // render manage layers menu when menu element is clicked
+        $('#managelayers').live('click', function() {
+          // set title of manage layer menu
+          $("#layerdescription").empty();
+          $("#layerdescription").append("<div id='layerdesctitle'>" + {{ session.censusviztitle }} + "</div>")
+
+          // add number of categories dropdown
+          var container = document.getElementById('layerdescription');
+          var formElement = document.createElement('form');
+          container.appendChild(formElement);
+
+          var formTitle = document.createElement('span');
+          formTitle.setAttribute('id', 'layerdescsubtitle');
+          formTitle.innerHTML = 'Number of categories: ';
+          formElement.appendChild(formTitle);
+
+          var selectList = document.createElement('select');
+          selectList.setAttribute('id', 'numcatselect');
+          formElement.appendChild(selectList);
+          for (var i = 3; i < 10; i++) {
+            var selectItem = document.createElement('option');
+            selectItem.innerHTML = i;
+            selectList.appendChild(selectItem);
+          };
+
+            // add color dropdown
+        });
+        
+        // update database when number of categories changes
+        $("#numcatselect").live('change', function() {
+          $.getJSON('/_update_layer', {
+            numcats: $(this).val()
+          }, function(data) {
+            var layerid = data.layerid;
+            render_census_layer(layerid);
+          });
         });
         
         // switch visible layer based on main menu click
@@ -288,7 +341,11 @@
       </div>
     </div>
   
-    <div id="managelayersmenu" class="secondpanel hide"><h4>This is a menu to manage your layers</h4></div>
+    <div id="managelayersmenu" class="secondpanel hide">
+      <div id="layerdescription">
+        <div id="layerdesctitle">After you add layers, you can manage them here.</div>
+      </div>
+    </div>
   
   </body>
   
