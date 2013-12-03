@@ -85,18 +85,22 @@
 
       <div id='share' class='share-popup'>
         <a href='#' class='close'><img src="{{ url_for('static', filename='close_button.png') }}" class="btn_close" title="Close Window" alt="Close" /></a>
-        <h3>Share Map</h3>
-        <p id='share_desc'>Share your map.</p>
+        <h3>Share Your Map</h3>
           <form method='post' class='signin' action='save_map'>
             <input type="hidden" id="sourcepage"  name="sourcepage" value={{ request.path }} />
             <fieldset class='textbox'>
               <label class='title'>
-                <span class="form_title">Map Title</span>
-                <input id='maptitle' name='maptitle' value='' type='text' placeholder='map title'>
+                <span class="form_title">URL:</span>
+                <input id='maptitle' name='maptitle' value='' type='text' placeholder='url'>
               </label>
             </fieldset>
-            <input type='submit' class='submit_button' value='Share'>
           </form>
+          <div id='social_icons'>
+            <img class='icon' src="{{ url_for('static', filename='Facebook.png') }}">
+            <img class='icon' src="{{ url_for('static', filename='Twitter.png') }}">
+            <img class='icon' src="{{ url_for('static', filename='Linkedin.png') }}">
+            <img class='icon' src="{{ url_for('static', filename='Google_plus.png') }}">
+          </div>
       </div>
 
 
