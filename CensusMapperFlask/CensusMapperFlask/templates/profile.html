@@ -19,6 +19,7 @@
             <h3 id='profilename'>{{ session.username }}</h3>
             <img id="profile_pic" src="{{url_for('static', filename='generic_user_image.jpg') }}"><br>
             <span id='mapcount'>Maps Created: {{mapcount}}</span><br>
+            <a id='newmap' href='/map'>Create New Map<a/>
         </div>
         <div id='column2'>
             <h3 id='about'>About:</h3>

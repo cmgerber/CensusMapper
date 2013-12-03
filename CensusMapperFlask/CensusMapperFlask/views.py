@@ -27,13 +27,35 @@ def profile():
     mapnamelist = [[str(m.mapname),int(m.mapid)] for m in Map.query.filter_by(userid=flask.session['userid'])]
     return flask.render_template('profile.html', mapcount=mapcount, mapnamelist = mapnamelist)
 
+# map rendering for shared links
+@app.route('/map_share')
+def map_share():
+    #gets the userid and mapid from the url
+    try:
+        user_id = request.args.get('user')
+        map_id = request.args.get('map')
+    except:
+        return flask.render_template('home.html')
+
+    mapobj = Map.query.filter_by(userid=user_id, mapid=map_id).first()
+    if mapobj:
+                mapname = mapobj.mapname
+                centerlat = mapobj.centerlatitude
+                centerlong = mapobj.centerlongitude
+                zoom = mapobj.zoomlevel
+                layers = [int(d.datalayersid) for d in DataLayer.query.filter_by(mapid=map_id).order_by(DataLayer.displayorder)]
+                flask.session['displayorder'] = len(layers)
+                flask.session.pop('userid', None)
+                flask.session.pop('username', None)
+                remove_mapid()
+                return flask.render_template('main_map.html', mapname=mapname, centerlat=centerlat, centerlong=centerlong, zoom=zoom, categories=category_list(), layers=layers)
+
 # main mapping page
 @app.route('/map')
 def map():
     if 'userid' in flask.session:
         try:
             map_id = request.args.get('map')
-            print map_id
             flask.session['mapid'] = map_id
         except:
             pass

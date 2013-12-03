@@ -54,6 +54,15 @@ body {
     font-weight: bold;
 }
 
+#newmap {
+    display: block;
+    text-decoration: none;
+    margin-left: 25px;
+    margin-top: 10px;
+    color: #000000;
+    font-weight: bold;
+}
+
 #about {
     text-align: left;
     margin-top: 80px;
@@ -73,7 +82,15 @@ body {
 .mapname {
     text-decoration: none;
     display: block;
+    text-align: center;
     width: 150px;
     font-size: 90%;
     color: #000000;
+}
+
+.mapname:hover,
+.mapname:active,
+#newmap:hover,
+#newmap:active {
+    text-decoration: underline;
 }
