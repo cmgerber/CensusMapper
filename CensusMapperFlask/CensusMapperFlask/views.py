@@ -99,6 +99,11 @@ def login_to_account():
     
     #check password
     if login_user:
+        # clean up old maps
+        remove_sql = "delete from maps where mapname = 'Untitled Map' and userid = %d" % (login_user.userid)
+        db.engine.execute(remove_sql)
+        db.session.commit()
+        
         flask.session['userid'] = login_user.userid
         flask.session['username'] = login_user.username
         remove_mapid()
