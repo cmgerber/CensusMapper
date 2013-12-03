@@ -152,6 +152,24 @@ def get_measures():
         measures.append([m.measureid, m.description, denom])
     return flask.jsonify(measures=measures)
 
+
+@app.route('/_get_colors')
+def get_colors():
+    # extract category id from element id
+    layerid = flask.session['censusviz']
+    numcats = DataLayer.query.filter_by(datalayersid=layerid).first().numcategories
+    colors = ColorScheme.query.filter_by(numcategories=numcats).order_by(ColorScheme.colorschemename, ColorScheme.categorynumber)
+    colorlist = []
+    for c in colors:
+        if c.categorynumber == 1:
+            colordict = {'schemename': c.colorschemename, 'values': []}
+        colordict['values'].append('rgb(%d,%d,%d)' % (c.redvalue, c.greenvalue, c.bluevalue))
+        if c.categorynumber == numcats:
+            colorlist.append(colordict)
+            colordict = {}
+    return flask.jsonify(colorlist=colorlist)
+
+
 # update map's zoom level and lat/long
 @app.route('/_update_layer_info')
 def update_layer_info():
@@ -238,7 +256,7 @@ def update_layer():
     # change in colors?
     if 'colorpick' in request.args:
         colorpick = request.args['colorpick']
-        update_sql = "update datalayers set colorschemename = %s where datalayersid = %d" % (colorpick, layerid)
+        update_sql = "update datalayers set colorschemename = '%s' where datalayersid = %d" % (colorpick, layerid)
         db.engine.execute(update_sql)
         db.session.commit()
     
