@@ -7,10 +7,6 @@ h3 {
     text-align: center;
 }
 
-/*#login_desc {
-    font-size: 80%;
-}*/
-
 .form_title {
     font-weight: bold;
 }
@@ -102,6 +98,8 @@ form.signin .textbox input {
     text-align: center;
 }
 
+#url_share {
+    text-overflow: clip;
 }
 
 .submit_button {
