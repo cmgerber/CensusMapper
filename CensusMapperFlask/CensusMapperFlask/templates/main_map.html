@@ -162,11 +162,22 @@
         
         // save map variables to database
         function update_layer_info() {
+          var zoomlevel = map.getZoom();
+          console.log(zoomlevel);
+          var latlong = map.getCenter();
+          console.log(latlong);
           $.getJSON('/_update_layer_info', {
-              zoomlevel: map.getZoom(),
-              latlong: map.getCenter()
+              zoomlevel: zoomlevel,
+              latlong: latlong
+            }, function(data) {
+              // do something
             });
         };
+
+        $("#save-window").live('click', function() {
+          update_layer_info();
+          return false;
+        });
 
         // add or remove Google Maps markers depending on selection
         $('.gmapsradio').live('change', function() {

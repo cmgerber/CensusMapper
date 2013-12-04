@@ -2,6 +2,7 @@ env/
 census/
 pgconn.py
 *.pyc
+*.wsgi
 *.zip
 g20*.csv
 
