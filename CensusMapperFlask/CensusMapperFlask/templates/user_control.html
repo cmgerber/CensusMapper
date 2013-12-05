@@ -1,4 +1,4 @@
-    
+
     <div id="login" class="login-popup">
       <a href="#" class="close"><img src="{{ url_for('static', filename='close_button.png') }}" class="btn_close" title="Close Window" alt="Close" /></a>
       <h3>Login</h3>
@@ -108,7 +108,7 @@
 
     <script type="text/javascript">
       $(document).ready(function() {
-        $('a.create-window, a.login-window, a.save-window, a.export-window, a.share-window').click(function() {
+        $('#create-window, #login-window, #save-window, #export-window, #share-window').click(function() {
           
           //Getting the variable's value from a link 
           var loginBox = $(this).attr('href');
