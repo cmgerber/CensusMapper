@@ -251,6 +251,16 @@ def set_census_viz():
     # get layer id
     layerid = int(request.args['layerid'])
     flask.session['censusviz'] = layerid
+    measureid = DataLayer.query.filter_by(datalayersid=layerid).first().measureid
+    description = Measure.query.filter_by(measureid=measureid).first().description
+    flask.session['censusviztitle'] = description
+    return flask.jsonify(layerid=layerid, description=description)
+
+
+@app.route('/_get_census_viz')
+def get_census_viz():
+    layerid = int(flask.session['censusviz'])
+    print 'Layer is %d' % layerid
     return flask.jsonify(layerid=layerid)
 
 
@@ -285,16 +295,33 @@ def update_layer():
     return flask.jsonify(layerid=layerid)
 
 
-@app.route('/_remove_layer')
-def remove_layer():
+# get available categories and measures
+@app.route('/_get_measureid')
+def get_measureid():
+    layerid = request.args['layerid']
+    measureid = DataLayer.query.filter_by(datalayersid=layerid).first().measureid
+    return flask.jsonify(measureid=measureid)
+
+
+# get available categories and measures
+@app.route('/_get_layerid')
+def get_layerid():
     # get measure id
     measureid = request.args['measureid'].split('-')[1]
     
-    # get user id
+    # get map id
     mapid = flask.session['mapid']
     
     # get datalayersid
     layerid = DataLayer.query.filter_by(mapid=mapid, measureid=measureid).first().datalayersid
+    
+    return flask.jsonify(layerid=layerid)
+
+
+@app.route('/_remove_layer')
+def remove_layer():
+    layerid = int(request.args['layerid'])
+    print 'Layer to remove is %d' % layerid
     
     # remove from datalayers
     remove_sql = "delete from datalayers where datalayersid = %d" % (layerid)
@@ -305,7 +332,7 @@ def remove_layer():
     
     # if necessary, get next datalayerid for display
     if flask.session['censusviz'] == layerid:
-        nextlayer = DataLayer.query.filter_by(mapid=mapid).order_by(DataLayer.displayorder).first()
+        nextlayer = DataLayer.query.filter_by(mapid=flask.session['mapid']).order_by(DataLayer.displayorder).first()
         if nextlayer:
             return flask.jsonify(layerid=layerid, nextid=nextlayer.datalayersid)
         else:

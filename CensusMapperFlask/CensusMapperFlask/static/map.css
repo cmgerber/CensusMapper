@@ -177,6 +177,14 @@ ul {
     font-family: Helvetica, Arial, sans-serif;
 }
 
+#removelayerbutton {
+    font-weight: medium;
+    font-size: 100%;
+    display: block;
+    width: 150px;
+    margin-top: 15px;
+}
+
 #legendbox {
     padding: 5px;
     width: 140px;

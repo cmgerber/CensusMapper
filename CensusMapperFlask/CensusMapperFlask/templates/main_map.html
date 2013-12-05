@@ -55,14 +55,16 @@
           return false;
         });
         
+        // return to category-level view
         $("#backtocats").live('click', function(){
           $( "#censusmeasures" ).fadeOut(20, function() {
             $( "#censuscategories" ).fadeIn(20);
           });
         });
         
-        // procedure to deselect all census layers
+        // procedure to remove all census layers
         function deselect_census() {
+          remove_legend();
           $(".mainmenusubitem").css("font-weight", "lighter");
           var layer = layers[0];
           var sublayercount = 0;
@@ -78,6 +80,15 @@
               sublayer.remove();
             };
           }
+        };
+        
+        // procedure to get a layer's measure id
+        function get_measureid(layerid) {
+          $.getJSON('/_get_measureid', {
+            layerid: layerid
+          }, function(data) {
+            return data.measureid;
+          });
         };
         
         // procedure to render a single census layer
@@ -101,17 +112,21 @@
               $("#mainmenu").append("<a href='#' class='mainmenusubitem' id='" + layertextid + "'>" + titletext + "</a>");
             };
             $("#" + layertextid).css("font-weight", "bold");
-
-            // update manage layers menu title
-            $("#layerdesctitle").html(titletext);
+            
+            // make sure element is checked
+            var measureid = get_measureid(layerid);
+            $('measure-' + measureid).prop('checked', true);
             
             // set the current layerid as the one being shown
             $.getJSON('/_set_census_viz', {
               layerid: layerid
+            }, function(data) {
+              var description = data.description;
+              manage_layers_fill(description);
             });
           });
         };
-        
+
         // render layers if passed to map
         var import_layers = {{ layers }};
         if ( import_layers ) {
@@ -119,6 +134,27 @@
             render_census_layer(import_layers[i]);
           }
         };
+
+        // remove map layer
+        function remove_layer(layerid) {
+          $.getJSON('/_remove_layer', {
+            layerid: layerid
+          }, function(data) {
+            var layerid = data.layerid;
+            var nextid = data.nextid;
+            var remove_all = data.remove_all;
+            var layertextid = "layer-" + layerid;
+            var subitem = document.getElementById(layertextid);
+            subitem.parentNode.removeChild(subitem);
+            if (nextid) {
+              render_census_layer(nextid);
+            };
+            if (remove_all) {
+              deselect_census();
+              remove_legend();
+            }
+          });
+        }
         
         // render map tiles if measure is picked
         $('.censusmeasure').live('change', function() {
@@ -141,20 +177,11 @@
             });
           } else {
             // remove layer and tiles if measure is deselected
-            $.getJSON('/_remove_layer', {
+            $.getJSON('/_get_layerid', {
               measureid: $(this).attr("id")
             }, function(data) {
               var layerid = data.layerid;
-              var layertextid = "layer-" + layerid;
-              var subitem = document.getElementById(layertextid);
-              subitem.parentNode.removeChild(subitem);
-              if (data.nextid) {
-                render_census_layer(data.nextid);
-              };
-              if (data.remove_all) {
-                deselect_census();
-                remove_legend();
-              }
+              remove_layer(layerid);
             });
           }
           return false;
@@ -193,14 +220,16 @@
           };
         });
 
-        // render manage layers menu when menu element is clicked
-        $('#managelayers').live('click', function() {
-          // set title of manage layer menu
+        // replace manage layers menu
+        function manage_layers_fill(title) {
           $("#layerdescription").empty();
-          $("#layerdescription").append("<div id='layerdesctitle'>" + {{ session.censusviztitle }} + "</div>")
+          var container = document.getElementById('layerdescription');
+          var titleElement = document.createElement('div');
+          titleElement.setAttribute('id', 'layerdesctitle');
+          titleElement.innerHTML = title;
+          container.appendChild(titleElement);
 
           // add number of categories dropdown
-          var container = document.getElementById('layerdescription');
           var formElement = document.createElement('form');
           container.appendChild(formElement);
 
@@ -241,7 +270,29 @@
               selectItem.innerHTML = colorname;
               selectList.appendChild(selectItem);
             };
+            // add remove layer button
+            var removeButton = document.createElement('a');
+            removeButton.setAttribute('id', 'removelayerbutton');
+            removeButton.setAttribute('class', 'button');
+            removeButton.setAttribute('href', '#');
+            removeButton.innerHTML = "Remove this layer";
+            container.appendChild(removeButton);
           });
+        };
+
+        // remove layer when button is clicked
+        $('#removelayerbutton').live('click', function() {
+          $.getJSON('/_get_census_viz', {}, function(data) {
+              var layerid = data.layerid;
+              remove_layer(layerid);
+          });
+        });
+
+        // render manage layers menu when menu element is clicked
+        $('#managelayers').live('click', function() {
+          // set title of manage layer menu
+          var title = '{{ session.censusviztitle }}';
+          manage_layers_fill(title);
         });
        
         // update database when number of categories changes
@@ -386,9 +437,7 @@
     </div>
   
     <div id="managelayersmenu" class="secondpanel hide">
-      <div id="layerdescription">
-        <div id="layerdesctitle">After you add layers, you can manage them here.</div>
-      </div>
+      <div id="layerdescription"></div>
     </div>
   
   </body>
