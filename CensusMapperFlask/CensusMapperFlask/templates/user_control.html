@@ -3,8 +3,8 @@
       <a href="#" class="close"><img src="{{ url_for('static', filename='close_button.png') }}" class="btn_close" title="Close Window" alt="Close" /></a>
       <h3>Login</h3>
       <p id="login_desc">Welcome back to CensusMapper!</p>
-        <form method="post" class="signin" action="login">
-          <input type="hidden" id="sourcepage"  name="sourcepage" value={{ request.path }} />
+        <form method="post" class="signin" action={{ request.script_root + "/login" }}>
+          <input type="hidden" id="sourcepage"  name="sourcepage" value={{ request.script_root + request.path }} />
           <fieldset class="textbox">
             <label class="username">
               <span class="form_title">Username</span>
@@ -23,8 +23,8 @@
       <a href="#" class="close"><img src="{{ url_for('static', filename='close_button.png') }}" class="btn_close" title="Close Window" alt="Close" /></a>
       <h3>Create Account</h3>
       <p id="create_desc">Please enter the following information to <br>make a new CensusMapper account.<br>All fields are required.</p>
-        <form method="post" class="signin" action="create_user">
-          <input type="hidden" id="sourcepage"  name="sourcepage" value={{ request.path }} />
+        <form method="post" class="signin" action={{ request.script_root + "/create_user" }}>
+          <input type="hidden" id="sourcepage"  name="sourcepage" value={{ request.script_root + request.path }} />
           <fieldset class="textbox">
             <label class="username">
               <span class="form_title">Username</span>
@@ -54,8 +54,8 @@
         <script type="text/javascript">
         </script>
         <p id='save_desc'>Enter a name for your map.</p>
-          <form method='post' class='signin' action='save_map'>
-            <input type="hidden" id="sourcepage"  name="sourcepage" value={{ request.path }} />
+          <form method='post' class='signin' action={{ request.script_root + '/save_map' }}>
+            <input type="hidden" id="sourcepage"  name="sourcepage" value={{ request.script_root + request.path }} />
             <fieldset class='textbox'>
               <label class='title'>
                 <span class="form_title">Map name</span>
@@ -73,8 +73,8 @@
         <a href='#' class='close'><img src="{{ url_for('static', filename='close_button.png') }}" class="btn_close" title="Close Window" alt="Close" /></a>
         <h3>Export Map</h3>
         <p id='export_desc'>Export your map.</p>
-          <form method='post' class='signin' action='save_map'>
-            <input type="hidden" id="sourcepage"  name="sourcepage" value={{ request.path }} />
+          <form method='post' class='signin' action={{ request.script_root + '/save_map' }}>
+            <input type="hidden" id="sourcepage"  name="sourcepage" value={{ request.script_root + request.path }} />
             <fieldset class='textbox'>
               <label class='title'>
                 <span class="form_title">Map Title</span>
@@ -88,8 +88,8 @@
       <div id='share' class='share-popup'>
         <a href='#' class='close'><img src="{{ url_for('static', filename='close_button.png') }}" class="btn_close" title="Close Window" alt="Close" /></a>
         <h3>Share Your Map</h3>
-          <form method='post' class='signin' action='save_map'>
-            <input type="hidden" id="sourcepage"  name="sourcepage" value={{ request.path }} />
+          <form method='post' class='signin' action={{ request.script_root + '/save_map' }}>
+            <input type="hidden" id="sourcepage"  name="sourcepage" value={{ request.script_root + request.path }} />
             <fieldset class='textbox'>
               <label class='title'>
                 <span class="form_title">URL:</span>

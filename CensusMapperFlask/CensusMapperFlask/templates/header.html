@@ -7,9 +7,9 @@
           {%- endif -%}
           <span id="login_links">
             {%- if session.username -%}
-              <a class="userlinktext" href="/profile">{{ session.username }}</a>
+              <a class="userlinktext" href={{ request.script_root + "/profile" }}>{{ session.username }}</a>
 
-              <a class="logoutlinktext" href="/logout">Logout</a></p>
+              <a class="logoutlinktext" href={{ request.script_root + "/logout" }}>Logout</a></p>
             {%- else -%}
               <a class="linktext" id="create-window" href="#create">Create account</a>
               |

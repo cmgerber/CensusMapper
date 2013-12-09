@@ -32,7 +32,7 @@
         
         // show list of individual census measures when a particular category is clicked
         $('.censuscategory').live('click', function() {
-          $.getJSON('/_get_measures', {
+          $.getJSON("{{ request.script_root + '/_get_measures' }}", {
             categoryid: $(this).attr("id")
           }, function(data) {
             $( "#censuscategories" ).fadeOut(20, function() {
@@ -84,7 +84,7 @@
         
         // procedure to get a layer's measure id
         function get_measureid(layerid) {
-          $.getJSON('/_get_measureid', {
+          $.getJSON("{{ request.script_root + '/_get_measureid' }}", {
             layerid: layerid
           }, function(data) {
             return data.measureid;
@@ -93,7 +93,7 @@
         
         // procedure to render a single census layer
         function render_census_layer(layerid) {
-          $.getJSON('/_render_layer', {
+          $.getJSON("{{ request.script_root + '/_render_layer' }}", {
             layerid: layerid
           }, function(data) {
             deselect_census();
@@ -118,7 +118,7 @@
             $('measure-' + measureid).prop('checked', true);
             
             // set the current layerid as the one being shown
-            $.getJSON('/_set_census_viz', {
+            $.getJSON("{{ request.script_root + '/_set_census_viz' }}", {
               layerid: layerid
             }, function(data) {
               var description = data.description;
@@ -137,7 +137,7 @@
 
         // remove map layer
         function remove_layer(layerid) {
-          $.getJSON('/_remove_layer', {
+          $.getJSON("{{ request.script_root + '/_remove_layer' }}", {
             layerid: layerid
           }, function(data) {
             var layerid = data.layerid;
@@ -167,7 +167,7 @@
                 'left' : '50%',
                 'margin' : '-75px 0 0 -105px'
             });
-            $.getJSON('/_add_measure_layer', {
+            $.getJSON("{{ request.script_root + '/_add_measure_layer' }}", {
               measureid: $(this).attr("id")
             }, function(data) {
               var layerid = data.layerid;
@@ -177,7 +177,7 @@
             });
           } else {
             // remove layer and tiles if measure is deselected
-            $.getJSON('/_get_layerid', {
+            $.getJSON("{{ request.script_root + '/_get_layerid' }}", {
               measureid: $(this).attr("id")
             }, function(data) {
               var layerid = data.layerid;
@@ -193,7 +193,7 @@
           console.log(zoomlevel);
           var latlong = map.getCenter();
           console.log(latlong);
-          $.getJSON('/_update_layer_info', {
+          $.getJSON("{{ request.script_root + '/_update_layer_info' }}", {
               zoomlevel: zoomlevel,
               latlong: latlong
             }, function(data) {
@@ -248,7 +248,7 @@
           };
 
           // add color dropdown
-          $.getJSON('/_get_colors', {}, function(data) {
+          $.getJSON("{{ request.script_root + '/_get_colors' }}", {}, function(data) {
             var colorlist = data.colorlist;
             var container = document.getElementById('layerdescription');
             var formElement = document.createElement('form');
@@ -282,7 +282,7 @@
 
         // remove layer when button is clicked
         $('#removelayerbutton').live('click', function() {
-          $.getJSON('/_get_census_viz', {}, function(data) {
+          $.getJSON("{{ request.script_root + '/_get_census_viz' }}", {}, function(data) {
               var layerid = data.layerid;
               remove_layer(layerid);
           });
@@ -297,7 +297,7 @@
        
         // update database when number of categories changes
         $("#numcatselect").live('change', function() {
-          $.getJSON('/_update_layer', {
+          $.getJSON("{{ request.script_root + '/_update_layer' }}", {
             numcats: $(this).val()
           }, function(data) {
             var layerid = data.layerid;
@@ -307,7 +307,7 @@
         
         // update database when number of categories changes
         $("#colorselect").live('change', function() {
-          $.getJSON('/_update_layer', {
+          $.getJSON("{{ request.script_root + '/_update_layer' }}", {
             colorpick: $(this).val()
           }, function(data) {
             var layerid = data.layerid;
