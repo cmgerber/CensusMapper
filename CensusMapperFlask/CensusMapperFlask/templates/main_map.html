@@ -305,7 +305,7 @@
           });
         });
         
-        // update database when number of categories changes
+        // update database when color scheme changes
         $("#colorselect").live('change', function() {
           $.getJSON("{{ request.script_root + '/_update_layer' }}", {
             colorpick: $(this).val()
@@ -392,6 +392,12 @@
         slide_out('#addotherdata', "#otherdatamenu", "#censusmenu, #managelayersmenu");
         slide_out('#managelayers', "#managelayersmenu", "#censusmenu, #otherdatamenu");
         
+        $( "#foldertab, #mainmenu, .secondpanel" ).animate({
+          left: "+=180"
+          }, 300, function() {
+            $("#foldertab").removeClass('show').addClass('pos1');
+          });
+      
       });
       
       adjust_height();
