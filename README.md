@@ -1,7 +1,7 @@
 CensusMapper
 ============
 
-This is a repository of resources related to the CensusMapper project for INFO 213 and INFO 257 at UC Berkeley's School of Information.
+This is a repository of resources related to the CensusMapper project for INFO 213, User Interface Design and Development, and INFO 257, Database Management, at UC Berkeley's School of Information.
 
 The repository includes:
 
